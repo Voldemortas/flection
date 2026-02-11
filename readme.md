@@ -42,14 +42,10 @@ import * as flection from 'https://esm.sh/jsr/@voldemortas/flection'
 wrapper and accepts several configurations:
 
 ```ts
-class Verb {
-  constructor(
+const verb = new Verb (
     roots: string | string[],
     options: { reflexive?: boolean; prefix?: string } = {},
-  ) {
-    //
-  }
-}
+  )
 ```
 
 `roots`: this parameter is mandatory, and it's either a string separated with
@@ -80,3 +76,10 @@ be reflected in derived forms.
 The `Verb` class also exposes some internal static methods, if you need
 something very specific like the reflexive form of a certain root. Make sure to
 consult their documentation if you're planning to use it.
+
+```ts
+import {Verb} from '@voldemortas/flection'
+const soktiConjugated1 = new Verb('ne=sokti-ne=soka-ne=soko').conjugatePastFrequentativeIndicative()
+const soktiConjugated2 = Verb.pastFrequentativeIndicative.conjugateBasicPrefixed(['sokti', 'soka', 'soko'], 'ne')
+//both results are the same :)
+```
