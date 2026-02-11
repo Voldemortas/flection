@@ -46,12 +46,14 @@ export default class Verb {
       const regexMatches =
         /(^(?<prefix>[^=]+?)=(?<root>.+?)(?<reflexive>si?)?$|(^(?<root>.+?)(?<reflexive>si?)?$))/
           .exec(root)
+      // deno-coverage-ignore-start
       if (!regexMatches) {
         throw badFormatError(root)
       }
       if (!regexMatches.groups) {
         throw parsingInputError
       }
+      // deno-coverage-ignore-stop
       const groups = regexMatches.groups
       return [
         Verb.trimReflexiveFromPrefix(groups['prefix'] ?? options.prefix),

@@ -2,8 +2,10 @@ export const threeRootsError = new Error(
   `Roots must consist of 3 principal parts`,
 )
 
+// deno-coverage-ignore-start
 export const badFormatError = (word: string) =>
   new Error(`Unrecognisable word format in form=${word}`)
+// deno-coverage-ignore-stop
 
 export const unmatchingPrefixesError = new Error(
   'Different prefixes found, they must be the same, otherwise use the static internal methods',
