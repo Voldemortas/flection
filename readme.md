@@ -78,8 +78,10 @@ something very specific like the reflexive form of a certain root. Make sure to
 consult their documentation if you're planning to use it.
 
 ```ts
-import {Verb} from '@voldemortas/flection'
-const soktiConjugated1 = new Verb('ne=sokti-ne=soka-ne=soko').conjugatePastFrequentativeIndicative()
-const soktiConjugated2 = Verb.pastFrequentativeIndicative.conjugateBasicPrefixed(['sokti', 'soka', 'soko'], 'ne')
+import { Verb } from '@voldemortas/flection'
+const soktiConjugated1 = new Verb('ne=sokti-ne=soka-ne=soko')
+  .conjugatePastFrequentativeIndicative()
+const soktiConjugated2 = Verb.pastFrequentativeIndicative
+  .conjugateBasicPrefixed(['sokti', 'soka', 'soko'], 'ne')
 //both results are the same :)
 ```

@@ -3,10 +3,12 @@ import {
   parsingInputError,
   threeRootsError,
   unmatchingPrefixesError,
+  unmatchingReflexivesError,
 } from './errors.ts'
-import PastFrequentativeIndicativeConjugator from './flectors/PastFrequentativeIndicativeConjugator.ts'
 import type Conjugator from './flectors/Conjugator.ts'
 import type { ConjugationType } from './types.ts'
+import PastFrequentativeIndicativeConjugator from './flectors/PastFrequentativeIndicativeConjugator.ts'
+import FutureIndicativeConjugator from './flectors/FutureIndicativeConjugator.ts'
 
 type Triple<T> = [T, T, T]
 
@@ -20,6 +22,8 @@ export default class Verb {
 
   public static readonly pastFrequentativeIndicative: Conjugator =
     new PastFrequentativeIndicativeConjugator()
+  public static readonly futureIndicative: Conjugator =
+    new FutureIndicativeConjugator()
 
   private static trimReflexiveFromPrefix(prefix: string | undefined) {
     if (!prefix) {
@@ -63,7 +67,7 @@ export default class Verb {
     }
     this.prefix = regexMagicGroup[0][0]
     if (!regexMagicGroup.map((g) => g[2]).every((v, _, arr) => v === arr[0])) {
-      throw unmatchingPrefixesError
+      throw unmatchingReflexivesError
     }
     this.isReflexive = regexMagicGroup[0][2]
   }
@@ -71,6 +75,11 @@ export default class Verb {
   public conjugatePastFrequentativeIndicative(): ConjugationType {
     return this.conjugateConjugatorBasedOnOptions(
       Verb.pastFrequentativeIndicative,
+    )
+  }
+  public conjugateFutureIndicative(): ConjugationType {
+    return this.conjugateConjugatorBasedOnOptions(
+      Verb.futureIndicative,
     )
   }
 

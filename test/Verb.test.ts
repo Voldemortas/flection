@@ -2,10 +2,14 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import Verb from '~src/Verb.ts'
-import { threeRootsError, unmatchingPrefixesError } from '~src/errors.ts'
-import type { ConjugationType } from '../src/types.ts'
+import {
+  threeRootsError,
+  unmatchingPrefixesError,
+  unmatchingReflexivesError,
+} from '~src/errors.ts'
 import { makeInfinitiveRoots, SOKTI } from './testHelpers.ts'
-import type Conjugator from '../src/flectors/Conjugator.ts'
+import type Conjugator from '~src/flectors/Conjugator.ts'
+import type { ConjugationType } from '~src/types.ts'
 
 describe('Verb', () => {
   describe('constructor', () => {
@@ -51,9 +55,14 @@ describe('Verb', () => {
         verb,
       )
     })
-    it('should throw when prefix or reflexiveness mismatch', () => {
-      expect(() => new Verb('rinktis-ne=renka-nesi=rinko')).toThrow(
+    it('should throw when prefixes mismatch', () => {
+      expect(() => new Verb('rinkti-ne=renka-ne=rinko')).toThrow(
         unmatchingPrefixesError,
+      )
+    })
+    it('should throw when reflexive mismatches', () => {
+      expect(() => new Verb('rinktis-renka-rinko')).toThrow(
+        unmatchingReflexivesError,
       )
     })
     it('it should throw when principal part count is not 3', () => {
@@ -108,6 +117,49 @@ describe('Verb', () => {
           () =>
             new Verb(principalParts, { prefix: 'ne', reflexive: true })
               .conjugatePastFrequentativeIndicative(),
+          [principalParts, 'ne'],
+        )
+      })
+    })
+    describe('futureIndicative', () => {
+      const principalParts = makeInfinitiveRoots(SOKTI[0])
+      it(`uses futureIndicative.conjugateDefault() when there's no prefix and reflexiveness`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.futureIndicative,
+          'conjugateDefault',
+          () =>
+            new Verb(principalParts)
+              .conjugateFutureIndicative(),
+          [principalParts],
+        )
+      })
+      it(`uses futureIndicative.conjugatePrefixed() when there's a prefix`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.futureIndicative,
+          'conjugatePrefixed',
+          () =>
+            new Verb(principalParts, { prefix: 'ne' })
+              .conjugateFutureIndicative(),
+          [principalParts, 'ne'],
+        )
+      })
+      it(`uses futureIndicative.conjugateUnprefixedReflexive() for reflexive`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.futureIndicative,
+          'conjugateUnprefixedReflexive',
+          () =>
+            new Verb(principalParts, { reflexive: true })
+              .conjugateFutureIndicative(),
+          [principalParts],
+        )
+      })
+      it(`uses futureIndicative.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.futureIndicative,
+          'conjugatePrefixedReflexive',
+          () =>
+            new Verb(principalParts, { prefix: 'ne', reflexive: true })
+              .conjugateFutureIndicative(),
           [principalParts, 'ne'],
         )
       })

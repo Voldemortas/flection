@@ -7,9 +7,10 @@ import {
   hasAnyAccent,
   hasCircumflexOrShortAccent,
   stripAllAccents,
+  stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
+import { infinitiveRootError, threeRootsError } from '~src/errors.ts'
 import { makeInfinitiveRoots, SOKTI } from './testHelpers.ts'
-import { infinitiveRootError, threeRootsError } from '../src/errors.ts'
 
 describe('utils', () => {
   describe('stripAllAccents', () => {
@@ -93,5 +94,20 @@ describe('utils', () => {
         ).toStrictEqual(appended)
       })
     })
+  })
+  describe('stripAllAccentsFromParadigm', () => {
+    const data = {
+      acute: `co\u0301c`,
+      short: `co\u0300c`,
+      circumflex: `co\u0303c`,
+      none: `coc`,
+    }
+    const expected = {
+      acute: 'coc',
+      short: 'coc',
+      circumflex: 'coc',
+      none: 'coc',
+    }
+    expect(stripAllAccentsFromParadigm(data)).toMatchObject(expected)
   })
 })
