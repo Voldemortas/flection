@@ -1,15 +1,13 @@
 import type { ConjugationType } from '~src/types.ts'
 import {
-  appendSuffixWithAssimilation,
   consonants,
   longVowels,
   resonants,
   shortVowels,
-  stripAllAccents,
   vowels,
 } from '~src/utils.ts'
 
-function conjugateThematicThirdAndPlural(
+export function conjugateThematicThirdAndPlural(
   root: string,
   theme: string,
 ): Omit<ConjugationType, 'sg1' | 'sg2'> {
@@ -67,37 +65,6 @@ export function metatonise3rdFuture(word: string) {
     return word.replace(isLastSyllableDiphthongAcute, `$1$2$3\u0303$4`)
   }
   return word
-}
-
-export function conjugateFuture(root: string): ConjugationType {
-  const accentlessRoot = stripAllAccents(root)
-  const isMonosyllabicAndEndsInYU = /[yū]$/.test(accentlessRoot) &&
-    isRootMonosyllabic(accentlessRoot)
-  const thirdRoot = isMonosyllabicAndEndsInYU
-    ? root.replaceAll(
-      /(.+)([yū])([\u0301\u0303]?)$/g,
-      (_, r: string, v: string, a: string) =>
-        `${r}${v === 'y' ? 'i' : 'u'}${a !== '' ? `\u0300` : ''}`,
-    )
-    : root
-
-  const appendFutureSuffix = (r: string) =>
-    appendSuffixWithAssimilation(r, 's', [
-      [/[sz]s$/, 's'],
-      [/[šž]s$/, 'š'],
-    ])
-
-  const non3rd = appendFutureSuffix(root)
-
-  const third = metatonise3rdFuture(appendFutureSuffix(thirdRoot))
-
-  return {
-    ...conjugateThematicThirdAndPlural(non3rd, 'i'),
-    sg1: `${non3rd}iu`,
-    sg2: `${non3rd}i`,
-    sg3: third,
-    pl3: third,
-  }
 }
 
 export function conjugateImmobileO(root: string): ConjugationType {

@@ -1,7 +1,18 @@
 import ImmobileConjugator from './ImmobileConjugator.ts'
 import type { ConjugationType } from '~src/types.ts'
-import { getInfinitiveRoot, stripAllAccentsFromParadigm } from '~src/utils.ts'
-import { conjugateFuture, siutiFuture, vytiFuture } from './utils.ts'
+import {
+  appendSuffixWithAssimilation,
+  getInfinitiveRoot,
+  stripAllAccents,
+  stripAllAccentsFromParadigm,
+} from '~src/utils.ts'
+import {
+  conjugateThematicThirdAndPlural,
+  isRootMonosyllabic,
+  metatonise3rdFuture,
+  siutiFuture,
+  vytiFuture,
+} from './utils.ts'
 
 export default class FutureIndicativeConjugator extends ImmobileConjugator {
   override conjugateDefault(principalParts: string[]): ConjugationType {
@@ -17,7 +28,34 @@ export default class FutureIndicativeConjugator extends ImmobileConjugator {
       return dict.get(root)!
     }
 
-    return conjugateFuture(root)
+    const accentlessRoot = stripAllAccents(root)
+    const isMonosyllabicAndEndsInYU = /[yū]$/.test(accentlessRoot) &&
+      isRootMonosyllabic(accentlessRoot)
+    const thirdRoot = isMonosyllabicAndEndsInYU
+      ? root.replaceAll(
+        /(.+)([yū])([\u0301\u0303]?)$/g,
+        (_, r: string, v: string, a: string) =>
+          `${r}${v === 'y' ? 'i' : 'u'}${a !== '' ? `\u0300` : ''}`,
+      )
+      : root
+
+    const appendFutureSuffix = (r: string) =>
+      appendSuffixWithAssimilation(r, 's', [
+        [/[sz]s$/, 's'],
+        [/[šž]s$/, 'š'],
+      ])
+
+    const non3rd = appendFutureSuffix(root)
+
+    const third = metatonise3rdFuture(appendFutureSuffix(thirdRoot))
+
+    return {
+      ...conjugateThematicThirdAndPlural(non3rd, 'i'),
+      sg1: `${non3rd}iu`,
+      sg2: `${non3rd}i`,
+      sg3: third,
+      pl3: third,
+    }
   }
   override conjugateUnprefixedReflexive(
     principalParts: string[],

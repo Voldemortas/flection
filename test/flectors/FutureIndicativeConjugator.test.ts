@@ -186,16 +186,28 @@ describe('FutureIndicativeConjugator', () => {
     const gauti = makeInfinitiveRoots(`ga\u0301uti`)
     const myzti = makeInfinitiveRoots(`my\u0301žti`)
     it('correcly conjugates prefixed words', () => {
-      expect(conjugator.conjugatePrefixed(gauti, 'ne').sg3).toStrictEqual(`negau\u0303s`)
-      expect(conjugator.conjugatePrefixed(myzti, 'ne').sg3).toStrictEqual(`nemy\u0303š`)
-      expect(conjugator.conjugatePrefixed(gauti, 'per').sg3).toStrictEqual(`pe\u0301rgaus`)
-      expect(conjugator.conjugatePrefixed(myzti, 'per').sg3).toStrictEqual(`pe\u0301rmyš`)
+      expect(conjugator.conjugatePrefixed(gauti, 'ne').sg3).toStrictEqual(
+        `negau\u0303s`,
+      )
+      expect(conjugator.conjugatePrefixed(myzti, 'ne').sg3).toStrictEqual(
+        `nemy\u0303š`,
+      )
+      expect(conjugator.conjugatePrefixed(gauti, 'per').sg3).toStrictEqual(
+        `pe\u0301rgaus`,
+      )
+      expect(conjugator.conjugatePrefixed(myzti, 'per').sg3).toStrictEqual(
+        `pe\u0301rmyš`,
+      )
     })
     it('correcly conjugates prefixed reflexive words', () => {
-      expect(conjugator.conjugatePrefixedReflexive(gauti, 'ne').sg3).toStrictEqual(`nesigau\u0303s`)
-      expect(conjugator.conjugatePrefixedReflexive(myzti, 'ne').sg3).toStrictEqual(`nesimy\u0303š`)
-      expect(conjugator.conjugatePrefixedReflexive(gauti, 'per').sg3).toStrictEqual(`pe\u0301rsigaus`)
-      expect(conjugator.conjugatePrefixedReflexive(myzti, 'per').sg3).toStrictEqual(`pe\u0301rsimyš`)
+      expect(conjugator.conjugatePrefixedReflexive(gauti, 'ne').sg3)
+        .toStrictEqual(`nesigau\u0303s`)
+      expect(conjugator.conjugatePrefixedReflexive(myzti, 'ne').sg3)
+        .toStrictEqual(`nesimy\u0303š`)
+      expect(conjugator.conjugatePrefixedReflexive(gauti, 'per').sg3)
+        .toStrictEqual(`pe\u0301rsigaus`)
+      expect(conjugator.conjugatePrefixedReflexive(myzti, 'per').sg3)
+        .toStrictEqual(`pe\u0301rsimyš`)
     })
   })
 })

@@ -3,6 +3,8 @@ import { describe, it } from '@std/testing/bdd'
 import {
   appendSuffixWithAssimilation,
   getInfinitiveRoot,
+  getPalatalizedRoot,
+  getUnpalatalizedRoot,
   hasAcuteAccent,
   hasAnyAccent,
   hasCircumflexOrShortAccent,
@@ -109,5 +111,29 @@ describe('utils', () => {
       none: 'coc',
     }
     expect(stripAllAccentsFromParadigm(data)).toMatchObject(expected)
+  })
+  describe('getPalatalizedRoot', () => {
+    ;[
+      [`keist`, `keisči`],
+      [`gird`, `girdži`],
+      [`tik`, `tik`],
+      [`dyg`, `dyg`],
+    ].forEach(([before, after]) => {
+      it(`gets palatalized root for ${before}`, () => {
+        expect(getPalatalizedRoot(before)).toStrictEqual(after)
+      })
+    })
+  })
+  describe('getUnpalatalizedRoot', () => {
+    ;[
+      [`kenči`, `kent`],
+      [`žaidži`, `žaid`],
+      [`čik`, `čik`],
+      [`džiaug`, `džiaug`],
+    ].forEach(([before, after]) => {
+      it(`gets unpalatalized root for ${before}`, () => {
+        expect(getUnpalatalizedRoot(before)).toStrictEqual(after)
+      })
+    })
   })
 })

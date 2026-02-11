@@ -24,6 +24,14 @@ export function hasCircumflexOrShortAccent(word: string) {
   return /[\u0303\u0300]/.test(word)
 }
 
+export function getUnpalatalizedRoot(root: string) {
+  return root.replace(/či$/, 't').replace(/dži$/, 'd')
+}
+
+export function getPalatalizedRoot(root: string) {
+  return root.replace(/t$/, 'či').replace(/d$/, 'dži')
+}
+
 export function getInfinitiveRoot(
   principalParts: string[],
 ): RootPatternType<'ti' | 't'> {
