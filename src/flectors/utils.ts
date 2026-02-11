@@ -1,9 +1,11 @@
 import type { ConjugationType } from '~src/types.ts'
 import {
   consonants,
+  getPalatalizedRoot,
   longVowels,
   resonants,
   shortVowels,
+  stripAllAccents,
   vowels,
 } from '~src/utils.ts'
 
@@ -72,6 +74,32 @@ export function conjugateImmobileO(root: string): ConjugationType {
     sg1: `${root}au`,
     sg2: `${root}ai`,
     ...conjugateThematicThirdAndPlural(root, 'o'),
+  }
+}
+
+export function conjugateMobileO(root: string): ConjugationType {
+  const unaccentedRoot = stripAllAccents(root)
+  return {
+    sg1: `${unaccentedRoot}au\u0303`,
+    sg2: `${unaccentedRoot}ai\u0303`,
+    ...conjugateThematicThirdAndPlural(root, 'o'),
+  }
+}
+
+export function conjugateImmobileE(root: string): ConjugationType {
+  return {
+    sg1: `${getPalatalizedRoot(root)}iau`,
+    sg2: `${root}ei`,
+    ...conjugateThematicThirdAndPlural(root, 'ė'),
+  }
+}
+
+export function conjugateMobileE(root: string): ConjugationType {
+  const unaccentedRoot = stripAllAccents(root)
+  return {
+    sg1: `${getPalatalizedRoot(unaccentedRoot)}iau\u0303`,
+    sg2: `${unaccentedRoot}ei\u0303`,
+    ...conjugateThematicThirdAndPlural(root, 'ė'),
   }
 }
 

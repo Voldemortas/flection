@@ -225,17 +225,17 @@ describe('PastFrequentativeIndicativeConjugator', () => {
   })
   describe('conjugatePrefixed', () => {
     DATA.forEach((data, i) => {
-      it(`conjugates prefixed ne- ${data[0]}`, () => {
+      it(`conjugates prefixed ne-${data[0]}`, () => {
         expect(conjugator.conjugatePrefixed(data, PREFIX)).toMatchObject(
           EXPECTED_PREFIXED[i],
         )
       })
-      it(`conjugates prefixed per- ${data[0]}`, () => {
+      it(`conjugates prefixed per-${data[0]}`, () => {
         expect(conjugator.conjugatePrefixed(data, PER)).toMatchObject(
           EXPECTED_PER_PREFIXED[i],
         )
       })
-      it(`conjugates prefixed į\u0301- ${data[0]}`, () => {
+      it(`conjugates prefixed į\u0301-${data[0]}`, () => {
         expect(conjugator.conjugatePrefixed(data, `į\u0301`)).toMatchObject(
           EXPECTED_I_PREFIXED[i],
         )

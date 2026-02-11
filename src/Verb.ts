@@ -9,6 +9,7 @@ import type Conjugator from './flectors/Conjugator.ts'
 import type { ConjugationType } from './types.ts'
 import PastFrequentativeIndicativeConjugator from './flectors/PastFrequentativeIndicativeConjugator.ts'
 import FutureIndicativeConjugator from './flectors/FutureIndicativeConjugator.ts'
+import PastSimpleIndicativeConjugator from './flectors/PastSimpleIndicativeConjugator.ts'
 
 type Triple<T> = [T, T, T]
 
@@ -24,6 +25,8 @@ export default class Verb {
     new PastFrequentativeIndicativeConjugator()
   public static readonly futureIndicative: Conjugator =
     new FutureIndicativeConjugator()
+  public static readonly pastSimpleIndicative: Conjugator =
+    new PastSimpleIndicativeConjugator()
 
   private static trimReflexiveFromPrefix(prefix: string | undefined) {
     if (!prefix) {
@@ -82,6 +85,11 @@ export default class Verb {
   public conjugateFutureIndicative(): ConjugationType {
     return this.conjugateConjugatorBasedOnOptions(
       Verb.futureIndicative,
+    )
+  }
+  public conjugatePastSimpleIndicative(): ConjugationType {
+    return this.conjugateConjugatorBasedOnOptions(
+      Verb.pastSimpleIndicative,
     )
   }
 

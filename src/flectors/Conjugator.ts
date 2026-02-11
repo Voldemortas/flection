@@ -2,7 +2,9 @@ import type { ConjugationType } from '~src/types.ts'
 import {
   appendSuffixWithAssimilation,
   hasAcuteAccent,
+  hasAnyAccent,
   stripAllAccents,
+  stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
 import { decorateConjugatedReflexive } from './utils.ts'
 
@@ -25,15 +27,21 @@ export default abstract class Conjugator {
     const isPrefixAcute =
       Conjugator.ACUTE_PREFIXES.map(stripAllAccents).includes(prefix) ||
       hasAcuteAccent(prefix)
-    if (!isPrefixAcute) {
-      return Object.fromEntries(
-        Object.entries(this.conjugateDefault(principalParts)).map((
-          [key, value],
-        ) => [
-          key,
-          Conjugator.applyPrefixToForm(prefix, value),
-        ]),
-      ) as ConjugationType
+    if (isPrefixAcute) {
+      const conjugated = this.conjugateDefault(principalParts)
+      const prefixToUse = Conjugator.ACUTE_PREFIXES.filter((pr) =>
+        stripAllAccents(pr) === prefix && hasAnyAccent(conjugated.sg3)
+      )[0] ?? prefix
+      if (hasAnyAccent(conjugated.sg3)) {
+        return Conjugator.applyPrefixToParadigm(
+          prefixToUse,
+          stripAllAccentsFromParadigm(conjugated),
+        )
+      }
+      return Conjugator.applyPrefixToParadigm(
+        stripAllAccents(prefix),
+        conjugated,
+      )
     }
     return this.conjugateBasicPrefixed(prefix, principalParts)
   }
@@ -103,5 +111,30 @@ export default abstract class Conjugator {
 
   protected static applyPrefixToForm(prefix: string, word: string): string {
     return word.split(' ').map((value) => prefix + value).join(' ')
+  }
+
+  protected static applyPrefixToParadigm(
+    prefix: string,
+    conjugated: ConjugationType,
+  ): ConjugationType {
+    return Object.fromEntries(
+      Object.entries(conjugated).map((
+        [key, value],
+      ) => [
+        key,
+        Conjugator.applyPrefixToForm(prefix, value),
+      ]),
+    ) as ConjugationType
+  }
+
+  protected readonly conjugateBasicImmobilePrefixed = (
+    prefix: string,
+    principalParts: string[],
+  ): ConjugationType => {
+    const basicInflected = this.conjugateDefault(principalParts)
+    return Conjugator.applyPrefixToParadigm(
+      stripAllAccents(prefix),
+      basicInflected,
+    )
   }
 }

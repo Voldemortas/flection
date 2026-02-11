@@ -26,3 +26,7 @@ export const pastRootError = new Error(
 export const infinitiveRootError = new Error(
   `Infinitive form must end in -t(i)`,
 )
+
+export const prefixMustContainVowelsError = new Error(
+  `Prefixes in Lithuanian language must contain a vowel`,
+)

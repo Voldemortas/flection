@@ -164,6 +164,49 @@ describe('Verb', () => {
         )
       })
     })
+    describe('pastSimpleIndicative', () => {
+      const principalParts = makeInfinitiveRoots(SOKTI[0])
+      it(`uses pastSimpleIndicative.conjugateDefault() when there's no prefix and reflexiveness`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.pastSimpleIndicative,
+          'conjugateDefault',
+          () =>
+            new Verb(principalParts)
+              .conjugatePastSimpleIndicative(),
+          [principalParts],
+        )
+      })
+      it(`uses pastSimpleIndicative.conjugatePrefixed() when there's a prefix`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.pastSimpleIndicative,
+          'conjugatePrefixed',
+          () =>
+            new Verb(principalParts, { prefix: 'ne' })
+              .conjugatePastSimpleIndicative(),
+          [principalParts, 'ne'],
+        )
+      })
+      it(`uses pastSimpleIndicative.conjugateUnprefixedReflexive() for reflexive`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.pastSimpleIndicative,
+          'conjugateUnprefixedReflexive',
+          () =>
+            new Verb(principalParts, { reflexive: true })
+              .conjugatePastSimpleIndicative(),
+          [principalParts],
+        )
+      })
+      it(`uses pastSimpleIndicative.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.pastSimpleIndicative,
+          'conjugatePrefixedReflexive',
+          () =>
+            new Verb(principalParts, { prefix: 'ne', reflexive: true })
+              .conjugatePastSimpleIndicative(),
+          [principalParts, 'ne'],
+        )
+      })
+    })
 
     function assertCorrectConjugationWasCalled(
       conjugator: Conjugator,
