@@ -1,0 +1,21 @@
+{
+  "name": "flection",
+  "version": "0.1.0",
+  "exports": "./src/index.ts",
+  "tasks": {
+    "dev": "deno test --watch"
+  },
+  "license": "MIT",
+  "imports": {
+    "@std/expect": "jsr:@std/expect@^1.0.17",
+    "@std/testing": "jsr:@std/testing@^1.0.16",
+    "~src/": "./src/"
+  },
+  "fmt": {
+    "useTabs": false,
+    "semiColons": false,
+    "singleQuote": true,
+    "trailingCommas": "onlyMultiLine",
+    "useBraces": "always"
+  }
+}
