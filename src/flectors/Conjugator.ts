@@ -9,7 +9,8 @@ import {
 import { decorateConjugatedReflexive } from './utils.ts'
 
 export default abstract class Conjugator {
-  protected static readonly ACUTE_PREFIXES: string[] = [`pe\u0301r`]
+  static readonly #ACUTE_PREFIXES: string[] = [`pe\u0301r`]
+  static readonly #EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
 
   /**
    * conjugates prefixed verb by applying metatony if applicable
@@ -24,12 +25,21 @@ export default abstract class Conjugator {
     principalParts: string[],
     prefix: string,
   ): ConjugationType => {
+    const joinedPrincipalParts = principalParts.join('-')
+    if (
+      prefix === 'ne' &&
+      [stripAllAccents(Conjugator.#EITI_JOINED), Conjugator.#EITI_JOINED].some((eiti) =>
+        joinedPrincipalParts === eiti
+      )
+    ) {
+      return this.conjugateDefault(principalParts.map((part) => `n${part}`))
+    }
     const isPrefixAcute =
-      Conjugator.ACUTE_PREFIXES.map(stripAllAccents).includes(prefix) ||
+      Conjugator.#ACUTE_PREFIXES.map(stripAllAccents).includes(prefix) ||
       hasAcuteAccent(prefix)
     if (isPrefixAcute) {
       const conjugated = this.conjugateDefault(principalParts)
-      const prefixToUse = Conjugator.ACUTE_PREFIXES.filter((pr) =>
+      const prefixToUse = Conjugator.#ACUTE_PREFIXES.filter((pr) =>
         stripAllAccents(pr) === prefix && hasAnyAccent(conjugated.sg3)
       )[0] ?? prefix
       if (hasAnyAccent(conjugated.sg3)) {
@@ -60,7 +70,7 @@ export default abstract class Conjugator {
     prefix: string,
   ): ConjugationType => {
     const prefixToUse =
-      Conjugator.ACUTE_PREFIXES.filter((pr) =>
+      Conjugator.#ACUTE_PREFIXES.filter((pr) =>
         stripAllAccents(pr) === prefix
       )[0] ?? prefix
     return this.conjugatePrefixed(principalParts, prefixToUse + 'si')

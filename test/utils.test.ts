@@ -9,6 +9,7 @@ import {
   hasAcuteAccent,
   hasAnyAccent,
   hasCircumflexOrShortAccent,
+  isEverythingEqual,
   putAccentOnPrefix,
   stripAllAccents,
   stripAllAccentsFromParadigm,
@@ -181,7 +182,7 @@ describe('utils', () => {
       })
     })
   })
-  describe('', () => {
+  describe('putAccentOnPrefix', () => {
     it('throws error when prefix contains no vowel', () => {
       expect(() => putAccentOnPrefix('sk')).toThrow(
         prefixMustContainVowelsError,
@@ -258,5 +259,13 @@ describe('utils', () => {
         })
       },
     )
+  })
+  describe('isEverythingEqual', () => {
+    it('[4, 4, 4] are all equal', () => {
+      expect(isEverythingEqual([4, 4, 4])).toStrictEqual(true)
+    })
+    it('[4, 5, 4] are not all equal', () => {
+      expect(isEverythingEqual([4, 5, 4])).toStrictEqual(false)
+    })
   })
 })

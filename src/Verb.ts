@@ -10,12 +10,13 @@ import type { ConjugationType } from './types.ts'
 import PastFrequentativeIndicativeConjugator from './flectors/PastFrequentativeIndicativeConjugator.ts'
 import FutureIndicativeConjugator from './flectors/FutureIndicativeConjugator.ts'
 import PastSimpleIndicativeConjugator from './flectors/PastSimpleIndicativeConjugator.ts'
+import { isEverythingEqual } from './utils.ts'
 
 type Triple<T> = [T, T, T]
 
 export default class Verb {
-  private static PRINCIPAL_PARTS_COUNT = 3
-  private static WORD_DiLIMIER = '-'
+  static readonly #PRINCIPAL_PARTS_COUNT = 3
+  static readonly #WORD_DiLIMIER = '-'
 
   public readonly principalParts: Triple<string>
   public readonly prefix: string | undefined
@@ -28,7 +29,7 @@ export default class Verb {
   public static readonly pastSimpleIndicative: Conjugator =
     new PastSimpleIndicativeConjugator()
 
-  private static trimReflexiveFromPrefix(prefix: string | undefined) {
+  static #trimReflexiveFromPrefix(prefix: string | undefined) {
     if (!prefix) {
       return prefix
     }
@@ -41,8 +42,8 @@ export default class Verb {
   ) {
     const rootArray = Array.isArray(roots)
       ? roots
-      : roots.split(Verb.WORD_DiLIMIER)
-    if (rootArray.length !== Verb.PRINCIPAL_PARTS_COUNT) {
+      : roots.split(Verb.#WORD_DiLIMIER)
+    if (rootArray.length !== Verb.#PRINCIPAL_PARTS_COUNT) {
       throw threeRootsError
     }
     const regexMagicGroup = rootArray.map((root) => {
@@ -59,7 +60,7 @@ export default class Verb {
       // deno-coverage-ignore-stop
       const groups = regexMatches.groups
       return [
-        Verb.trimReflexiveFromPrefix(groups['prefix'] ?? options.prefix),
+        Verb.#trimReflexiveFromPrefix(groups['prefix'] ?? options.prefix),
         groups['root']!,
         !!options.reflexive || !!groups['reflexive'] ||
         /si$/.test(groups['prefix'] ?? options.prefix ?? ''),
@@ -67,33 +68,33 @@ export default class Verb {
     })
 
     this.principalParts = regexMagicGroup.map((g) => g[1]) as Triple<string>
-    if (!regexMagicGroup.map((g) => g[0]).every((v, _, arr) => v === arr[0])) {
+    if (!isEverythingEqual(regexMagicGroup.map((g) => g[0]))) {
       throw unmatchingPrefixesError
     }
     this.prefix = regexMagicGroup[0][0]
-    if (!regexMagicGroup.map((g) => g[2]).every((v, _, arr) => v === arr[0])) {
+    if (!isEverythingEqual(regexMagicGroup.map((g) => g[2]))) {
       throw unmatchingReflexivesError
     }
     this.isReflexive = regexMagicGroup[0][2]
   }
 
   public conjugatePastFrequentativeIndicative(): ConjugationType {
-    return this.conjugateConjugatorBasedOnOptions(
+    return this.#conjugateConjugatorBasedOnOptions(
       Verb.pastFrequentativeIndicative,
     )
   }
   public conjugateFutureIndicative(): ConjugationType {
-    return this.conjugateConjugatorBasedOnOptions(
+    return this.#conjugateConjugatorBasedOnOptions(
       Verb.futureIndicative,
     )
   }
   public conjugatePastSimpleIndicative(): ConjugationType {
-    return this.conjugateConjugatorBasedOnOptions(
+    return this.#conjugateConjugatorBasedOnOptions(
       Verb.pastSimpleIndicative,
     )
   }
 
-  private conjugateConjugatorBasedOnOptions(
+  #conjugateConjugatorBasedOnOptions(
     conjugator: Conjugator,
   ): ConjugationType {
     if (!this.isReflexive && !this.prefix) {

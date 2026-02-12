@@ -117,3 +117,7 @@ export function putAccentOnPrefix(prefix: string): string {
     `$1\u0300$2`,
   )
 }
+
+export function isEverythingEqual<T>(array: T[]): boolean {
+  return array.every((v) => v === array[0])
+}

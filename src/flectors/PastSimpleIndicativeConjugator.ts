@@ -41,7 +41,7 @@ export default class PastSimpleIndicativeConjugator extends Conjugator {
     const infinitiveRoot = getInfinitiveRoot(principalParts).root
     const isPrefixMobile = pattern === 'ė' &&
       hasCircumflexOrShortAccent(root) &&
-      !PastSimpleIndicativeConjugator.polysyllabicEndsInYRegex.test(
+      !PastSimpleIndicativeConjugator.#polysyllabicEndsInYRegex.test(
         infinitiveRoot,
       )
     if (isPrefixMobile) {
@@ -53,7 +53,7 @@ export default class PastSimpleIndicativeConjugator extends Conjugator {
     return this.conjugateBasicImmobilePrefixed(prefix, principalParts)
   }
 
-  private static readonly polysyllabicEndsInYRegex = new RegExp(
+  static readonly #polysyllabicEndsInYRegex = new RegExp(
     `[${vowels}]+[${consonants}]+y\\u0301?$`,
     'i',
   )
