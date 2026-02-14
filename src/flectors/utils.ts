@@ -2,6 +2,7 @@ import type { ConjugationType } from '~src/types.ts'
 import {
   consonants,
   getPalatalizedRoot,
+  getUnpalatalizedRoot,
   longVowels,
   resonants,
   shortVowels,
@@ -45,7 +46,7 @@ export function decorateConjugatedReflexive(
 
 export function isRootMonosyllabic(root: string) {
   const pattern = new RegExp(
-    `^[${consonants}]*?[${vowels}]+[${consonants}]*?$`,
+    `^[${consonants}]*?[${vowels}]+[\u0300\u0301\u0303]?[${consonants}]*?$`,
     'i',
   )
   return pattern.test(root)
@@ -68,21 +69,21 @@ export function metatonise3rdFuture(word: string) {
   }
   return word
 }
-
-export function conjugateImmobileO(root: string): ConjugationType {
+export function conjugateImmobileA(root: string): ConjugationType {
   return {
-    sg1: `${root}au`,
-    sg2: `${root}ai`,
-    ...conjugateThematicThirdAndPlural(root, 'o'),
+    sg1: `${root}u`,
+    sg2: `${getUnpalatalizedRoot(root)}i`.replace(/ii$/, 'i'),
+    ...conjugateThematicThirdAndPlural(root, 'a'),
   }
 }
 
-export function conjugateMobileO(root: string): ConjugationType {
-  const unaccentedRoot = stripAllAccents(root)
+export function conjugateMobileA(root: string): ConjugationType {
+  const stresslessRoot = stripAllAccents(root)
   return {
-    sg1: `${unaccentedRoot}au\u0303`,
-    sg2: `${unaccentedRoot}ai\u0303`,
-    ...conjugateThematicThirdAndPlural(root, 'o'),
+    sg1: `${stresslessRoot}u\u0300`,
+    sg2: `${getUnpalatalizedRoot(stresslessRoot)}i`.replace(/ii$/, 'i') +
+      `\u0300`,
+    ...conjugateThematicThirdAndPlural(root, 'a'),
   }
 }
 
@@ -103,6 +104,41 @@ export function conjugateMobileE(root: string): ConjugationType {
   }
 }
 
+export function conjugateMobileI(root: string): ConjugationType {
+  const stresslessRoot = stripAllAccents(root)
+  return {
+    sg1: `${getPalatalizedRoot(stresslessRoot)}iu`.replace(/iiu$/, 'iu') +
+      `\u0300`,
+    sg2: `${stresslessRoot}i\u0300`,
+    ...conjugateThematicThirdAndPlural(root, 'i'),
+  }
+}
+
+export function conjugateImmobileI(root: string): ConjugationType {
+  return {
+    sg1: `${getPalatalizedRoot(root)}iu`.replace(/iiu$/, 'iu'),
+    sg2: `${root}i`,
+    ...conjugateThematicThirdAndPlural(root, 'i'),
+  }
+}
+
+export function conjugateImmobileO(root: string): ConjugationType {
+  return {
+    sg1: `${root}au`,
+    sg2: `${root}ai`,
+    ...conjugateThematicThirdAndPlural(root, 'o'),
+  }
+}
+
+export function conjugateMobileO(root: string): ConjugationType {
+  const unaccentedRoot = stripAllAccents(root)
+  return {
+    sg1: `${unaccentedRoot}au\u0303`,
+    sg2: `${unaccentedRoot}ai\u0303`,
+    ...conjugateThematicThirdAndPlural(root, 'o'),
+  }
+}
+
 export const vytiFuture: ConjugationType = {
   sg1: `vy\u0301siu`,
   sg2: `vy\u0301si`,
@@ -117,4 +153,12 @@ export const siutiFuture: ConjugationType = {
   sg3: `siū\u0303s`,
   ...conjugateThematicPlural(`siū\u0301s`, 'i'),
   pl3: `siū\u0303s`,
+}
+
+export const nera: ConjugationType = {
+  sg1: `nesu\u0300`,
+  sg2: `nesi\u0300`,
+  sg3: `nėra\u3000`,
+  ...conjugateThematicPlural(`ne\u0303s`, 'a'),
+  pl3: `nėra\u3000`,
 }

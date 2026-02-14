@@ -5,6 +5,7 @@ import {
   getInfinitiveRoot,
   getPalatalizedRoot,
   getPastRoot,
+  getPresentRoot,
   getUnpalatalizedRoot,
   hasAcuteAccent,
   hasAnyAccent,
@@ -18,12 +19,16 @@ import {
   infinitiveRootError,
   pastRootError,
   prefixMustContainVowelsError,
+  presentRootError,
   threeRootsError,
 } from '~src/errors.ts'
 import {
   makeInfinitiveRoots,
   makePastRoots,
+  makePresentRoots,
+  OMA,
   OME,
+  OMI,
   OMO,
   SOKTI,
 } from './testHelpers.ts'
@@ -111,6 +116,48 @@ describe('utils', () => {
     })
     it('throws when principal part count is not 3', () => {
       expect(() => getPastRoot(['šokti'])).toThrow(
+        threeRootsError,
+      )
+    })
+  })
+  describe('getPresentRoot', () => {
+    OMO.map(makePresentRoots).forEach((principalParts) => {
+      it(`gets correct infinitive root and pattern from ${principalParts.join('-')}`, () => {
+        const root = principalParts[1].replace(/o$/, '')
+        const pattern = 'o'
+        expect(getPresentRoot(principalParts)).toMatchObject({
+          root,
+          pattern,
+        })
+      })
+    })
+    OMA.map(makePresentRoots).forEach((principalParts) => {
+      it(`gets correct infinitive root and pattern from ${principalParts.join('-')}`, () => {
+        const root = principalParts[1].replace(/a$/, '')
+        const pattern = 'a'
+        expect(getPresentRoot(principalParts)).toMatchObject({
+          root,
+          pattern,
+        })
+      })
+    })
+    OMI.map(makePresentRoots).forEach((principalParts) => {
+      it(`gets correct infinitive root and pattern from ${principalParts.join('-')}`, () => {
+        const root = principalParts[1].replace(/i$/, '')
+        const pattern = 'i'
+        expect(getPresentRoot(principalParts)).toMatchObject({
+          root,
+          pattern,
+        })
+      })
+    })
+    it('throws when principal part ends in -ė', () => {
+      expect(() => getPresentRoot(['šoka', 'šokė', 'šoka'])).toThrow(
+        presentRootError,
+      )
+    })
+    it('throws when principal part count is not 3', () => {
+      expect(() => getPresentRoot(['šokti'])).toThrow(
         threeRootsError,
       )
     })

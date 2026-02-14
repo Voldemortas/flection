@@ -207,6 +207,49 @@ describe('Verb', () => {
         )
       })
     })
+    describe('presentIndicative', () => {
+      const principalParts = makeInfinitiveRoots(SOKTI[0])
+      it(`uses presentIndicative.conjugateDefault() when there's no prefix and reflexiveness`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.presentIndicative,
+          'conjugateDefault',
+          () =>
+            new Verb(principalParts)
+              .conjugatePresentIndicative(),
+          [principalParts],
+        )
+      })
+      it(`uses presentIndicative.conjugatePrefixed() when there's a prefix`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.presentIndicative,
+          'conjugatePrefixed',
+          () =>
+            new Verb(principalParts, { prefix: 'ne' })
+              .conjugatePresentIndicative(),
+          [principalParts, 'ne'],
+        )
+      })
+      it(`uses presentIndicative.conjugateUnprefixedReflexive() for reflexive`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.presentIndicative,
+          'conjugateUnprefixedReflexive',
+          () =>
+            new Verb(principalParts, { reflexive: true })
+              .conjugatePresentIndicative(),
+          [principalParts],
+        )
+      })
+      it(`uses presentIndicative.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
+        assertCorrectConjugationWasCalled(
+          Verb.presentIndicative,
+          'conjugatePrefixedReflexive',
+          () =>
+            new Verb(principalParts, { prefix: 'ne', reflexive: true })
+              .conjugatePresentIndicative(),
+          [principalParts, 'ne'],
+        )
+      })
+    })
 
     function assertCorrectConjugationWasCalled(
       conjugator: Conjugator,

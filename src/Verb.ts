@@ -11,6 +11,7 @@ import PastFrequentativeIndicativeConjugator from './flectors/PastFrequentativeI
 import FutureIndicativeConjugator from './flectors/FutureIndicativeConjugator.ts'
 import PastSimpleIndicativeConjugator from './flectors/PastSimpleIndicativeConjugator.ts'
 import { isEverythingEqual } from './utils.ts'
+import PresentIndicativeConjugator from './flectors/PresentIndicativeConjugator.ts'
 
 type Triple<T> = [T, T, T]
 
@@ -28,6 +29,8 @@ export default class Verb {
     new FutureIndicativeConjugator()
   public static readonly pastSimpleIndicative: Conjugator =
     new PastSimpleIndicativeConjugator()
+  public static readonly presentIndicative: Conjugator =
+    new PresentIndicativeConjugator()
 
   static #trimReflexiveFromPrefix(prefix: string | undefined) {
     if (!prefix) {
@@ -91,6 +94,11 @@ export default class Verb {
   public conjugatePastSimpleIndicative(): ConjugationType {
     return this.#conjugateConjugatorBasedOnOptions(
       Verb.pastSimpleIndicative,
+    )
+  }
+  public conjugatePresentIndicative(): ConjugationType {
+    return this.#conjugateConjugatorBasedOnOptions(
+      Verb.presentIndicative,
     )
   }
 

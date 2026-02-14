@@ -14,8 +14,8 @@ export default abstract class Conjugator {
 
   /**
    * conjugates prefixed verb by applying metatony if applicable
-   * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
+   * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @example
    * ```ts
    * const conjugatedVerb = conjugator.conjugatePrefixed('iš', ['būti', 'būna', 'buvo'])
@@ -28,8 +28,9 @@ export default abstract class Conjugator {
     const joinedPrincipalParts = principalParts.join('-')
     if (
       prefix === 'ne' &&
-      [stripAllAccents(Conjugator.#EITI_JOINED), Conjugator.#EITI_JOINED].some((eiti) =>
-        joinedPrincipalParts === eiti
+      Conjugator.isConjugatedTheSame(
+        joinedPrincipalParts,
+        Conjugator.#EITI_JOINED,
       )
     ) {
       return this.conjugateDefault(principalParts.map((part) => `n${part}`))
@@ -58,8 +59,8 @@ export default abstract class Conjugator {
 
   /**
    * conjugates prefixed verb by adding the reflexive particle and applying metatony if applicable
-   * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
+   * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @example
    * ```ts
    * const conjugatedVerb = conjugator.conjugatePrefixedReflexive('iš', ['būti', 'būna', 'buvo'])
@@ -146,5 +147,14 @@ export default abstract class Conjugator {
       stripAllAccents(prefix),
       basicInflected,
     )
+  }
+
+  protected static isConjugatedTheSame(
+    joinedPrincipalPartsA: string,
+    joinedPrincipalPartsB: string,
+  ): boolean {
+    return stripAllAccents(joinedPrincipalPartsB) ===
+        stripAllAccents(joinedPrincipalPartsA) ||
+      joinedPrincipalPartsB === joinedPrincipalPartsA
   }
 }

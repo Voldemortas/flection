@@ -2,6 +2,7 @@ import {
   infinitiveRootError,
   pastRootError,
   prefixMustContainVowelsError,
+  presentRootError,
   threeRootsError,
 } from './errors.ts'
 
@@ -10,6 +11,8 @@ export const longVowels = 'ąęįųėoyū'
 export const shortVowels = 'aeiuo'
 export const resonants = 'lmnriuoe'
 export const vowels = 'aąeęėiįyouųū'
+
+const acuteIULMNR = new RegExp(`[iu]\u0300[lmnr][${consonants}]`)
 
 type RootPatternType<T extends string> = { root: string; pattern: T }
 
@@ -22,11 +25,11 @@ export function hasAnyAccent(word: string) {
 }
 
 export function hasAcuteAccent(word: string) {
-  return /\u0301/.test(word)
+  return /\u0301/.test(word) || acuteIULMNR.test(word)
 }
 
 export function hasCircumflexOrShortAccent(word: string) {
-  return /[\u0303\u0300]/.test(word)
+  return /[\u0303\u0300]/.test(word) && !acuteIULMNR.test(word)
 }
 
 export function getUnpalatalizedRoot(root: string) {
@@ -35,6 +38,19 @@ export function getUnpalatalizedRoot(root: string) {
 
 export function getPalatalizedRoot(root: string) {
   return root.replace(/t$/, 'či').replace(/d$/, 'dži')
+}
+
+export function getPresentRoot(
+  principalParts: string[],
+): RootPatternType<'i' | 'o' | 'a'> {
+  if (principalParts.length !== 3) {
+    throw threeRootsError
+  }
+  const regexArr = /^(.+)([aio]\u0300?)$/.exec(principalParts[1])
+  if (regexArr === null) {
+    throw presentRootError
+  }
+  return { root: regexArr[1], pattern: regexArr[2] as 'a' | 'i' | 'o' }
 }
 
 export function getPastRoot(
