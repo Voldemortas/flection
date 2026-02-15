@@ -4,7 +4,7 @@ import {
   makeConjugatedFromArray,
   makePrincipalPartsArray,
 } from './testHelpers.ts'
-import type { ConjugationType } from '../src/types.ts'
+import type { ConjugationType } from '~src/types.ts'
 
 describe('testHelpers', () => {
   const expected: ConjugationType = {
@@ -33,8 +33,14 @@ describe('testHelpers', () => {
           expected,
         )
     })
-    it('throws when array count is not 6', () => {
-      expect(() => makeConjugatedFromArray([['a', 'b', 'c'], ['e', 'f']]))
+    it('works well with array.length = 5', () => {
+      expect(makeConjugatedFromArray([['a', 'b', 'c'], ['e', 'f']]))
+        .toMatchObject(
+          makeConjugatedFromArray([['a', 'b', 'c'], ['e', 'f', 'c']]),
+        )
+    })
+    it('throws when array count is not 5 or 6', () => {
+      expect(() => makeConjugatedFromArray([['a', 'b'], ['e', 'f']]))
         .toThrow()
     })
   })

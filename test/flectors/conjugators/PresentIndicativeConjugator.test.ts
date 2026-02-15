@@ -1,11 +1,10 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import { makeConjugatedFromArray } from '~test/testHelpers.ts'
-import PresentIndicativeConjugator from '~src/flectors/PresentIndicativeConjugator.ts'
+import PresentIndicativeConjugator from '~conjugators/PresentIndicativeConjugator.ts'
 import type { ConjugationType } from '~src/types.ts'
 import { stripAllAccents, stripAllAccentsFromParadigm } from '~src/utils.ts'
-import Conjugator from '~src/flectors/Conjugator.ts'
-import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
+import { assertPrefixedReflexive, assertReflexive } from './commons.ts'
 
 const COPULA_PARTS = [`bū\u0301ti`, `yra\u0300`, `bu\u0300vo`]
 const EITI_PARTS = [`ei\u0303ti`, `ei\u0303na`, `ė\u0303jo`]
@@ -291,11 +290,8 @@ const NEG_RENKA = makeConjugatedFromArray([
 ])
 const NEG_VELKA = makeConjugatedFromArray([
   [`ne\u0300velku`, `ne\u0300velki`, `ne\u0300velka`],
-  [
-    `ne\u0300velkame ne\u0300velkam`,
-    `ne\u0300velkate ne\u0300velkat`,
-    `ne\u0300velka`,
-  ],
+  [`ne\u0300velkame ne\u0300velkam`],
+  [`ne\u0300velkate ne\u0300velkat`],
 ])
 const NEG_KALBA = makeConjugatedFromArray([
   [`ne\u0300kalbu`, `ne\u0300kalbi`, `ne\u0300kalba`],
@@ -404,21 +400,6 @@ describe('PresentIndicativeConjugator', () => {
       })
     }
   })
-  describe('conjugateUnprefixedReflexive', () => {
-    it('calls Conjugator implementation', () => {
-      const mockedValue = Math.random() as unknown as ConjugationType
-      const myStub = stub(
-        Conjugator.prototype,
-        'conjugateUnprefixedReflexive',
-        returnsNext([mockedValue]),
-      )
-      const result = conjugator.conjugateUnprefixedReflexive(DARYTI)
-      expect(result).toStrictEqual(mockedValue)
-      assertSpyCall(myStub, 0, {
-        args: [DARYTI],
-        returned: mockedValue,
-      })
-      myStub.restore()
-    })
-  })
+  assertReflexive(conjugator)
+  assertPrefixedReflexive(conjugator)
 })

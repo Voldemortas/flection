@@ -5,13 +5,13 @@ import {
   unmatchingPrefixesError,
   unmatchingReflexivesError,
 } from './errors.ts'
-import type Conjugator from './flectors/Conjugator.ts'
 import type { ConjugationType } from './types.ts'
-import PastFrequentativeIndicativeConjugator from './flectors/PastFrequentativeIndicativeConjugator.ts'
-import FutureIndicativeConjugator from './flectors/FutureIndicativeConjugator.ts'
-import PastSimpleIndicativeConjugator from './flectors/PastSimpleIndicativeConjugator.ts'
 import { isEverythingEqual } from './utils.ts'
-import PresentIndicativeConjugator from './flectors/PresentIndicativeConjugator.ts'
+import type Conjugator from '~conjugators/Conjugator.ts'
+import PastFrequentativeIndicativeConjugator from '~conjugators/PastFrequentativeIndicativeConjugator.ts'
+import FutureIndicativeConjugator from '~conjugators/FutureIndicativeConjugator.ts'
+import PastSimpleIndicativeConjugator from '~conjugators/PastSimpleIndicativeConjugator.ts'
+import PresentIndicativeConjugator from '~conjugators/PresentIndicativeConjugator.ts'
 
 type Triple<T> = [T, T, T]
 

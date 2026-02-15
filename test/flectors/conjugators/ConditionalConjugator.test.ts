@@ -2,7 +2,7 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import { makeInfinitiveRoots, SOKTI } from '~test/testHelpers.ts'
 import type { ConjugationType } from '~src/types.ts'
-import ConditionalConjugator from '~src/flectors/ConditionalConjugator.ts'
+import ConditionalConjugator from '~conjugators/ConditionalConjugator.ts'
 
 const SOKTI_DATA = SOKTI.map(makeInfinitiveRoots)
 const EXPECTED_SOKTI: ConjugationType[] = [

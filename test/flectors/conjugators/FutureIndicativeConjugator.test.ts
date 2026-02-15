@@ -2,9 +2,9 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import { makeInfinitiveRoots, SOKTI } from '~test/testHelpers.ts'
 import type { ConjugationType } from '~src/types.ts'
-import FutureIndicativeConjugator from '~src/flectors/FutureIndicativeConjugator.ts'
+import FutureIndicativeConjugator from '~conjugators/FutureIndicativeConjugator.ts'
 import { stripAllAccentsFromParadigm } from '~src/utils.ts'
-import { siutiFuture, vytiFuture } from '~src/flectors/utils.ts'
+import { siutiFuture, vytiFuture } from '~conjugators/utils.ts'
 
 const SOKTI_DATA = SOKTI.map(makeInfinitiveRoots)
 const GYTI_DATA = ['gy\u0301ti', 'gy\u0303ti', 'gyti'].map(makeInfinitiveRoots)

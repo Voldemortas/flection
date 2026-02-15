@@ -4,7 +4,7 @@ import {
   decorateConjugatedReflexive,
   isRootMonosyllabic,
   metatonise3rdFuture,
-} from '~src/flectors/utils.ts'
+} from '~conjugators/utils.ts'
 import type { ConjugationType } from '~src/types.ts'
 
 describe('flector utils', () => {

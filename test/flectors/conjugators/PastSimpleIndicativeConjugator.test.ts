@@ -1,8 +1,9 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
-import PastSimpleIndicativeConjugator from '~src/flectors/PastSimpleIndicativeConjugator.ts'
+import PastSimpleIndicativeConjugator from '~conjugators/PastSimpleIndicativeConjugator.ts'
 import { OME, OMO, YTI } from '~test/testHelpers.ts'
 import type { ConjugationType } from '~src/types.ts'
+import { assertPrefixedReflexive, assertReflexive } from './commons.ts'
 
 const DATA_OMO = Array.from({ length: 4 }).map((
   _,
@@ -121,6 +122,8 @@ const EXPECTED_NEOMYTI: ConjugationType[] = [
 
 describe('PastSimpleIndicativeConjugator', () => {
   const conjugator = new PastSimpleIndicativeConjugator()
+  assertReflexive(conjugator)
+  assertPrefixedReflexive(conjugator)
   describe('conjugate default', () => {
     DATA_OMO.forEach((data, i) => {
       it(`conjugates ${data[2]}`, () => {

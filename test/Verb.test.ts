@@ -7,8 +7,8 @@ import {
   unmatchingPrefixesError,
   unmatchingReflexivesError,
 } from '~src/errors.ts'
-import { makeInfinitiveRoots, SOKTI } from './testHelpers.ts'
-import type Conjugator from '~src/flectors/Conjugator.ts'
+import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
+import type Conjugator from '~conjugators/Conjugator.ts'
 import type { ConjugationType } from '~src/types.ts'
 
 describe('Verb', () => {
@@ -78,178 +78,75 @@ describe('Verb', () => {
     expect(a.isReflexive).toStrictEqual(b.isReflexive)
   }
   describe('conjugations', () => {
-    describe('pastFrequentativeIndicative', () => {
-      const principalParts = makeInfinitiveRoots(SOKTI[0])
-      it(`uses pastFrequentativeIndicative.conjugateDefault() when there's no prefix and reflexiveness`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.pastFrequentativeIndicative,
-          'conjugateDefault',
-          () =>
-            new Verb(principalParts)
-              .conjugatePastFrequentativeIndicative(),
-          [principalParts],
-        )
+    assertTense(
+      Verb.pastFrequentativeIndicative,
+      'conjugatePastFrequentativeIndicative',
+      'pastFrequentativeIndicative',
+    )
+    assertTense(
+      Verb.pastSimpleIndicative,
+      'conjugatePastSimpleIndicative',
+      'pastSimpleIndicative',
+    )
+    assertTense(
+      Verb.futureIndicative,
+      'conjugateFutureIndicative',
+      'futureIndicative',
+    )
+    assertTense(
+      Verb.presentIndicative,
+      'conjugatePresentIndicative',
+      'presentIndicative',
+    )
+
+    function assertTense(
+      conjugator: Conjugator,
+      conjugateMethod: keyof Verb,
+      conjugatorName: string,
+    ) {
+      describe(conjugateMethod, () => {
+        const principalParts = EMPTY_PRINCIPAL_PARTS
+        it(`uses ${conjugatorName}.conjugateDefault() when there's no prefix and reflexiveness`, () => {
+          assertCorrectConjugationWasCalled(
+            conjugator,
+            'conjugateDefault',
+            //@ts-ignore method is actually callable
+            () => new Verb(principalParts)[conjugateMethod](),
+            [principalParts],
+          )
+        })
+        it(`uses ${conjugatorName}.conjugatePrefixed() when there's a prefix`, () => {
+          assertCorrectConjugationWasCalled(
+            conjugator,
+            'conjugatePrefixed',
+            //@ts-ignore method is actually callable
+            () => new Verb(principalParts, { prefix: 'ne' })[conjugateMethod](),
+            [principalParts, 'ne'],
+          )
+        })
+        it(`uses ${conjugatorName}.conjugateUnprefixedReflexive() for reflexive`, () => {
+          assertCorrectConjugationWasCalled(
+            conjugator,
+            'conjugateUnprefixedReflexive',
+            () =>
+              //@ts-ignore method is actually callable
+              new Verb(principalParts, { reflexive: true })[conjugateMethod](),
+            [principalParts],
+          )
+        })
+        it(`uses ${conjugatorName}.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
+          assertCorrectConjugationWasCalled(
+            conjugator,
+            'conjugatePrefixedReflexive',
+            () =>
+              //@ts-ignore method is actually callable
+              new Verb(principalParts, { prefix: 'ne', reflexive: true })
+                [conjugateMethod](),
+            [principalParts, 'ne'],
+          )
+        })
       })
-      it(`uses pastFrequentativeIndicative.conjugatePrefixed() when there's a prefix`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.pastFrequentativeIndicative,
-          'conjugatePrefixed',
-          () =>
-            new Verb(principalParts, { prefix: 'ne' })
-              .conjugatePastFrequentativeIndicative(),
-          [principalParts, 'ne'],
-        )
-      })
-      it(`uses pastFrequentativeIndicative.conjugateUnprefixedReflexive() for reflexive`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.pastFrequentativeIndicative,
-          'conjugateUnprefixedReflexive',
-          () =>
-            new Verb(principalParts, { reflexive: true })
-              .conjugatePastFrequentativeIndicative(),
-          [principalParts],
-        )
-      })
-      it(`uses pastFrequentativeIndicative.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.pastFrequentativeIndicative,
-          'conjugatePrefixedReflexive',
-          () =>
-            new Verb(principalParts, { prefix: 'ne', reflexive: true })
-              .conjugatePastFrequentativeIndicative(),
-          [principalParts, 'ne'],
-        )
-      })
-    })
-    describe('futureIndicative', () => {
-      const principalParts = makeInfinitiveRoots(SOKTI[0])
-      it(`uses futureIndicative.conjugateDefault() when there's no prefix and reflexiveness`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.futureIndicative,
-          'conjugateDefault',
-          () =>
-            new Verb(principalParts)
-              .conjugateFutureIndicative(),
-          [principalParts],
-        )
-      })
-      it(`uses futureIndicative.conjugatePrefixed() when there's a prefix`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.futureIndicative,
-          'conjugatePrefixed',
-          () =>
-            new Verb(principalParts, { prefix: 'ne' })
-              .conjugateFutureIndicative(),
-          [principalParts, 'ne'],
-        )
-      })
-      it(`uses futureIndicative.conjugateUnprefixedReflexive() for reflexive`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.futureIndicative,
-          'conjugateUnprefixedReflexive',
-          () =>
-            new Verb(principalParts, { reflexive: true })
-              .conjugateFutureIndicative(),
-          [principalParts],
-        )
-      })
-      it(`uses futureIndicative.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.futureIndicative,
-          'conjugatePrefixedReflexive',
-          () =>
-            new Verb(principalParts, { prefix: 'ne', reflexive: true })
-              .conjugateFutureIndicative(),
-          [principalParts, 'ne'],
-        )
-      })
-    })
-    describe('pastSimpleIndicative', () => {
-      const principalParts = makeInfinitiveRoots(SOKTI[0])
-      it(`uses pastSimpleIndicative.conjugateDefault() when there's no prefix and reflexiveness`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.pastSimpleIndicative,
-          'conjugateDefault',
-          () =>
-            new Verb(principalParts)
-              .conjugatePastSimpleIndicative(),
-          [principalParts],
-        )
-      })
-      it(`uses pastSimpleIndicative.conjugatePrefixed() when there's a prefix`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.pastSimpleIndicative,
-          'conjugatePrefixed',
-          () =>
-            new Verb(principalParts, { prefix: 'ne' })
-              .conjugatePastSimpleIndicative(),
-          [principalParts, 'ne'],
-        )
-      })
-      it(`uses pastSimpleIndicative.conjugateUnprefixedReflexive() for reflexive`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.pastSimpleIndicative,
-          'conjugateUnprefixedReflexive',
-          () =>
-            new Verb(principalParts, { reflexive: true })
-              .conjugatePastSimpleIndicative(),
-          [principalParts],
-        )
-      })
-      it(`uses pastSimpleIndicative.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.pastSimpleIndicative,
-          'conjugatePrefixedReflexive',
-          () =>
-            new Verb(principalParts, { prefix: 'ne', reflexive: true })
-              .conjugatePastSimpleIndicative(),
-          [principalParts, 'ne'],
-        )
-      })
-    })
-    describe('presentIndicative', () => {
-      const principalParts = makeInfinitiveRoots(SOKTI[0])
-      it(`uses presentIndicative.conjugateDefault() when there's no prefix and reflexiveness`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.presentIndicative,
-          'conjugateDefault',
-          () =>
-            new Verb(principalParts)
-              .conjugatePresentIndicative(),
-          [principalParts],
-        )
-      })
-      it(`uses presentIndicative.conjugatePrefixed() when there's a prefix`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.presentIndicative,
-          'conjugatePrefixed',
-          () =>
-            new Verb(principalParts, { prefix: 'ne' })
-              .conjugatePresentIndicative(),
-          [principalParts, 'ne'],
-        )
-      })
-      it(`uses presentIndicative.conjugateUnprefixedReflexive() for reflexive`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.presentIndicative,
-          'conjugateUnprefixedReflexive',
-          () =>
-            new Verb(principalParts, { reflexive: true })
-              .conjugatePresentIndicative(),
-          [principalParts],
-        )
-      })
-      it(`uses presentIndicative.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
-        assertCorrectConjugationWasCalled(
-          Verb.presentIndicative,
-          'conjugatePrefixedReflexive',
-          () =>
-            new Verb(principalParts, { prefix: 'ne', reflexive: true })
-              .conjugatePresentIndicative(),
-          [principalParts, 'ne'],
-        )
-      })
-    })
+    }
 
     function assertCorrectConjugationWasCalled(
       conjugator: Conjugator,
