@@ -30,20 +30,21 @@ export function moveThirdAccentuation(
 export function getThirdAccentuationType(
   type: string = '0',
 ): { isAcute: boolean; syllable: number } {
-  if (type === '0') {
+  const lowerCasedType = type.toLowerCase()
+  if (lowerCasedType === '0') {
     return { isAcute: true, syllable: 2 }
   }
-  if (type === 'a') {
+  if (lowerCasedType === 'a') {
     return { isAcute: true, syllable: 3 }
   }
-  if (type === 'b') {
+  if (lowerCasedType === 'b') {
     return { isAcute: false, syllable: 3 }
   }
   const regex = /(\d+)([ab])/
-  if (!regex.test(type)) {
+  if (!regex.test(lowerCasedType)) {
     throw thirdAccentuationTypeError
   }
-  const parsed = [...regex.exec(type)!]
+  const parsed = [...regex.exec(lowerCasedType)!]
   if ((parsed[1] === '2' && parsed[2] !== 'a') || +parsed[1] < 3) {
     throw thirdAccentuationTypeError
   }

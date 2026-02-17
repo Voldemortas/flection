@@ -1,7 +1,7 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import { getThirdAccentuationType } from '~decliners/utils.ts'
-import { thirdAccentuationTypeError } from '../../../src/errors.ts'
+import { thirdAccentuationTypeError } from '~src/errors.ts'
 
 describe('decliners/utils', () => {
   describe('getThirdAccentuationType', () => {
@@ -46,6 +46,9 @@ describe('decliners/utils', () => {
         thirdAccentuationTypeError,
       )
       expect(() => getThirdAccentuationType('3')).toThrow(
+        thirdAccentuationTypeError,
+      )
+      expect(() => getThirdAccentuationType('2a')).toThrow(
         thirdAccentuationTypeError,
       )
     })
