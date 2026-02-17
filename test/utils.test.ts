@@ -12,6 +12,7 @@ import {
   hasCircumflexOrShortAccent,
   isEverythingEqual,
   putAccentOnPrefix,
+  putAccentOnString,
   stripAllAccents,
   stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
@@ -20,7 +21,9 @@ import {
   pastRootError,
   prefixMustContainVowelsError,
   presentRootError,
+  syllableCannotCarryAcuteError,
   threeRootsError,
+  tooFewSyllablesError,
 } from '~src/errors.ts'
 import {
   makeInfinitiveRoots,
@@ -313,6 +316,114 @@ describe('utils', () => {
     })
     it('[4, 5, 4] are not all equal', () => {
       expect(isEverythingEqual([4, 5, 4])).toStrictEqual(false)
+    })
+  })
+  describe('putAccentOnString', () => {
+    const WORD = `neperperoivilkiuoliegėpiams`
+    it('throws when syllable is 0 or below', () => {
+      expect(() => putAccentOnString(WORD, 0, true)).toThrow(
+        tooFewSyllablesError,
+      )
+    })
+    it('puts acute on the 1st syllable', () => {
+      expect(putAccentOnString(WORD, 1, true)).toStrictEqual(
+        `neperperoivilkiuoliegėpia\u0301ms`,
+      )
+    })
+    it('puts acute on the 2nd syllable', () => {
+      expect(putAccentOnString(WORD, 2, true)).toStrictEqual(
+        `neperperoivilkiuoliegė\u0301piams`,
+      )
+    })
+    it('puts acute on the 3rd syllable', () => {
+      expect(putAccentOnString(WORD, 3, true)).toStrictEqual(
+        `neperperoivilkiuoli\u0301egėpiams`,
+      )
+    })
+    it('puts acute on the 4th syllable', () => {
+      expect(putAccentOnString(WORD, 4, true)).toStrictEqual(
+        `neperperoivilkiu\u0301oliegėpiams`,
+      )
+    })
+    it('puts acute on the 5th syllable', () => {
+      expect(putAccentOnString(WORD, 5, true)).toStrictEqual(
+        `neperperoivi\u0300lkiuoliegėpiams`,
+      )
+    })
+    it('puts acute on the 6th syllable', () => {
+      expect(putAccentOnString(WORD, 6, true)).toStrictEqual(
+        `neperpero\u0300ivilkiuoliegėpiams`,
+      )
+    })
+    it('puts acute on the 7th syllable', () => {
+      expect(() => putAccentOnString(WORD, 7, true)).toThrow(
+        syllableCannotCarryAcuteError,
+      )
+    })
+    it('puts acute on the 8th syllable', () => {
+      expect(putAccentOnString(WORD, 8, true)).toStrictEqual(
+        `nepe\u0301rperoivilkiuoliegėpiams`,
+      )
+    })
+    it('puts acute on the 9th syllable', () => {
+      expect(() => putAccentOnString(WORD, 9, true)).toThrow(
+        syllableCannotCarryAcuteError,
+      )
+    })
+    it("throws when syllable count is larger than word's or below", () => {
+      expect(() => putAccentOnString(WORD, 10, true)).toThrow(
+        tooFewSyllablesError,
+      )
+    })
+    it('puts circumflex on the 1st syllable', () => {
+      expect(putAccentOnString(WORD, 1, false)).toStrictEqual(
+        `neperperoivilkiuoliegėpiam\u0303s`,
+      )
+    })
+    it('puts circumflex on the 2nd syllable', () => {
+      expect(putAccentOnString(WORD, 2, false)).toStrictEqual(
+        `neperperoivilkiuoliegė\u0303piams`,
+      )
+    })
+    it('puts circumflex on the 3rd syllable', () => {
+      expect(putAccentOnString(WORD, 3, false)).toStrictEqual(
+        `neperperoivilkiuolie\u0303gėpiams`,
+      )
+    })
+    it('puts circumflex on the 4th syllable', () => {
+      expect(putAccentOnString(WORD, 4, false)).toStrictEqual(
+        `neperperoivilkiuo\u0303liegėpiams`,
+      )
+    })
+    it('puts circumflex on the 5th syllable', () => {
+      expect(putAccentOnString(WORD, 5, false)).toStrictEqual(
+        `neperperoivil\u0303kiuoliegėpiams`,
+      )
+    })
+    it('puts circumflex on the 6th syllable', () => {
+      expect(putAccentOnString(WORD, 6, false)).toStrictEqual(
+        `neperperoi\u0303vilkiuoliegėpiams`,
+      )
+    })
+    it('puts circumflex on the 7th syllable', () => {
+      expect(putAccentOnString(WORD, 7, false)).toStrictEqual(
+        `neperpe\u0303roivilkiuoliegėpiams`,
+      )
+    })
+    it('puts circumflex on the 8th syllable', () => {
+      expect(putAccentOnString(WORD, 8, false)).toStrictEqual(
+        `neper\u0303peroivilkiuoliegėpiams`,
+      )
+    })
+    it('puts circumflex on the 9th syllable', () => {
+      expect(putAccentOnString(WORD, 9, false, true)).toStrictEqual(
+        `ne\u0300perperoivilkiuoliegėpiams`,
+      )
+    })
+    it('puts circumflex on the 10th syllable', () => {
+      expect(putAccentOnString(`iš${WORD}`, 10, false)).toStrictEqual(
+        `i\u0300šneperperoivilkiuoliegėpiams`,
+      )
     })
   })
 })

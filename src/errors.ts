@@ -30,3 +30,15 @@ export const infinitiveRootError = new Error(
 export const prefixMustContainVowelsError = new Error(
   `Prefixes in Lithuanian language must contain a vowel`,
 )
+
+export const thirdAccentuationTypeError = new Error(
+  `Unrecognisable accentuation type`,
+)
+
+export const tooFewSyllablesError = new Error(
+  `Word has too few syllables`,
+)
+
+export const syllableCannotCarryAcuteError = new Error(
+  `Syllable cannot carry acute`,
+)
