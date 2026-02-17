@@ -1,4 +1,4 @@
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, DeclinedType, Gender } from '~src/types.ts'
 export const SOKTI = [`šo\u0300kti`, `šo\u0301kti`, `šo\u0303kti`, `šokti`]
 export const YTI = [`y\u0301ti`, `yti`, `y\u0301ti`, `yti`]
 export const OME = [`o\u0300mė`, `o\u0301mė`, `o\u0303mė`, `omė`]
@@ -56,6 +56,54 @@ export function makeConjugatedFromArray(
   }
   if (flatten.length === 5) {
     return makeConjugatedFromArray([...flatten, flatten[2]])
+  }
+  throw err
+}
+
+export function makeDeclinedFromArray(
+  gender: Gender,
+  arr: string[] | string[][],
+): DeclinedType {
+  const err = new Error('cannot make declination')
+  if (arr.length === 14) {
+    if (arr.every((v) => typeof v === 'string')) {
+      return {
+        gender,
+        sgNom: arr[0],
+        sgGen: arr[1],
+        sgDat: arr[2],
+        sgAcc: arr[3],
+        sgInst: arr[4],
+        sgLoc: arr[5],
+        sgVoc: arr[6],
+        plNom: arr[7],
+        plGen: arr[8],
+        plDat: arr[9],
+        plAcc: arr[10],
+        plInst: arr[11],
+        plLoc: arr[12],
+        plVoc: arr[13],
+      }
+    }
+  }
+  const flatten = arr.flat()
+  if (flatten.length === 14 && arr.length === 7) {
+    return makeDeclinedFromArray(gender, [
+      arr[0][0],
+      arr[1][0],
+      arr[2][0],
+      arr[3][0],
+      arr[4][0],
+      arr[5][0],
+      arr[6][0],
+      arr[0][1],
+      arr[1][1],
+      arr[2][1],
+      arr[3][1],
+      arr[4][1],
+      arr[5][1],
+      arr[6][1],
+    ]) as unknown as DeclinedType
   }
   throw err
 }

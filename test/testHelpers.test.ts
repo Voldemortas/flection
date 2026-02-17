@@ -2,9 +2,10 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import {
   makeConjugatedFromArray,
+  makeDeclinedFromArray,
   makePrincipalPartsArray,
 } from './testHelpers.ts'
-import type { ConjugationType } from '~src/types.ts'
+import { type ConjugationType, Gender } from '~src/types.ts'
 
 describe('testHelpers', () => {
   const expected: ConjugationType = {
@@ -58,6 +59,14 @@ describe('testHelpers', () => {
           'davė',
         ]] as unknown as string[][],
       )
+    })
+  })
+  describe('makeDeclinedFromArray', () => {
+    it('throws when array count is not 14', () => {
+      expect(() =>
+        makeDeclinedFromArray(Gender.masculine, [['a', 'b'], ['e', 'f']])
+      )
+        .toThrow()
     })
   })
 })

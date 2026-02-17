@@ -11,7 +11,8 @@
     "@std/testing": "jsr:@std/testing@^1.0.16",
     "~src/": "./src/",
     "~test/": "./test/",
-    "~conjugators/": "./src/flectors/conjugators/"
+    "~conjugators/": "./src/flectors/conjugators/",
+    "~decliners/": "./src/flectors/decliners/"
   },
   "fmt": {
     "useTabs": false,
