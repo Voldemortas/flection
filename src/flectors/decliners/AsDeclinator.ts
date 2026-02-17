@@ -1,5 +1,6 @@
 import { type AdjectiveType, Gender, type NounType } from '~src/types.ts'
 import { getUnpalatalizedRoot, stripAllAccents } from '~src/utils.ts'
+import { notAttestedInLanguageError } from '../../errors.ts'
 
 /**
  * @description Declinator for -(i/j)as nominals. All methods accept stems without nominative -as (but with i/j)
@@ -139,22 +140,19 @@ export default class AsDeclinator {
   static declineAsAdjectivalI(stem: string): AdjectiveType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
-      ...this.#adjectival(stem),
+      ...this.#adjectivalAs(stem),
     } as AdjectiveType & { gender: Gender.masculine }
   }
 
   /**
    * @description no adjectives ending -as and belonging to the 2nd accentuation have been found but just in case the method is here
    */
-  static declineAsAdjectivalII(stem: string): AdjectiveType {
-    return {
-      ...AsDeclinator.declineAsNounII(stem),
-      ...this.#adjectival(stem),
-    } as AdjectiveType & { gender: Gender.masculine }
+  static declineAsAdjectivalII(_stem: string): AdjectiveType {
+    throw notAttestedInLanguageError
   }
   static declineAsAdjectivalIII(stem: string): AdjectiveType {
     return {
-      //@ts-ignore yeah no idea why this spread causes any problem
+      //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalIV(stem),
       sgInst: `${stem}u`,
       plAcc: `${stem}us`,
@@ -164,13 +162,40 @@ export default class AsDeclinator {
     const accentlessRoot = stripAllAccents(stem)
     return {
       ...AsDeclinator.declineAsNounIV(stem),
-      ...this.#adjectival(stem),
+      ...this.#adjectivalAs(stem),
       sgDat: `${accentlessRoot}a\u0301m`,
       sgLoc: `${accentlessRoot}ame\u0300`,
       plNom: `${accentlessRoot}i\u0300`,
       plDat: `${accentlessRoot}i\u0301ems`,
       plVoc: `${accentlessRoot}i\u0300`,
     } as AdjectiveType & { gender: Gender.masculine }
+  }
+  static declineIasAdjectivalI(stem: string): AdjectiveType {
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...AsDeclinator.declineAsAdjectivalI(stem),
+      ...AsDeclinator.#adjectivalIasStem(stem),
+    }
+  }
+  /**
+   * @description no adjectives ending -as and belonging to the 2nd accentuation have been found but just in case the method is here
+   */
+  static declineIasAdjectivalII(_stem: string): AdjectiveType {
+    throw notAttestedInLanguageError
+  }
+  static declineIasAdjectivalIII(stem: string): AdjectiveType {
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...AsDeclinator.declineAsAdjectivalIII(stem),
+      ...AsDeclinator.#adjectivalIasFlection(stem),
+    }
+  }
+  static declineIasAdjectivalIV(stem: string): AdjectiveType {
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...AsDeclinator.declineAsAdjectivalIV(stem),
+      ...AsDeclinator.#adjectivalIasFlection(stem),
+    }
   }
   static #bisyllabic(stem: string): { sgLoc: string; sgVoc: string } {
     return {
@@ -184,7 +209,7 @@ export default class AsDeclinator {
       sgVoc: `${stem}au`,
     }
   }
-  static #adjectival(
+  static #adjectivalAs(
     stem: string,
   ): {
     sgDat: string
@@ -201,6 +226,31 @@ export default class AsDeclinator {
       plNom: `${stem}i`,
       plDat: `${stem}iems`,
       plVoc: `${stem}i`,
+    }
+  }
+  static #adjectivalIasStem(stem: string): {
+    plNom: string
+    plDat: string
+    plVoc: string
+  } {
+    const depalatalisedStem = getUnpalatalizedRoot(stem)
+    return {
+      plNom: `${depalatalisedStem}i`,
+      plDat: `${depalatalisedStem}iems`,
+      plVoc: `${depalatalisedStem}i`,
+    }
+  }
+  static #adjectivalIasFlection(stem: string): {
+    plNom: string
+    plDat: string
+    plVoc: string
+  } {
+    const depalatalisedStem = getUnpalatalizedRoot(stem)
+    const depalatalisedUnaccentedStem = stripAllAccents(depalatalisedStem)
+    return {
+      plNom: `${depalatalisedUnaccentedStem}i\u0300`,
+      plDat: `${depalatalisedUnaccentedStem}i\u0301ems`,
+      plVoc: `${depalatalisedUnaccentedStem}i\u0300`,
     }
   }
 }

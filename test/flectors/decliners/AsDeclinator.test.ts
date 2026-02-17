@@ -3,6 +3,7 @@ import { expect } from '@std/expect'
 import { Gender } from '~src/types.ts'
 import { makeDeclinedFromArray } from '~test/testHelpers.ts'
 import AsDeclinator from '~decliners/AsDeclinator.ts'
+import { notAttestedInLanguageError } from '~src/errors.ts'
 
 const VYRAS = makeDeclinedFromArray(Gender.masculine, [
   [`vy\u0301ras`, `vy\u0301rai`],
@@ -161,16 +162,6 @@ const ILGOKAS = makeDeclinedFromArray(Gender.masculine, [
   [`ilgo\u0301kame`, `ilgo\u0301kuose`],
   [`ilgo\u0301kas`, `ilgo\u0301ki`],
 ])
-//doesn't really exist :(
-const TRUMPANAS = makeDeclinedFromArray(Gender.masculine, [
-  [`trumpa\u0303nas`, `trumpa\u0303ni`],
-  [`trumpa\u0303no`, `trumpa\u0303nų`],
-  [`trumpa\u0303nam`, `trumpa\u0303niems`],
-  [`trumpa\u0303ną`, `trumpanu\u0300s`],
-  [`trumpanu\u0300`, `trumpa\u0303nais`],
-  [`trumpa\u0303name`, `trumpa\u0303nuose`],
-  [`trumpa\u0303nas`, `trumpa\u0303ni`],
-])
 const STORAS = makeDeclinedFromArray(Gender.masculine, [
   [`sto\u0301ras`, `stori\u0300`],
   [`sto\u0301ro`, `storų\u0303`],
@@ -188,6 +179,34 @@ const MAZAS = makeDeclinedFromArray(Gender.masculine, [
   [`mažu\u0300`, `mažai\u0303s`],
   [`mažame\u0300`, `mažuose\u0300`],
   [`ma\u0303žas`, `maži\u0300`],
+])
+
+const PESCIAS = makeDeclinedFromArray(Gender.masculine, [
+  [`pė\u0301sčias`, `pė\u0301sti`],
+  [`pė\u0301sčio`, `pė\u0301sčių`],
+  [`pė\u0301sčiam`, `pė\u0301stiems`],
+  [`pė\u0301sčią`, `pė\u0301sčius`],
+  [`pė\u0301sčiu`, `pė\u0301sčiais`],
+  [`pė\u0301sčiame`, `pė\u0301sčiuose`],
+  [`pė\u0301sčias`, `pė\u0301sti`],
+])
+const PLOKSCIAS = makeDeclinedFromArray(Gender.masculine, [
+  [`plo\u0301kščias`, `plokšti\u0300`],
+  [`plo\u0301kščio`, `plokščių\u0303`],
+  [`plokščia\u0301m`, `plokšti\u0301ems`],
+  [`plo\u0301kščią`, `plo\u0301kščius`],
+  [`plo\u0301kščiu`, `plokščiai\u0303s`],
+  [`plokščiame\u0300`, `plokščiuose\u0300`],
+  [`plo\u0301kščias`, `plokšti\u0300`],
+])
+const STACIAS = makeDeclinedFromArray(Gender.masculine, [
+  [`sta\u0303čias`, `stati\u0300`],
+  [`sta\u0303čio`, `stačių\u0303`],
+  [`stačia\u0301m`, `stati\u0301ems`],
+  [`sta\u0303čią`, `stačiu\u0300s`],
+  [`stačiu\u0300`, `stačiai\u0303s`],
+  [`stačiame\u0300`, `stačiuose\u0300`],
+  [`sta\u0303čias`, `stati\u0300`],
 ])
 
 describe('AsDeclinator', () => {
@@ -260,8 +279,9 @@ describe('AsDeclinator', () => {
       .toMatchObject(ILGOKAS)
   })
   it('declines 2nd accentuation -as adjective', () => {
-    expect(AsDeclinator.declineAsAdjectivalII(`trumpa\u0303n`))
-      .toMatchObject(TRUMPANAS)
+    expect(() => AsDeclinator.declineAsAdjectivalII(`trumpa\u0303n`)).toThrow(
+      notAttestedInLanguageError,
+    )
   })
   it('declines 3rd accentuation -as adjective', () => {
     expect(AsDeclinator.declineAsAdjectivalIII(`sto\u0301r`))
@@ -270,5 +290,22 @@ describe('AsDeclinator', () => {
   it('declines 4th accentuation -as adjective', () => {
     expect(AsDeclinator.declineAsAdjectivalIV(`ma\u0303ž`))
       .toMatchObject(MAZAS)
+  })
+  it('declines 1st accentuation -ias adjective', () => {
+    expect(AsDeclinator.declineIasAdjectivalI(`pė\u0301sči`))
+      .toMatchObject(PESCIAS)
+  })
+  it('declines 2nd accentuation -ias adjective', () => {
+    expect(() => AsDeclinator.declineIasAdjectivalII(`gar\u0303dži`)).toThrow(
+      notAttestedInLanguageError,
+    )
+  })
+  it('declines 3rd accentuation -ias adjective', () => {
+    expect(AsDeclinator.declineIasAdjectivalIII(`plo\u0301kšči`))
+      .toMatchObject(PLOKSCIAS)
+  })
+  it('declines 4th accentuation -ias adjective', () => {
+    expect(AsDeclinator.declineIasAdjectivalIV(`sta\u0303či`))
+      .toMatchObject(STACIAS)
   })
 })

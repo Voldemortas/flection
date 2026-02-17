@@ -42,3 +42,7 @@ export const tooFewSyllablesError = new Error(
 export const syllableCannotCarryAcuteError = new Error(
   `Syllable cannot carry acute`,
 )
+
+export const notAttestedInLanguageError = new Error(
+  'Such use is not attested and thus is not implemented',
+)
