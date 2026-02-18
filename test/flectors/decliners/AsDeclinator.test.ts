@@ -227,35 +227,35 @@ describe('AsDeclinator', () => {
       .toMatchObject(NAMAS)
   })
   it('declines 1st accentuation bisyllabic noun', () => {
-    expect(AsDeclinator.declineBisyllabicAsNounI(`vė\u0301j`))
+    expect(AsDeclinator.declineBisyllabicJasNounI(`vė\u0301j`))
       .toMatchObject(VEJAS)
   })
   it('declines 2nd accentuation bisyllabic noun', () => {
-    expect(AsDeclinator.declineBisyllabicAsNounII(`gė\u0303j`))
+    expect(AsDeclinator.declineBisyllabicJasNounII(`gė\u0303j`))
       .toMatchObject(GEJAS)
   })
   it('declines 3rd accentuation bisyllabic noun', () => {
-    expect(AsDeclinator.declineBisyllabicAsNounIII(`sė\u0301j`))
+    expect(AsDeclinator.declineBisyllabicJasNounIII(`sė\u0301j`))
       .toMatchObject(SEJAS)
   })
   it('declines 4th accentuation bisyllabic noun', () => {
-    expect(AsDeclinator.declineBisyllabicAsNounIV(`krau\u0303j`))
+    expect(AsDeclinator.declineBisyllabicJasNounIV(`krau\u0303j`))
       .toMatchObject(KRAUJAS)
   })
   it('declines 1st accentuation polysyllabic noun', () => {
-    expect(AsDeclinator.declinePolysyllabicAsNounI(`virė\u0301j`))
+    expect(AsDeclinator.declinePolysyllabicJasNounI(`virė\u0301j`))
       .toMatchObject(VIREJAS_I)
   })
   it('declines 2nd accentuation polysyllabic noun', () => {
-    expect(AsDeclinator.declinePolysyllabicAsNounII(`virė\u0303j`))
+    expect(AsDeclinator.declinePolysyllabicJasNounII(`virė\u0303j`))
       .toMatchObject(VIREJAS_II)
   })
   it('declines 3rd accentuation polysyllabic noun', () => {
-    expect(AsDeclinator.declinePolysyllabicAsNounIII(`virė\u0301j`))
+    expect(AsDeclinator.declinePolysyllabicJasNounIII(`virė\u0301j`))
       .toMatchObject(VIREJAS_III)
   })
   it('declines 4th accentuation polysyllabic noun', () => {
-    expect(AsDeclinator.declinePolysyllabicAsNounIV(`virė\u0303j`))
+    expect(AsDeclinator.declinePolysyllabicJasNounIV(`virė\u0303j`))
       .toMatchObject(VIREJAS_IV)
   })
   it('declines 1st accentuation -ias noun', () => {

@@ -1,6 +1,6 @@
 import { type AdjectiveType, Gender, type NounType } from '~src/types.ts'
 import { getUnpalatalizedRoot, stripAllAccents } from '~src/utils.ts'
-import { notAttestedInLanguageError } from '../../errors.ts'
+import { notAttestedInLanguageError } from '~src/errors.ts'
 
 /**
  * @description Declinator for -(i/j)as nominals. All methods accept stems without nominative -as (but with i/j)
@@ -53,49 +53,49 @@ export default class AsDeclinator {
       plVoc: `${accentlessRoot}ai\u0303`,
     }
   }
-  static declineBisyllabicAsNounI(stem: string): NounType {
+  static declineBisyllabicJasNounI(stem: string): NounType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
       ...AsDeclinator.#bisyllabic(stem),
     }
   }
-  static declineBisyllabicAsNounII(stem: string): NounType {
+  static declineBisyllabicJasNounII(stem: string): NounType {
     return {
       ...AsDeclinator.declineAsNounII(stem),
       ...AsDeclinator.#bisyllabic(stem),
     }
   }
-  static declineBisyllabicAsNounIII(stem: string): NounType {
+  static declineBisyllabicJasNounIII(stem: string): NounType {
     return {
       ...AsDeclinator.declineAsNounIII(stem),
       ...AsDeclinator.#bisyllabic(stem),
     }
   }
-  static declineBisyllabicAsNounIV(stem: string): NounType {
+  static declineBisyllabicJasNounIV(stem: string): NounType {
     return {
       ...AsDeclinator.declineAsNounIV(stem),
       ...AsDeclinator.#bisyllabic(stem),
     }
   }
-  static declinePolysyllabicAsNounI(stem: string): NounType {
+  static declinePolysyllabicJasNounI(stem: string): NounType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
       ...AsDeclinator.#polysyllabic(stem),
     }
   }
-  static declinePolysyllabicAsNounII(stem: string): NounType {
+  static declinePolysyllabicJasNounII(stem: string): NounType {
     return {
       ...AsDeclinator.declineAsNounII(stem),
       ...AsDeclinator.#polysyllabic(stem),
     }
   }
-  static declinePolysyllabicAsNounIII(stem: string): NounType {
+  static declinePolysyllabicJasNounIII(stem: string): NounType {
     return {
       ...AsDeclinator.declineAsNounIII(stem),
       ...AsDeclinator.#polysyllabic(stem),
     }
   }
-  static declinePolysyllabicAsNounIV(stem: string): NounType {
+  static declinePolysyllabicJasNounIV(stem: string): NounType {
     return {
       ...AsDeclinator.declineAsNounIV(stem),
       ...AsDeclinator.#polysyllabic(stem),
