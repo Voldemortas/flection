@@ -45,7 +45,7 @@ export function getThirdAccentuationType(
     throw thirdAccentuationTypeError
   }
   const parsed = [...regex.exec(lowerCasedType)!]
-  if ((parsed[1] === '2' && parsed[2] !== 'a') || +parsed[1] < 3) {
+  if (+parsed[1] < 2) {
     throw thirdAccentuationTypeError
   }
   return { isAcute: parsed[2] === 'a', syllable: +parsed[1] }

@@ -48,9 +48,6 @@ describe('decliners/utils', () => {
       expect(() => getThirdAccentuationType('3')).toThrow(
         thirdAccentuationTypeError,
       )
-      expect(() => getThirdAccentuationType('2a')).toThrow(
-        thirdAccentuationTypeError,
-      )
     })
   })
 })

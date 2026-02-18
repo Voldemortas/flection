@@ -124,7 +124,7 @@ export function putAccentOnString(
     throw tooFewSyllablesError
   }
   const regex =
-    /(.+?|.*)(([^lmnraąeęėiįyouųū]?[bcčdfghjklmnprsštvzž])?[aąeęėiįyouųū]+[bcčdfghjklmnprsštvzž]*)$/
+    /(.{0}|.+?)((?:[^lmnraąeęėiįyouųū]?[bcčdfghjklmnprsštvzž])?(i?uo|ie|i?ū|[ėęyį]|i?[ao][uilmnr]?|i?u[ilmnr]?|[ie][lmnr]?)[bcčdfghjklmnprsštvzž]*)$/
   let wordToUse = string
   let answer = ''
   let currentSyllable = 0

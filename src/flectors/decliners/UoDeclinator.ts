@@ -1,5 +1,6 @@
 import { Gender, type NounType } from '~src/types.ts'
 import { moveThirdAccentuation } from './utils.ts'
+import IsDeclinator from './IsDeclinator.ts'
 
 /**
  * @description Declinator for -uo nominals. All methods accept stems without nominative -uo
@@ -49,9 +50,8 @@ export default class UoDeclinator {
     plLoc: `šunyse\u0300`,
     plVoc: `šu\u0300nys`,
   }
-  //TODO implement when IDeclinator is implemented
   static MENUO: NounType = {
-    gender: Gender.masculine,
+    ...IsDeclinator.declineIoNounI(`mė\u0301nes`),
     nomSg: `mė\u0301nuo`,
   } as unknown as NounType
   static SESUO: NounType = {
