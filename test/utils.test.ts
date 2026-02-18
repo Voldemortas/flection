@@ -210,8 +210,8 @@ describe('utils', () => {
   })
   describe('getPalatalizedRoot', () => {
     ;[
-      [`keist`, `keisči`],
-      [`gird`, `girdži`],
+      [`keist`, `keisč`],
+      [`gird`, `girdž`],
       [`tik`, `tik`],
       [`dyg`, `dyg`],
     ].forEach(([before, after]) => {

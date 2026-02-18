@@ -7,7 +7,7 @@ export default class ConditionalConjugator extends ImmobileConjugator {
     const { root } = getInfinitiveRoot(principalParts)
     const suffixedRoot = root + 't'
     return {
-      sg1: `${getPalatalizedRoot(suffixedRoot)}au`,
+      sg1: `${getPalatalizedRoot(suffixedRoot)}iau`,
       sg2: `${suffixedRoot}um ${suffixedRoot}umei`,
       sg3: `${suffixedRoot}ų`,
       pl1: `${suffixedRoot}ume ${suffixedRoot}umėm ${suffixedRoot}umėme`,
@@ -21,9 +21,9 @@ export default class ConditionalConjugator extends ImmobileConjugator {
     const { root } = getInfinitiveRoot(principalParts)
     const suffixedRoot = root + 't'
     return {
-      sg1: `${getPalatalizedRoot(suffixedRoot)}ausi ${
+      sg1: `${getPalatalizedRoot(suffixedRoot)}iausi ${
         getPalatalizedRoot(suffixedRoot)
-      }aus`,
+      }iaus`,
       sg2: `${suffixedRoot}umeisi ${suffixedRoot}umeis`,
       sg3: `${suffixedRoot}ųsi ${suffixedRoot}ųs`,
       pl1: `${suffixedRoot}umės ${suffixedRoot}umėmės`,

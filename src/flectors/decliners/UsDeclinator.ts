@@ -141,7 +141,7 @@ export default class UsDeclinator {
     }
   }
   static declineUsAdjectivalI(stem: string): AdjectiveType {
-    const palatalisedStem = getPalatalizedRoot(stem).replace(/i$/, '')
+    const palatalisedStem = getPalatalizedRoot(stem)
     return {
       gender: Gender.masculine,
       sgNom: `${stem}us`,
@@ -171,11 +171,8 @@ export default class UsDeclinator {
       /u$/,
       '',
     )
-    const accentedPalatalisedStem = getPalatalizedRoot(accentedStem).replace(
-      /i$/,
-      '',
-    )
-    const palatalisedStem = getPalatalizedRoot(stem).replace(/i$/, '')
+    const accentedPalatalisedStem = getPalatalizedRoot(accentedStem)
+    const palatalisedStem = getPalatalizedRoot(stem)
     return {
       gender: Gender.masculine,
       sgNom: `${stem}u\u0300s`,
@@ -196,7 +193,7 @@ export default class UsDeclinator {
   }
   static declineUsAdjectivalIV(stem: string): AdjectiveType {
     const accentedStem = putAccentOnString(stem, 1, false)
-    const palatalisedStem = getPalatalizedRoot(stem).replace(/i$/, '')
+    const palatalisedStem = getPalatalizedRoot(stem)
     return {
       gender: Gender.masculine,
       sgNom: `${stem}u\u0300s`,

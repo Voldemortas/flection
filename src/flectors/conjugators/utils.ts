@@ -107,8 +107,7 @@ export function conjugateMobileE(root: string): ConjugationType {
 export function conjugateMobileI(root: string): ConjugationType {
   const stresslessRoot = stripAllAccents(root)
   return {
-    sg1: `${getPalatalizedRoot(stresslessRoot)}iu`.replace(/iiu$/, 'iu') +
-      `\u0300`,
+    sg1: `${getPalatalizedRoot(stresslessRoot)}iu\u0300`,
     sg2: `${stresslessRoot}i\u0300`,
     ...conjugateThematicThirdAndPlural(root, 'i'),
   }
@@ -116,7 +115,7 @@ export function conjugateMobileI(root: string): ConjugationType {
 
 export function conjugateImmobileI(root: string): ConjugationType {
   return {
-    sg1: `${getPalatalizedRoot(root)}iu`.replace(/iiu$/, 'iu'),
+    sg1: `${getPalatalizedRoot(root)}iu`,
     sg2: `${root}i`,
     ...conjugateThematicThirdAndPlural(root, 'i'),
   }

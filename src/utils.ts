@@ -39,7 +39,7 @@ export function getUnpalatalizedRoot(root: string) {
 }
 
 export function getPalatalizedRoot(root: string) {
-  return root.replace(/t$/, 'či').replace(/d$/, 'dži')
+  return root.replace(/t$/, 'č').replace(/d$/, 'dž')
 }
 
 export function getPresentRoot(

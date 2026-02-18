@@ -14,7 +14,7 @@ export default class EDeclinator {
     stem: string,
     gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
-    const palatalisedStem = getPalatalizedRoot(stem).replace(/i$/, '')
+    const palatalisedStem = getPalatalizedRoot(stem)
     return {
       gender,
       sgNom: `${stem}ė`,
@@ -57,11 +57,7 @@ export default class EDeclinator {
         /ė$/,
         '',
       )
-    const palatalisedStem = getPalatalizedRoot(stem).replace(/i$/, '')
-      .replace(
-        /ė$/,
-        '',
-      )
+    const palatalisedStem = getPalatalizedRoot(stem)
     return {
       ...EDeclinator.declineI(accentedStem, gender),
       sgNom: `${stem}ė\u0303`,
@@ -77,7 +73,7 @@ export default class EDeclinator {
     stem: string,
     gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
-    const palatalisedStem = getPalatalizedRoot(stem).replace(/i$/, '')
+    const palatalisedStem = getPalatalizedRoot(stem)
     return {
       ...EDeclinator.declineII(putAccentOnString(stem, 1, false), gender),
       sgNom: `${stem}ė\u0303`,
