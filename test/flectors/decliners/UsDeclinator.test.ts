@@ -105,6 +105,15 @@ const STATUS = makeDeclinedFromArray(Gender.masculine, [
   [`stačiame\u0300`, `stačiuose\u0300`],
   [`statu\u0300s`, `sta\u0303tūs`],
 ])
+const ZMOGUS = makeDeclinedFromArray(Gender.masculine, [
+  [`žmogu\u0300s`, `žmo\u0301nės`],
+  [`žmogau\u0303s`, `žmonių\u0303`],
+  [`žmo\u0303gui`, `žmonė\u0301ms`],
+  [`žmo\u0303gų`, `žmo\u0301nes`],
+  [`žmogumi\u0300`, `žmonėmi\u0300s`],
+  [`žmoguje\u0300`, `žmonėse\u0300`],
+  [`žmogau\u0303`, `žmo\u0301nės`],
+])
 
 describe('UsDeclinator', () => {
   it('declines 1st accentuation -us noun', () => {
@@ -155,5 +164,8 @@ describe('UsDeclinator', () => {
   it('declines 4th accentuation -us adjective', () => {
     expect(UsDeclinator.declineUsAdjectivalIV(`stat`))
       .toMatchObject(STATUS)
+  })
+  it('declines žmogus correctly', () => {
+    expect(UsDeclinator.ZMOGUS).toMatchObject(ZMOGUS)
   })
 })

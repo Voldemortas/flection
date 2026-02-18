@@ -7,6 +7,7 @@ import {
 } from '~src/utils.ts'
 import { moveThirdAccentuation } from './utils.ts'
 import AsDeclinator from './AsDeclinator.ts'
+import EDeclinator from './EDeclinator.ts'
 
 /**
  * @description Declinator for -(i)us nominals. All methods accept stems without nominative -us
@@ -235,5 +236,10 @@ export default class UsDeclinator {
       sgLoc: noun.sgLoc,
       sgVoc: noun.sgVoc,
     }
+  }
+  static ZMOGUS: NounType = {
+    ...EDeclinator.declineIII(`žmon`),
+    ...UsDeclinator.#getSingular(UsDeclinator.declineUsNounIV('žmog')),
+    gender: Gender.masculine,
   }
 }

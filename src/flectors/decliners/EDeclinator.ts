@@ -1,4 +1,4 @@
-import { type DeclinedType, Gender } from '~src/types.ts'
+import { type DeclinedType, Gender, type NounType } from '~src/types.ts'
 import {
   getPalatalizedRoot,
   putAccentOnString,
@@ -10,10 +10,13 @@ import { moveThirdAccentuation } from './utils.ts'
  * @description Declinator for -ė nominals. All methods accept stems without nominative -ė
  */
 export default class EDeclinator {
-  static declineI(stem: string): DeclinedType {
+  static declineI(
+    stem: string,
+    gender: Gender.feminine | Gender.common = Gender.feminine,
+  ): DeclinedType {
     const palatalisedStem = getPalatalizedRoot(stem).replace(/i$/, '')
     return {
-      gender: Gender.feminine,
+      gender,
       sgNom: `${stem}ė`,
       sgGen: `${stem}ės`,
       sgDat: `${stem}ei`,
@@ -30,11 +33,15 @@ export default class EDeclinator {
       plVoc: `${stem}ės`,
     }
   }
-  static declineII(stem: string): DeclinedType {
+  static declineII(
+    stem: string,
+    gender: Gender.feminine | Gender.common = Gender.feminine,
+  ): DeclinedType {
     const accentlessStem = stripAllAccents(stem)
     return {
       ...EDeclinator.declineI(
         putAccentOnString(stripAllAccents(stem), 1, false),
+        gender,
       ),
       sgInst: `${accentlessStem}e\u0300`,
       plAcc: `${accentlessStem}e\u0300s`,
@@ -43,6 +50,7 @@ export default class EDeclinator {
   static declineIII(
     stem: string,
     type = '0',
+    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     const accentedStem = moveThirdAccentuation(stem + 'ė', type)
       .replace(
@@ -55,7 +63,7 @@ export default class EDeclinator {
         '',
       )
     return {
-      ...EDeclinator.declineI(accentedStem),
+      ...EDeclinator.declineI(accentedStem, gender),
       sgNom: `${stem}ė\u0303`,
       sgGen: `${stem}ė\u0303s`,
       sgLoc: `${stem}ėje\u0300`,
@@ -65,10 +73,13 @@ export default class EDeclinator {
       plLoc: `${stem}ėse\u0300`,
     }
   }
-  static declineIV(stem: string): DeclinedType {
+  static declineIV(
+    stem: string,
+    gender: Gender.feminine | Gender.common = Gender.feminine,
+  ): DeclinedType {
     const palatalisedStem = getPalatalizedRoot(stem).replace(/i$/, '')
     return {
-      ...EDeclinator.declineII(putAccentOnString(stem, 1, false)),
+      ...EDeclinator.declineII(putAccentOnString(stem, 1, false), gender),
       sgNom: `${stem}ė\u0303`,
       sgGen: `${stem}ė\u0303s`,
       sgLoc: `${stem}ėje\u0300`,
@@ -78,5 +89,22 @@ export default class EDeclinator {
       plInst: `${stem}ėmi\u0300s`,
       plLoc: `${stem}ėse\u0300`,
     }
+  }
+  static DUKTE: NounType = {
+    gender: Gender.feminine,
+    sgNom: `duktė\u0303`,
+    sgGen: `dukter\u0303s`,
+    sgDat: `du\u0300kteriai`,
+    sgAcc: `du\u0300kterį`,
+    sgInst: `du\u0300kteria`,
+    sgLoc: `dukteryje\u0300`,
+    sgVoc: `dukterie\u0303`,
+    plNom: `du\u0300kterys`,
+    plGen: `dukterų\u0303`,
+    plDat: `dukteri\u0300ms`,
+    plAcc: `du\u0300kteris`,
+    plInst: `dukterimi\u0300s`,
+    plLoc: `dukteryse\u0300`,
+    plVoc: `du\u0300kterys`,
   }
 }
