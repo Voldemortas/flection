@@ -98,6 +98,16 @@ describe('Verb', () => {
       'conjugatePresentIndicative',
       'presentIndicative',
     )
+    assertTense(
+      Verb.conditional,
+      'conjugateConditional',
+      'conditional',
+    )
+    assertTense(
+      Verb.imperative,
+      'conjugateImperative',
+      'imperative',
+    )
 
     function assertTense(
       conjugator: Conjugator,

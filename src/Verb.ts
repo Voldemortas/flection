@@ -12,6 +12,8 @@ import PastFrequentativeIndicativeConjugator from '~conjugators/PastFrequentativ
 import FutureIndicativeConjugator from '~conjugators/FutureIndicativeConjugator.ts'
 import PastSimpleIndicativeConjugator from '~conjugators/PastSimpleIndicativeConjugator.ts'
 import PresentIndicativeConjugator from '~conjugators/PresentIndicativeConjugator.ts'
+import ConditionalConjugator from '~conjugators/ConditionalConjugator.ts'
+import ImperativeConjugator from '~conjugators/ImperativeConjugator.ts'
 
 type Triple<T> = [T, T, T]
 
@@ -31,6 +33,8 @@ export default class Verb {
     new PastSimpleIndicativeConjugator()
   public static readonly presentIndicative: Conjugator =
     new PresentIndicativeConjugator()
+  public static readonly conditional: Conjugator = new ConditionalConjugator()
+  public static readonly imperative: Conjugator = new ImperativeConjugator()
 
   static #trimReflexiveFromPrefix(prefix: string | undefined) {
     if (!prefix) {
@@ -99,6 +103,16 @@ export default class Verb {
   public conjugatePresentIndicative(): ConjugationType {
     return this.#conjugateConjugatorBasedOnOptions(
       Verb.presentIndicative,
+    )
+  }
+  public conjugateConditional(): ConjugationType {
+    return this.#conjugateConjugatorBasedOnOptions(
+      Verb.conditional,
+    )
+  }
+  public conjugateImperative(): ConjugationType {
+    return this.#conjugateConjugatorBasedOnOptions(
+      Verb.imperative,
     )
   }
 

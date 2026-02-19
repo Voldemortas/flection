@@ -40,10 +40,13 @@ export default abstract class Conjugator {
       hasAcuteAccent(prefix)
     if (isPrefixAcute) {
       const conjugated = this.conjugateDefault(principalParts)
+      const hasConjugatedValuesAnyAccented = Object.values(conjugated).some(
+        hasAnyAccent,
+      )
       const prefixToUse = Conjugator.#ACUTE_PREFIXES.filter((pr) =>
-        stripAllAccents(pr) === prefix && hasAnyAccent(conjugated.sg3)
+        stripAllAccents(pr) === prefix && hasConjugatedValuesAnyAccented
       )[0] ?? prefix
-      if (hasAnyAccent(conjugated.sg3)) {
+      if (hasConjugatedValuesAnyAccented) {
         return Conjugator.applyPrefixToParadigm(
           prefixToUse,
           stripAllAccentsFromParadigm(conjugated),
@@ -121,7 +124,8 @@ export default abstract class Conjugator {
   }
 
   protected static applyPrefixToForm(prefix: string, word: string): string {
-    return word.split(' ').map((value) => prefix + value).join(' ')
+    return word.split(' ').map((value) => value === '-' ? '-' : prefix + value)
+      .join(' ')
   }
 
   protected static applyPrefixToParadigm(
