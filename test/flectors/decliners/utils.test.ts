@@ -10,9 +10,6 @@ describe('decliners/utils', () => {
         isAcute: true,
         syllable: 2,
       })
-      expect(getThirdAccentuationType()).toMatchObject(
-        getThirdAccentuationType('0'),
-      )
     })
     it('correctly parses a', () => {
       expect(getThirdAccentuationType('a')).toMatchObject({

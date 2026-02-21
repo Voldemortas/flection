@@ -2,38 +2,53 @@ import { thirdAccentuationTypeError } from '~src/errors.ts'
 import { putAccentOnString } from '~src/utils.ts'
 
 /**
- * @description moves accent to stem
- * @param {string} word - full word with a flectional ending
- * @param {string} type='0'
- * * `'0'` - 2nd last is acute
+ * @typedef {(string|{isAcutre: string, syllable: number})} AccentuationType
+ * @description
  * * `'a'` - 3rd last is acute
  * * `'b'` - 3rd last is circumflex/short
+ * * `'2a'` - 2nd last is acute
+ * * `'2b'` - 2nd last is circumflex/short
+ * * `'#a'` - #th last is acute, # - number starting with 4
+ * * `'#b'` - #th last is circumflex/short, # - number starting with 4
+ */
+export type AccentuationType = string | { isAcute: boolean; syllable: number }
+
+export const SECOND_LAST_ACUTE = '2a'
+
+/**
+ * @description moves accent to stem
+ * @param {string} word - full word with a flectional ending
+ * @param {AccentuationType} type='2a'
+ * * `'a'` - 3rd last is acute
+ * * `'b'` - 3rd last is circumflex/short
+ * * `'2a'` - 2nd last is acute
+ * * `'2b'` - 2nd last is circumflex/short
  * * `'#a'` - #th last is acute, # - number starting with 4
  * * `'#b'` - #th last is circumflex/short, # - number starting with 4
  */
 export function moveThirdAccentuation(
   word: string,
-  type: string = '0',
+  type: AccentuationType,
 ): string {
-  const { isAcute, syllable } = getThirdAccentuationType(type)
+  const { isAcute, syllable } = (typeof type === 'string')
+    ? getThirdAccentuationType(type)
+    : type
   return putAccentOnString(word, syllable, isAcute)
 }
 
 /**
- * @param {string} type='0'
- * * `'0'` - 2nd last is acute
+ * @param {string} type='2a'
  * * `'a'` - 3rd last is acute
  * * `'b'` - 3rd last is circumflex/short
+ * * `'2a'` - 2nd last is acute
+ * * `'2b'` - 2nd last is circumflex/short
  * * `'#a'` - #th last is acute, # - number starting with 4
  * * `'#b'` - #th last is circumflex/short, # - number starting with 4
  */
 export function getThirdAccentuationType(
-  type: string = '0',
+  type: string = SECOND_LAST_ACUTE,
 ): { isAcute: boolean; syllable: number } {
   const lowerCasedType = type.toLowerCase()
-  if (lowerCasedType === '0') {
-    return { isAcute: true, syllable: 2 }
-  }
   if (lowerCasedType === 'a') {
     return { isAcute: true, syllable: 3 }
   }
@@ -45,7 +60,7 @@ export function getThirdAccentuationType(
     throw thirdAccentuationTypeError
   }
   const parsed = [...regex.exec(lowerCasedType)!]
-  if (+parsed[1] < 2) {
+  if (+parsed[1] < 1) {
     throw thirdAccentuationTypeError
   }
   return { isAcute: parsed[2] === 'a', syllable: +parsed[1] }

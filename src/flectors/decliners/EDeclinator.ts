@@ -4,7 +4,11 @@ import {
   putAccentOnString,
   stripAllAccents,
 } from '~src/utils.ts'
-import { moveThirdAccentuation } from './utils.ts'
+import {
+  type AccentuationType,
+  moveThirdAccentuation,
+  SECOND_LAST_ACUTE,
+} from './utils.ts'
 
 /**
  * @description Declinator for -ė nominals. All methods accept stems without nominative -ė
@@ -49,7 +53,7 @@ export default class EDeclinator {
   }
   static declineIII(
     stem: string,
-    type = '0',
+    type: AccentuationType = SECOND_LAST_ACUTE,
     gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     const accentedStem = moveThirdAccentuation(stem + 'ė', type)

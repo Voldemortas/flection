@@ -4,7 +4,11 @@ import {
   stripAllAccents,
   stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
-import { moveThirdAccentuation } from './utils.ts'
+import {
+  type AccentuationType,
+  moveThirdAccentuation,
+  SECOND_LAST_ACUTE,
+} from './utils.ts'
 
 /**
  * @description Declinator for -is/-ys nominals. All methods accept stems without nominative -is/-ys
@@ -40,7 +44,10 @@ export default class IsDeclinator {
       plAcc: `${palatalisedUnstressedRoot}u\u0300s`,
     }
   }
-  static declineIoNounIII(stem: string, type: string = '0'): NounType {
+  static declineIoNounIII(
+    stem: string,
+    type: AccentuationType = SECOND_LAST_ACUTE,
+  ): NounType {
     const accentedStem = moveThirdAccentuation(
       stripAllAccents(stem) + 'ys',
       type,
@@ -92,7 +99,7 @@ export default class IsDeclinator {
   }
   static declineMasculineIesNounIII(
     stem: string,
-    type: string = '0',
+    type: AccentuationType = SECOND_LAST_ACUTE,
   ): NounType {
     const accentedStem = moveThirdAccentuation(
       stripAllAccents(stem) + 'ys',
@@ -137,7 +144,10 @@ export default class IsDeclinator {
       gender: Gender.feminine,
     }
   }
-  static declineFeminineIesNounIII(stem: string, type: string = '0'): NounType {
+  static declineFeminineIesNounIII(
+    stem: string,
+    type: AccentuationType = SECOND_LAST_ACUTE,
+  ): NounType {
     const masculineNoun = IsDeclinator.declineMasculineIesNounIII(stem, type)
     return {
       ...masculineNoun,
@@ -174,7 +184,7 @@ export default class IsDeclinator {
 
   static declineFeminineIAdjectiveIII(
     stem: string,
-    type: string = '0',
+    type: AccentuationType = SECOND_LAST_ACUTE,
   ): AdjectiveType {
     const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
     const accentlessPalatalisedRoot = stripAllAccents(palatalisedRoot)

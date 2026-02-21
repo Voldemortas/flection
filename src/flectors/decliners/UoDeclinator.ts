@@ -1,5 +1,9 @@
 import { Gender, type NounType } from '~src/types.ts'
-import { moveThirdAccentuation } from './utils.ts'
+import {
+  type AccentuationType,
+  moveThirdAccentuation,
+  SECOND_LAST_ACUTE,
+} from './utils.ts'
 import IsDeclinator from './IsDeclinator.ts'
 
 /**
@@ -8,7 +12,7 @@ import IsDeclinator from './IsDeclinator.ts'
 export default class UoDeclinator {
   static decline(
     stem: string,
-    type = '0',
+    type: AccentuationType = SECOND_LAST_ACUTE,
   ): NounType {
     const accentedStem = moveThirdAccentuation(stem + 'enis', type)
       .replace(

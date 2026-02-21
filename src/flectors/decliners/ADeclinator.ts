@@ -1,6 +1,10 @@
 import { type DeclinedType, Gender } from '~src/types.ts'
 import { putAccentOnString, stripAllAccents } from '~src/utils.ts'
-import { moveThirdAccentuation } from './utils.ts'
+import {
+  type AccentuationType,
+  moveThirdAccentuation,
+  SECOND_LAST_ACUTE,
+} from './utils.ts'
 
 /**
  * @description Declinator for -(i/j)a nominals. All methods accept stems without nominative -a (but with i/j)
@@ -44,7 +48,7 @@ export default class ADeclinator {
   }
   static declineNounIII(
     stem: string,
-    type = '0',
+    type: AccentuationType = SECOND_LAST_ACUTE,
     gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     const accentlessStem = stripAllAccents(stem)
@@ -79,7 +83,10 @@ export default class ADeclinator {
       plLoc: `${stem}ose\u0300`,
     }
   }
-  static declineAdjectivalIII(stem: string, type = '0') {
+  static declineAdjectivalIII(
+    stem: string,
+    type: AccentuationType = SECOND_LAST_ACUTE,
+  ) {
     return {
       ...ADeclinator.declineNounIII(stem, type),
       ...ADeclinator.#adjectival(stem),

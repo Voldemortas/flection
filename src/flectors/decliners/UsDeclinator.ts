@@ -5,7 +5,11 @@ import {
   putAccentOnString,
   stripAllAccents,
 } from '~src/utils.ts'
-import { moveThirdAccentuation } from './utils.ts'
+import {
+  type AccentuationType,
+  moveThirdAccentuation,
+  SECOND_LAST_ACUTE,
+} from './utils.ts'
 import AsDeclinator from './AsDeclinator.ts'
 import EDeclinator from './EDeclinator.ts'
 
@@ -47,7 +51,7 @@ export default class UsDeclinator {
   }
   static declineUsNounIII(
     stem: string,
-    type: string = '0',
+    type: AccentuationType = SECOND_LAST_ACUTE,
     gender: Gender.masculine | Gender.common = Gender.masculine,
   ): NounType {
     const accentedStem = moveThirdAccentuation(stem + 'u', type).replace(
@@ -117,7 +121,7 @@ export default class UsDeclinator {
   }
   static declineIusNounIII(
     stem: string,
-    type: string = '0',
+    type: AccentuationType = SECOND_LAST_ACUTE,
     gender: Gender.masculine | Gender.common = Gender.masculine,
   ): NounType {
     const accentedStem = moveThirdAccentuation(stem + 'u', type).replace(
@@ -165,7 +169,7 @@ export default class UsDeclinator {
   }
   static declineUsAdjectivalIII(
     stem: string,
-    type: string = '0',
+    type: AccentuationType = SECOND_LAST_ACUTE,
   ): AdjectiveType {
     const accentedStem = moveThirdAccentuation(stem + 'u', type).replace(
       /u$/,
@@ -193,12 +197,15 @@ export default class UsDeclinator {
   }
   static declineUsAdjectivalIV(stem: string): AdjectiveType {
     const palatalisedStem = getPalatalizedRoot(stem)
-   return {
-     //@ts-ignore spreading is good, stop complaining
-      ...UsDeclinator.declineUsAdjectivalIII(stem, '2b'),
-     sgInst: `${palatalisedStem}iu\u0300`,
-     plAcc: `${palatalisedStem}iu\u0300s`,
-   }
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...UsDeclinator.declineUsAdjectivalIII(stem, {
+        isAcute: false,
+        syllable: 2,
+      }),
+      sgInst: `${palatalisedStem}iu\u0300`,
+      plAcc: `${palatalisedStem}iu\u0300s`,
+    }
   }
 
   static declineUsPronominalImmobile(stem: string): AdjectiveType {
@@ -229,7 +236,7 @@ export default class UsDeclinator {
    */
   static declineUsPronominalMobile(
     stem: string,
-    type: string,
+    type: AccentuationType,
   ): AdjectiveType {
     const accentedStem = moveThirdAccentuation(stem + 'u', type).replace(
       /u$/,
