@@ -208,8 +208,21 @@ const STACIAS = makeDeclinedFromArray(Gender.masculine, [
   [`stačiame\u0300`, `stačiuose\u0300`],
   [`sta\u0303čias`, `stati\u0300`],
 ])
+const KREIPIMASIS = makeDeclinedFromArray(Gender.masculine, [
+  [`kreipi\u0300masis`, `kreipi\u0300maisi`],
+  [`kreipi\u0300mosi`, `kreipi\u0300mųsi`],
+  [`kreipi\u0300muisi`, `kreipi\u0300mamsis`],
+  [`kreipi\u0300mąsi`, `kreipi\u0300musis`],
+  [`kreipi\u0300musi`, `kreipi\u0300maisis`],
+  [`kreipi\u0300mesi`, `kreipi\u0300muosesi`],
+  [`kreipi\u0300mesi`, `kreipi\u0300maisi`],
+])
 
 describe('AsDeclinator', () => {
+  it('declines reflexive noun', () => {
+    expect(AsDeclinator.declineAsReflexiveNoun(`kreipi\u0300m`))
+      .toMatchObject(KREIPIMASIS)
+  })
   it('declines 1st accentuation noun', () => {
     expect(AsDeclinator.declineAsNounI(`vy\u0301r`))
       .toMatchObject(VYRAS)

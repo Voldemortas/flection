@@ -6,6 +6,16 @@ import { notAttestedInLanguageError } from '~src/errors.ts'
  * @description Declinator for -(i/j)as nominals. All methods accept stems without nominative -as (but with i/j)
  */
 export default class AsDeclinator {
+  static declineAsReflexiveNoun(stem: string): NounType {
+    return {
+      ...Object.fromEntries(
+        Object.entries(AsDeclinator.declineAsNounI(stem)).map((
+          [key, value],
+        ) => [key, (value + 'si').replace(/ssi$/, 'sis')]),
+      ),
+      gender: Gender.masculine,
+    } as unknown as NounType
+  }
   static declineAsNounI(stem: string): NounType {
     return {
       gender: Gender.masculine,
