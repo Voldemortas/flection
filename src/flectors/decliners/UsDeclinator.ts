@@ -192,24 +192,67 @@ export default class UsDeclinator {
     } as AdjectiveType & { gender: Gender.masculine }
   }
   static declineUsAdjectivalIV(stem: string): AdjectiveType {
-    const accentedStem = putAccentOnString(stem, 1, false)
+    const palatalisedStem = getPalatalizedRoot(stem)
+   return {
+     //@ts-ignore spreading is good, stop complaining
+      ...UsDeclinator.declineUsAdjectivalIII(stem, '2b'),
+     sgInst: `${palatalisedStem}iu\u0300`,
+     plAcc: `${palatalisedStem}iu\u0300s`,
+   }
+  }
+
+  static declineUsPronominalImmobile(stem: string): AdjectiveType {
     const palatalisedStem = getPalatalizedRoot(stem)
     return {
       gender: Gender.masculine,
-      sgNom: `${stem}u\u0300s`,
-      sgGen: `${stem}au\u0303s`,
-      sgDat: `${palatalisedStem}ia\u0301m`,
-      sgAcc: `${accentedStem}ų`,
-      sgInst: `${palatalisedStem}iu\u0300`,
-      sgLoc: `${palatalisedStem}iame\u0300`,
-      sgVoc: `${stem}u\u0300s`,
-      plNom: `${accentedStem}ūs`,
-      plGen: `${palatalisedStem}ių\u0303`,
-      plDat: `${stem}i\u0301ems`,
-      plAcc: `${palatalisedStem}iu\u0300s`,
-      plInst: `${palatalisedStem}iai\u0303s`,
-      plLoc: `${palatalisedStem}iuose\u0300`,
-      plVoc: `${accentedStem}ūs`,
+      sgNom: `${stem}usis`,
+      sgGen: `${palatalisedStem}iojo`,
+      sgDat: `${palatalisedStem}iajam`,
+      sgAcc: `${stem}ųjį`,
+      sgInst: `${palatalisedStem}iuoju`,
+      sgLoc: `${palatalisedStem}iajame`,
+      sgVoc: `${stem}usis`,
+      plNom: `${stem}ieji`,
+      plGen: `${palatalisedStem}iųjų`,
+      plDat: `${stem}iesiems`,
+      plAcc: `${palatalisedStem}iuosius`,
+      plInst: `${palatalisedStem}iaisiais`,
+      plLoc: `${palatalisedStem}iuosiuose`,
+      plVoc: `${stem}ieji`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+
+  /**
+   * @description declines pronominal adjectives of the 3rd and the 4th accentuation class
+   * @param stem stem without -us: gražus - graž; gajus - gaj
+   * @param type accentuation class: use 2b for the 4th accentuation
+   */
+  static declineUsPronominalMobile(
+    stem: string,
+    type: string,
+  ): AdjectiveType {
+    const accentedStem = moveThirdAccentuation(stem + 'u', type).replace(
+      /u$/,
+      '',
+    )
+    const accentedPalatalisedStem = getPalatalizedRoot(accentedStem)
+    const palatalisedStem = getPalatalizedRoot(stem)
+    return {
+      gender: Gender.masculine,
+      sgNom: `${stem}u\u0300sis`,
+      sgGen: `${accentedPalatalisedStem}iojo`,
+      sgDat: `${palatalisedStem}ia\u0301jam`,
+      sgAcc: `${accentedStem}ųjį`,
+      sgInst: `${palatalisedStem}iu\u0301oju`,
+      sgLoc: `${palatalisedStem}ia\u0303jame`,
+      sgVoc: `${stem}u\u0300sis`,
+      plNom: `${stem}i\u0301eji`,
+      plGen: `${palatalisedStem}ių\u0303jų`,
+      plDat: `${stem}i\u0301esiems`,
+      plAcc: `${palatalisedStem}iu\u0301osius`,
+      plInst: `${palatalisedStem}iai\u0303siais`,
+      plLoc: `${palatalisedStem}iuo\u0303siuose`,
+      plVoc: `${stem}i\u0301eji`,
     } as AdjectiveType & { gender: Gender.masculine }
   }
 

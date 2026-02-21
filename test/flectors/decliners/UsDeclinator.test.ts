@@ -105,6 +105,24 @@ const STATUS = makeDeclinedFromArray(Gender.masculine, [
   [`stačiame\u0300`, `stačiuose\u0300`],
   [`statu\u0300s`, `sta\u0303tūs`],
 ])
+const LYGUSIS = makeDeclinedFromArray(Gender.masculine, [
+  [`ly\u0301gusis`, `ly\u0301gieji`],
+  [`ly\u0301giojo`, `ly\u0301giųjų`],
+  [`ly\u0301giajam`, `ly\u0301giesiems`],
+  [`ly\u0301gųjį`, `ly\u0301giuosius`],
+  [`ly\u0301giuoju`, `ly\u0301giaisiais`],
+  [`ly\u0301giajame`, `ly\u0301giuosiuose`],
+  [`ly\u0301gusis`, `ly\u0301gieji`],
+])
+const STATUSIS = makeDeclinedFromArray(Gender.masculine, [
+  [`statu\u0300sis`, `stati\u0301eji`],
+  [`sta\u0303čiojo`, `stačių\u0303jų`],
+  [`stačia\u0301jam`, `stati\u0301esiems`],
+  [`sta\u0303tųjį`, `stačiu\u0301osius`],
+  [`stačiu\u0301oju`, `stačiai\u0303siais`],
+  [`stačia\u0303jame`, `stačiuo\u0303siuose`],
+  [`statu\u0300sis`, `stati\u0301eji`],
+])
 const ZMOGUS = makeDeclinedFromArray(Gender.masculine, [
   [`žmogu\u0300s`, `žmo\u0301nės`],
   [`žmogau\u0303s`, `žmonių\u0303`],
@@ -164,6 +182,14 @@ describe('UsDeclinator', () => {
   it('declines 4th accentuation -us adjective', () => {
     expect(UsDeclinator.declineUsAdjectivalIV(`stat`))
       .toMatchObject(STATUS)
+  })
+  it('declines immobile -us pronominal adjective', () => {
+    expect(UsDeclinator.declineUsPronominalImmobile(`ly\u0301g`))
+      .toMatchObject(LYGUSIS)
+  })
+  it('declines mobile -us pronominal adjective', () => {
+    expect(UsDeclinator.declineUsPronominalMobile(`stat`, '2b'))
+      .toMatchObject(STATUSIS)
   })
   it('declines žmogus correctly', () => {
     expect(UsDeclinator.ZMOGUS).toMatchObject(ZMOGUS)
