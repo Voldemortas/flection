@@ -1,6 +1,7 @@
 import { type AdjectiveType, Gender, type NounType } from '~src/types.ts'
 import {
   getPalatalizedRoot,
+  hasAnyAccent,
   stripAllAccents,
   stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
@@ -181,6 +182,66 @@ export default class IsDeclinator {
       plAcc: `${palatalisedUnstressedRoot}u\u0300s`,
     } as AdjectiveType & { gender: Gender.masculine }
   }
+  static declineMasculineIsAdjectiveIII(
+    stem: string,
+    type: AccentuationType = SECOND_LAST_ACUTE,
+  ): AdjectiveType {
+    function palataliseRoot(root: string): string {
+      return `${getPalatalizedRoot(root)}i`.replace(/ji$/, 'j')
+    }
+    const hasAccentedSyllable = hasAnyAccent(stem)
+    const accentedStem = hasAccentedSyllable
+      ? stem
+      : moveThirdAccentuation(stem + 'is', type).replace(/is$/, '')
+    const unaccentedStem = hasAccentedSyllable ? stripAllAccents(stem) : stem
+    const palatalisedAccentedStem = palataliseRoot(accentedStem)
+    const palatalisedUnaccentedStem = palataliseRoot(unaccentedStem)
+    return {
+      gender: Gender.masculine,
+      sgNom: `${accentedStem}is`,
+      sgGen: `${palatalisedAccentedStem}o`,
+      sgDat: `${palatalisedUnaccentedStem}a\u0301m`,
+      sgAcc: `${accentedStem}į`,
+      sgInst: `${palatalisedAccentedStem}u`,
+      sgLoc: `${palatalisedUnaccentedStem}ame\u0300`,
+      sgVoc: `${accentedStem}is`,
+      plNom: `${unaccentedStem}i\u0300`,
+      plGen: `${palatalisedUnaccentedStem}ų\u0303`,
+      plDat: `${unaccentedStem}i\u0301ems`,
+      plAcc: `${palatalisedAccentedStem}us`,
+      plInst: `${palatalisedUnaccentedStem}ai\u0303s`,
+      plLoc: `${palatalisedUnaccentedStem}uose\u0300`,
+      plVoc: `${unaccentedStem}i\u0300`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+  static declineMasculineIsAdjectiveIV(stem: string): AdjectiveType {
+    const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...IsDeclinator.declineMasculineIsAdjectiveIII(stem, '2b'),
+      sgInst: `${palatalisedRoot}u\u0300`,
+      plAcc: `${palatalisedRoot}u\u0300s`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+  static declineMasculineYsAdjectiveIII(
+    stem: string,
+    type: AccentuationType = SECOND_LAST_ACUTE,
+  ): AdjectiveType {
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...IsDeclinator.declineMasculineIsAdjectiveIII(stem, type),
+      sgNom: `${stem}y\u0303s`,
+      sgVoc: `${stem}y\u0303`,
+    }
+  }
+  static declineMasculineYsAdjectiveIV(stem: string): AdjectiveType {
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...IsDeclinator.declineMasculineIsAdjectiveIV(stem),
+      sgNom: `${stem}y\u0303s`,
+      sgVoc: `${stem}y\u0303`,
+    }
+  }
 
   static declineFeminineIAdjectiveIII(
     stem: string,
@@ -224,40 +285,4 @@ export default class IsDeclinator {
       IsDeclinator.declineFeminineIAdjectiveIV(stem),
     )
   }
-
-  static DIDIS: AdjectiveType = {
-    gender: Gender.masculine,
-    sgNom: 'di\u0300dis',
-    sgGen: 'di\u0300džio',
-    sgDat: 'didžia\u0301m',
-    sgAcc: 'di\u0300dį',
-    sgInst: 'didžiu\u0300',
-    sgLoc: 'didžiame\u0300',
-    sgVoc: 'di\u0300dis',
-    plNom: 'didi\u0300',
-    plGen: 'didžių\u0303',
-    plDat: 'didi\u0301ems',
-    plAcc: 'didžiu\u0300s',
-    plInst: 'didžiai\u0303s',
-    plLoc: 'didžiuose\u0300',
-    plVoc: 'didi\u0300',
-  } as AdjectiveType & { gender: Gender.masculine }
-
-  static DIDELIS: AdjectiveType = {
-    gender: Gender.masculine,
-    sgNom: 'di\u0300delis',
-    sgGen: 'di\u0300delio',
-    sgDat: 'didelia\u0301m',
-    sgAcc: 'di\u0300delį',
-    sgInst: 'di\u0300deliu',
-    sgLoc: 'dideliame\u0300',
-    sgVoc: 'di\u0300delis',
-    plNom: 'dideli\u0300',
-    plGen: 'didelių\u0303',
-    plDat: 'dideli\u0301ems',
-    plAcc: 'di\u0300delius',
-    plInst: 'dideliai\u0303s',
-    plLoc: 'dideliuose\u0300',
-    plVoc: 'dideli\u0300',
-  } as AdjectiveType & { gender: Gender.masculine }
 }

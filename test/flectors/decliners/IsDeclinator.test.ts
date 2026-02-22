@@ -157,6 +157,42 @@ const SOTI = makeDeclinedFromArray(Gender.feminine, [
   [`sočioje`, `sočiose`],
   [`soti`, `sočios`],
 ])
+const DIDELIS = makeDeclinedFromArray(Gender.masculine, [
+  ['di\u0300delis', 'dideli\u0300'],
+  ['di\u0300delio', 'didelių\u0303'],
+  ['didelia\u0301m', 'dideli\u0301ems'],
+  ['di\u0300delį', 'di\u0300delius'],
+  ['di\u0300deliu', 'dideliai\u0303s'],
+  ['dideliame\u0300', 'dideliuose\u0300'],
+  ['di\u0300delis', 'dideli\u0300'],
+])
+const DIDIS = makeDeclinedFromArray(Gender.masculine, [
+  ['di\u0300dis', 'didi\u0300'],
+  ['di\u0300džio', 'didžių\u0303'],
+  ['didžia\u0301m', 'didi\u0301ems'],
+  ['di\u0300dį', 'didžiu\u0300s'],
+  ['didžiu\u0300', 'didžiai\u0303s'],
+  ['didžiame\u0300', 'didžiuose\u0300'],
+  ['di\u0300dis', 'didi\u0300'],
+])
+const KAIRYS = makeDeclinedFromArray(Gender.masculine, [
+  ['kairy\u0303s', 'kairi\u0300'],
+  ['kai\u0303rio', 'kairių\u0303'],
+  ['kairia\u0301m', 'kairi\u0301ems'],
+  ['kai\u0303rį', 'kairiu\u0300s'],
+  ['kairiu\u0300', 'kairiai\u0303s'],
+  ['kairiame\u0300', 'kairiuose\u0300'],
+  ['kairy\u0303', 'kairi\u0300'],
+])
+const DESINYS = makeDeclinedFromArray(Gender.masculine, [
+  ['dešiny\u0303s', 'dešini\u0300'],
+  ['de\u0303šinio', 'dešinių\u0303'],
+  ['dešinia\u0301m', 'dešini\u0301ems'],
+  ['de\u0303šinį', 'de\u0303šinius'],
+  ['de\u0303šiniu', 'dešiniai\u0303s'],
+  ['dešiniame\u0300', 'dešiniuose\u0300'],
+  ['dešiny\u0303', 'dešini\u0300'],
+])
 
 describe('IsDeclinator', () => {
   it('declines 1st accentuation -io noun', () => {
@@ -214,6 +250,22 @@ describe('IsDeclinator', () => {
   it('declines 2nd accentuation masculine adjective', () => {
     expect(IsDeclinator.declineMasculineIsAdjectiveII(`medi\u0300n`))
       .toMatchObject(MEDINIS)
+  })
+  it('declines 3rd accentuation -is masculine adjective', () => {
+    expect(IsDeclinator.declineMasculineIsAdjectiveIII(`di\u0300del`))
+      .toMatchObject(DIDELIS)
+  })
+  it('declines 4th accentuation -is masculine adjective', () => {
+    expect(IsDeclinator.declineMasculineIsAdjectiveIV(`did`))
+      .toMatchObject(DIDIS)
+  })
+  it('declines 3rd accentuation -ys masculine adjective', () => {
+    expect(IsDeclinator.declineMasculineYsAdjectiveIII(`dešin`, '3b'))
+      .toMatchObject(DESINYS)
+  })
+  it('declines 4th accentuation -ys masculine adjective', () => {
+    expect(IsDeclinator.declineMasculineYsAdjectiveIV(`kair`))
+      .toMatchObject(KAIRYS)
   })
   it('declines feminine adjective', () => {
     expect(IsDeclinator.declineFeminineIAdjective(`sot`))
