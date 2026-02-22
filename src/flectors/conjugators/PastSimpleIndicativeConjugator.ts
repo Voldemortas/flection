@@ -19,7 +19,9 @@ import {
 export default class PastSimpleIndicativeConjugator extends Conjugator {
   override conjugateDefault(principalParts: string[]): ConjugationType {
     const { root, pattern } = getPastRoot(principalParts)
-    const rootHasCircumflexOrShortAccent = hasCircumflexOrShortAccent(root)
+    const rootHasCircumflexOrShortAccent = hasCircumflexOrShortAccent(
+      principalParts[2],
+    )
 
     if (rootHasCircumflexOrShortAccent && pattern === 'o') {
       return conjugateMobileO(root)
@@ -37,10 +39,10 @@ export default class PastSimpleIndicativeConjugator extends Conjugator {
     prefix: string,
     principalParts: string[],
   ): ConjugationType {
-    const { root, pattern } = getPastRoot(principalParts)
+    const { pattern } = getPastRoot(principalParts)
     const infinitiveRoot = getInfinitiveRoot(principalParts).root
     const isPrefixMobile = pattern === 'ė' &&
-      hasCircumflexOrShortAccent(root) &&
+      hasCircumflexOrShortAccent(principalParts[2]) &&
       !PastSimpleIndicativeConjugator.#polysyllabicEndsInYRegex.test(
         infinitiveRoot,
       )

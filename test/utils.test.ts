@@ -2,6 +2,7 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import {
   appendSuffixWithAssimilation,
+  countAccentedSyllable,
   getInfinitiveRoot,
   getPalatalizedRoot,
   getPastRoot,
@@ -424,6 +425,84 @@ describe('utils', () => {
       expect(putAccentOnString(`iš${WORD}`, 10, false)).toStrictEqual(
         `i\u0300šneperperoivilkiuoliegėpiams`,
       )
+    })
+  })
+  describe('countAccentedSyllable', () => {
+    it(`finds if there's no accented syllable`, () => {
+      expect(countAccentedSyllable(`labas`)).toMatchObject({
+        hasAccentedSyllable: false,
+      })
+    })
+    it('finds acute a\u0301l at the end', () => {
+      expect(countAccentedSyllable(`atga\u0301l`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'acute',
+        syllable: 1,
+      })
+    })
+    it('finds acute i\u0301l at the end', () => {
+      expect(countAccentedSyllable(`atgi\u0300l`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'acute',
+        syllable: 1,
+      })
+    })
+    it('finds short i\u0300s at the end', () => {
+      expect(countAccentedSyllable(`ji\u0300s`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'short',
+        syllable: 1,
+      })
+    })
+    it('finds short ne\u0300 at the end', () => {
+      expect(countAccentedSyllable(`ne\u0300`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'short',
+        syllable: 1,
+      })
+    })
+    it('finds circumflex at the end', () => {
+      expect(countAccentedSyllable(`visur\u0303`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'circumflex',
+        syllable: 1,
+      })
+    })
+
+    it('finds acute a\u0301l at the start', () => {
+      expect(countAccentedSyllable(`a\u0301lkanas`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'acute',
+        syllable: 3,
+      })
+    })
+    it('finds acute i\u0301l at the start', () => {
+      expect(countAccentedSyllable(`i\u0300lgumas`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'acute',
+        syllable: 3,
+      })
+    })
+    it('finds short i\u0300l at the start', () => {
+      expect(countAccentedSyllable(`vi\u0300liojau`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'short',
+        syllable: 3,
+      })
+    })
+    it('finds short ne\u0300 at the start', () => {
+      expect(countAccentedSyllable(`ne\u0300žinau`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'short',
+        syllable: 3,
+      })
+    })
+    it('finds circumflex at the start', () => {
+      expect(countAccentedSyllable(`įkur\u0303tuvės`)).toMatchObject({
+        hasAccentedSyllable: true,
+        type: 'circumflex',
+        syllable: 3,
+      })
     })
   })
 })

@@ -43,7 +43,9 @@ export default class PresentIndicativeConjugator extends Conjugator {
       }
     }
     const { root, pattern } = getPresentRoot(principalParts)
-    const rootHasCircumflexOrShortAccent = hasCircumflexOrShortAccent(root)
+    const rootHasCircumflexOrShortAccent = hasCircumflexOrShortAccent(
+      principalParts[1],
+    )
 
     if (rootHasCircumflexOrShortAccent && pattern === 'o') {
       return conjugateMobileO(root)
