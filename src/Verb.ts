@@ -1,12 +1,5 @@
-import {
-  badFormatError,
-  parsingInputError,
-  threeRootsError,
-  unmatchingPrefixesError,
-  unmatchingReflexivesError,
-} from './errors.ts'
+import Verbal from './Verbal.ts'
 import type { ConjugationType } from './types.ts'
-import { isEverythingEqual } from './utils.ts'
 import type Conjugator from '~conjugators/Conjugator.ts'
 import PastFrequentativeIndicativeConjugator from '~conjugators/PastFrequentativeIndicativeConjugator.ts'
 import FutureIndicativeConjugator from '~conjugators/FutureIndicativeConjugator.ts'
@@ -15,16 +8,7 @@ import PresentIndicativeConjugator from '~conjugators/PresentIndicativeConjugato
 import ConditionalConjugator from '~conjugators/ConditionalConjugator.ts'
 import ImperativeConjugator from '~conjugators/ImperativeConjugator.ts'
 
-type Triple<T> = [T, T, T]
-
-export default class Verb {
-  static readonly #PRINCIPAL_PARTS_COUNT = 3
-  static readonly #WORD_DiLIMIER = '-'
-
-  public readonly principalParts: Triple<string>
-  public readonly prefix: string | undefined
-  public readonly isReflexive: boolean
-
+export default class Verb extends Verbal {
   public static readonly pastFrequentativeIndicative: Conjugator =
     new PastFrequentativeIndicativeConjugator()
   public static readonly futureIndicative: Conjugator =
@@ -36,53 +20,11 @@ export default class Verb {
   public static readonly conditional: Conjugator = new ConditionalConjugator()
   public static readonly imperative: Conjugator = new ImperativeConjugator()
 
-  static #trimReflexiveFromPrefix(prefix: string | undefined) {
-    if (!prefix) {
-      return prefix
-    }
-    return prefix.replace(/si$/, '')
-  }
-
   public constructor(
     roots: string | string[],
     options: { reflexive?: boolean; prefix?: string | undefined } = {},
   ) {
-    const rootArray = Array.isArray(roots)
-      ? roots
-      : roots.split(Verb.#WORD_DiLIMIER)
-    if (rootArray.length !== Verb.#PRINCIPAL_PARTS_COUNT) {
-      throw threeRootsError
-    }
-    const regexMagicGroup = rootArray.map((root) => {
-      const regexMatches =
-        /(^(?<prefix>[^=]+?)=(?<root>.+?)(?<reflexive>si?)?$|(^(?<root>.+?)(?<reflexive>si?)?$))/
-          .exec(root)
-      // deno-coverage-ignore-start
-      if (!regexMatches) {
-        throw badFormatError(root)
-      }
-      if (!regexMatches.groups) {
-        throw parsingInputError
-      }
-      // deno-coverage-ignore-stop
-      const groups = regexMatches.groups
-      return [
-        Verb.#trimReflexiveFromPrefix(groups['prefix'] ?? options.prefix),
-        groups['root']!,
-        !!options.reflexive || !!groups['reflexive'] ||
-        /si$/.test(groups['prefix'] ?? options.prefix ?? ''),
-      ] as [string, string, boolean]
-    })
-
-    this.principalParts = regexMagicGroup.map((g) => g[1]) as Triple<string>
-    if (!isEverythingEqual(regexMagicGroup.map((g) => g[0]))) {
-      throw unmatchingPrefixesError
-    }
-    this.prefix = regexMagicGroup[0][0]
-    if (!isEverythingEqual(regexMagicGroup.map((g) => g[2]))) {
-      throw unmatchingReflexivesError
-    }
-    this.isReflexive = regexMagicGroup[0][2]
+    super(roots, options)
   }
 
   public conjugatePastFrequentativeIndicative(): ConjugationType {
