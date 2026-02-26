@@ -58,6 +58,24 @@ const TIKRA = makeDeclinedFromArray(Gender.feminine, [
   [`tikroje\u0300`, `tikrose\u0300`],
   [`tikra\u0300`, `ti\u0300kros`],
 ])
+const TIKROJI = makeDeclinedFromArray(Gender.feminine, [
+  [`tikro\u0301ji`, `ti\u0300krosios`],
+  [`tikro\u0303sios`, `tikrų\u0303jų`],
+  [`ti\u0300krajai`, `tikro\u0301sioms`],
+  [`ti\u0300krąją`, `tikrą\u0301sias`],
+  [`tikrą\u0301ja`, `tikro\u0303siomis`],
+  [`tikro\u0303joje`, `tikro\u0303siose`],
+  [`tikro\u0301ji`, `ti\u0300krosios`],
+])
+const PALAIMINTOJI = makeDeclinedFromArray(Gender.feminine, [
+  [`pala\u0301imintoji`, `pala\u0301imintosios`],
+  [`pala\u0301imintosios`, `pala\u0301imintųjų`],
+  [`pala\u0301imintajai`, `pala\u0301imintosioms`],
+  [`pala\u0301imintąją`, `pala\u0301imintąsias`],
+  [`pala\u0301imintąja`, `pala\u0301imintosiomis`],
+  [`pala\u0301imintojoje`, `pala\u0301imintosiose`],
+  [`pala\u0301imintoji`, `pala\u0301imintosios`],
+])
 
 describe('ADeclinator', () => {
   it('declines 1st accentuation nominal', () => {
@@ -83,5 +101,13 @@ describe('ADeclinator', () => {
   it('declines 4th accentuation adjective', () => {
     expect(ADeclinator.declineAdjectivalIV(`tikr`))
       .toMatchObject(TIKRA)
+  })
+  it('declines 4th accentuation pronominal adjective', () => {
+    expect(ADeclinator.declinePronominalMobile(`tikr`, '4'))
+      .toMatchObject(TIKROJI)
+  })
+  it('declines 1st accentuation pronominal adjective', () => {
+    expect(ADeclinator.declinePronominalImmobile(`pala\u0301imint`))
+      .toMatchObject(PALAIMINTOJI)
   })
 })

@@ -188,7 +188,7 @@ describe('UsDeclinator', () => {
       .toMatchObject(LYGUSIS)
   })
   it('declines mobile -us pronominal adjective', () => {
-    expect(UsDeclinator.declineUsPronominalMobile(`stat`, '2b'))
+    expect(UsDeclinator.declineUsPronominalMobile(`stat`, '4'))
       .toMatchObject(STATUSIS)
   })
   it('declines žmogus correctly', () => {

@@ -105,5 +105,8 @@ export function makeDeclinedFromArray(
       arr[6][1],
     ]) as unknown as DeclinedType
   }
+  if (flatten.length === 14 && arr.length === 2) {
+    return makeDeclinedFromArray(gender, flatten) as unknown as DeclinedType
+  }
   throw err
 }

@@ -7,9 +7,11 @@ import {
 } from '~src/utils.ts'
 import {
   type AccentuationType,
+  getThirdAccentuationType,
   moveThirdAccentuation,
   SECOND_LAST_ACUTE,
 } from './utils.ts'
+import ADeclinator from './ADeclinator.ts'
 
 /**
  * @description Declinator for -is/-ys nominals. All methods accept stems without nominative -is/-ys
@@ -72,7 +74,7 @@ export default class IsDeclinator {
   static declineIoNounIV(stem: string): NounType {
     const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
     return {
-      ...IsDeclinator.declineIoNounIII(stem, '2b'),
+      ...IsDeclinator.declineIoNounIII(stem, '4'),
       sgInst: `${palatalisedRoot}u\u0300`,
       plAcc: `${palatalisedRoot}u\u0300s`,
     }
@@ -125,7 +127,7 @@ export default class IsDeclinator {
   }
   static declineMasculineIesNounIV(stem: string): NounType {
     return {
-      ...IsDeclinator.declineMasculineIesNounIII(stem, '2b'),
+      ...IsDeclinator.declineMasculineIesNounIII(stem, '4'),
       plAcc: `${stem}i\u0300s`,
     }
   }
@@ -218,7 +220,7 @@ export default class IsDeclinator {
     const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
     return {
       //@ts-ignore spreading is good, stop complaining
-      ...IsDeclinator.declineMasculineIsAdjectiveIII(stem, '2b'),
+      ...IsDeclinator.declineMasculineIsAdjectiveIII(stem, '4'),
       sgInst: `${palatalisedRoot}u\u0300`,
       plAcc: `${palatalisedRoot}u\u0300s`,
     } as AdjectiveType & { gender: Gender.masculine }
@@ -275,7 +277,7 @@ export default class IsDeclinator {
     const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
     return {
       //@ts-ignore spreading is good, stop complaining
-      ...IsDeclinator.declineFeminineIAdjectiveIII(stem, '2b'),
+      ...IsDeclinator.declineFeminineIAdjectiveIII(stem, '4'),
       sgInst: `${palatalisedRoot}a\u0300`,
       plAcc: `${palatalisedRoot}a\u0300s`,
     } as AdjectiveType & { gender: Gender.feminine }
@@ -284,5 +286,81 @@ export default class IsDeclinator {
     return stripAllAccentsFromParadigm<AdjectiveType>(
       IsDeclinator.declineFeminineIAdjectiveIV(stem),
     )
+  }
+  static declineMasculinePronominalImmobile(stem: string): AdjectiveType {
+    const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
+    return {
+      gender: Gender.masculine,
+      sgNom: `${stem}ysis`,
+      sgGen: `${palatalisedRoot}ojo`,
+      sgDat: `${palatalisedRoot}ajam`,
+      sgAcc: `${stem}įjį`,
+      sgInst: `${palatalisedRoot}uoju`,
+      sgLoc: `${palatalisedRoot}ajame`,
+      sgVoc: `${stem}ysis`,
+      plNom: `${stem}ieji`,
+      plGen: `${palatalisedRoot}ųjų`,
+      plDat: `${stem}iesiems`,
+      plAcc: `${palatalisedRoot}uosius`,
+      plInst: `${palatalisedRoot}aisiais`,
+      plLoc: `${palatalisedRoot}uosiuose`,
+      plVoc: `${stem}ieji`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+  /**
+   * @description declines pronominal adjectives of the 3rd and the 4th accentuation class
+   * @param stem stem without -is/ys: dešinys - dešin
+   * @param type accentuation class: use 2b for the 4th accentuation
+   */
+  static declineMasculinePronominalMobile(
+    stem: string,
+    type: AccentuationType,
+  ): AdjectiveType {
+    const palatalisedRoot = getPalatalizedRoot(stem) + 'i'
+    const accentedStem = moveThirdAccentuation(stem + 'u', type).replace(
+      /u$/,
+      '',
+    )
+    return {
+      gender: Gender.masculine,
+      sgNom: `${stem}y\u0303sis`,
+      sgGen: `${accentedStem}iojo`,
+      sgDat: `${palatalisedRoot}a\u0301jam`,
+      sgAcc: `${accentedStem}įjį`,
+      sgInst: `${palatalisedRoot}u\u0301oju`,
+      sgLoc: `${palatalisedRoot}a\u0303jame`,
+      sgVoc: `${stem}y\u0303sis`,
+      plNom: `${stem}i\u0301eji`,
+      plGen: `${palatalisedRoot}ų\u0303jų`,
+      plDat: `${stem}i\u0301esiems`,
+      plAcc: `${palatalisedRoot}u\u0301osius`,
+      plInst: `${palatalisedRoot}ai\u0303siais`,
+      plLoc: `${palatalisedRoot}uo\u0303siuose`,
+      plVoc: `${stem}i\u0301eji`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+  /**
+   * @description declines pronominal adjectives of with no stress moving to the flectio
+   * @param {string} stem stem without -a: stati - stat
+   */
+  static declineFemininePronominalImmobile(stem: string): AdjectiveType {
+    return ADeclinator.declinePronominalImmobile(
+      getPalatalizedRoot(getPalatalizedRoot(stem) + 'i'),
+    ) as AdjectiveType
+  }
+  /**
+   * @description declines pronominal adjectives of the 2nd, 3rd and the 4th accentuation class
+   * @param {string} stem stem without -a: stati - stat
+   * @param {AccentuationType} type accentuation class
+   */
+  static declineFemininePronominalMobile(
+    stem: string,
+    type: AccentuationType,
+  ): AdjectiveType {
+    const { isAcute, syllable } = getThirdAccentuationType(type)
+    return ADeclinator.declinePronominalMobile(
+      getPalatalizedRoot(stem) + 'i',
+      { isAcute, syllable: syllable + 1 },
+    ) as AdjectiveType
   }
 }

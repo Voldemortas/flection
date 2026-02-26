@@ -208,6 +208,7 @@ const STACIAS = makeDeclinedFromArray(Gender.masculine, [
   [`stačiame\u0300`, `stačiuose\u0300`],
   [`sta\u0303čias`, `stati\u0300`],
 ])
+
 const KREIPIMASIS = makeDeclinedFromArray(Gender.masculine, [
   [`kreipi\u0300masis`, `kreipi\u0300maisi`],
   [`kreipi\u0300mosi`, `kreipi\u0300mųsi`],
@@ -216,6 +217,35 @@ const KREIPIMASIS = makeDeclinedFromArray(Gender.masculine, [
   [`kreipi\u0300musi`, `kreipi\u0300maisis`],
   [`kreipi\u0300mesi`, `kreipi\u0300muosesi`],
   [`kreipi\u0300mesi`, `kreipi\u0300maisi`],
+])
+
+const GERASIS_0 = makeDeclinedFromArray(Gender.masculine, [
+  'gerasis gerojo gerajam gerąjį geruoju gerajame gerasis'.split(' '),
+  'gerieji gerųjų geriesiems geruosius geraisiais geruosiuose gerieji'.split(
+    ' ',
+  ),
+])
+const GERASIS_4 = makeDeclinedFromArray(Gender.masculine, [
+  'geràsis gẽrojo gerájam gẽrąjį gerúoju gerãjame geràsis'.split(' '),
+  'geríeji gerų̃jų geríesiems gerúosius geraĩsiais geruõsiuose geríeji'.split(
+    ' ',
+  ),
+])
+const PESCIASIS_0 = makeDeclinedFromArray(Gender.masculine, [
+  'pėsčiasis pėsčiojo pėsčiajam pėsčiąjį pėsčiuoju pėsčiajame pėsčiasis'.split(
+    ' ',
+  ),
+  'pėstieji pėsčiųjų pėstiesiems pėsčiuosius pėsčiaisiais pėsčiuosiuose pėstieji'
+    .split(
+      ' ',
+    ),
+])
+const PESCIASIS_3 = makeDeclinedFromArray(Gender.masculine, [
+  'pėsčiàsis pė́sčiojo pėsčiájam pė́sčiąjį pėsčiúoju pėsčiãjame pėsčiàsis'.split(
+    ' ',
+  ),
+  'pėstíeji pėsčių̃jų pėstíesiems pėsčiúosius pėsčiaĩsiais pėsčiuõsiuose pėstíeji'
+    .split(' '),
 ])
 
 describe('AsDeclinator', () => {
@@ -320,5 +350,21 @@ describe('AsDeclinator', () => {
   it('declines 4th accentuation -ias adjective', () => {
     expect(AsDeclinator.declineIasAdjectivalIV(`sta\u0303či`))
       .toMatchObject(STACIAS)
+  })
+  it('declines immobile pronominal -as adjective', () => {
+    expect(AsDeclinator.declineAsPronominalImmobile(`ger`))
+      .toMatchObject(GERASIS_0)
+  })
+  it('declines 4th accentuation pronominal -as adjective', () => {
+    expect(AsDeclinator.declineAsPronominalMobile(`ge\u0303r`))
+      .toMatchObject(GERASIS_4)
+  })
+  it('declines immobile pronominal -ias adjective', () => {
+    expect(AsDeclinator.declineIasPronominalImmobile(`pėsči`))
+      .toMatchObject(PESCIASIS_0)
+  })
+  it('declines 3rd accentuation pronominal -ias adjective', () => {
+    expect(AsDeclinator.declineIasPronominalMobile(`pė\u0301sči`))
+      .toMatchObject(PESCIASIS_3)
   })
 })

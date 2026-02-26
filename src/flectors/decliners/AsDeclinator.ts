@@ -147,13 +147,13 @@ export default class AsDeclinator {
       sgVoc: `${depalatalisedUnAccentedStem}y\u0303`,
     }
   }
+
   static declineAsAdjectivalI(stem: string): AdjectiveType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
       ...this.#adjectivalAs(stem),
     } as AdjectiveType & { gender: Gender.masculine }
   }
-
   /**
    * @description no adjectives ending -as and belonging to the 2nd accentuation have been found but just in case the method is here
    */
@@ -207,6 +207,81 @@ export default class AsDeclinator {
       ...AsDeclinator.#adjectivalIasFlection(stem),
     }
   }
+
+  static declineAsPronominalImmobile(stem: string): AdjectiveType {
+    return {
+      gender: Gender.masculine,
+      sgNom: `${stem}asis`,
+      sgGen: `${stem}ojo`,
+      sgDat: `${stem}ajam`,
+      sgAcc: `${stem}ąjį`,
+      sgInst: `${stem}uoju`,
+      sgLoc: `${stem}ajame`,
+      sgVoc: `${stem}asis`,
+      plNom: `${stem}ieji`,
+      plGen: `${stem}ųjų`,
+      plDat: `${stem}iesiems`,
+      plAcc: `${stem}uosius`,
+      plInst: `${stem}aisiais`,
+      plLoc: `${stem}uosiuose`,
+      plVoc: `${stem}ieji`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+  /**
+   * @description declines pronominal adjectives of the 3rd and the 4th accentuation class
+   * @param stem stem without -as: geras - ger
+   */
+  static declineAsPronominalMobile(
+    stem: string,
+  ): AdjectiveType {
+    const accentlessRoot = stripAllAccents(stem)
+    return {
+      gender: Gender.masculine,
+      sgNom: `${accentlessRoot}a\u0300sis`,
+      sgGen: `${stem}ojo`,
+      sgDat: `${accentlessRoot}a\u0301jam`,
+      sgAcc: `${stem}ąjį`,
+      sgInst: `${accentlessRoot}u\u0301oju`,
+      sgLoc: `${accentlessRoot}a\u0303jame`,
+      sgVoc: `${accentlessRoot}a\u0300sis`,
+      plNom: `${accentlessRoot}i\u0301eji`,
+      plGen: `${accentlessRoot}ų\u0303jų`,
+      plDat: `${accentlessRoot}i\u0301esiems`,
+      plAcc: `${accentlessRoot}u\u0301osius`,
+      plInst: `${accentlessRoot}ai\u0303siais`,
+      plLoc: `${accentlessRoot}uo\u0303siuose`,
+      plVoc: `${accentlessRoot}i\u0301eji`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+  static declineIasPronominalImmobile(stem: string): AdjectiveType {
+    const depalatalisedStem = getUnpalatalizedRoot(stem).replace(/i$/, '')
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...AsDeclinator.declineAsPronominalImmobile(stem),
+      plNom: `${depalatalisedStem}ieji`,
+      plDat: `${depalatalisedStem}iesiems`,
+      plVoc: `${depalatalisedStem}ieji`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+  /**
+   * @description declines pronominal adjectives of the 3rd and the 4th accentuation class
+   * @param stem stem without -as: stačias - stači
+   */
+  static declineIasPronominalMobile(
+    stem: string,
+  ): AdjectiveType {
+    const depalatalisedAccentlessStem = stripAllAccents(
+      getUnpalatalizedRoot(stem).replace(/i$/, ''),
+    )
+    return {
+      //@ts-ignore spreading is good, stop complaining
+      ...AsDeclinator.declineAsPronominalMobile(stem),
+      plNom: `${depalatalisedAccentlessStem}i\u0301eji`,
+      plDat: `${depalatalisedAccentlessStem}i\u0301esiems`,
+      plVoc: `${depalatalisedAccentlessStem}i\u0301eji`,
+    } as AdjectiveType & { gender: Gender.masculine }
+  }
+
   static #bisyllabic(stem: string): { sgLoc: string; sgVoc: string } {
     return {
       sgLoc: `${stem}yje ${stem}uje`,

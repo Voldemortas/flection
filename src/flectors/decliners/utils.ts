@@ -4,6 +4,9 @@ import { putAccentOnString } from '~src/utils.ts'
 /**
  * @typedef {(string|{isAcutre: string, syllable: number})} AccentuationType
  * @description
+ * * `'2'` - 2nd accentuation - 1st last is circumflex
+ * * `'3'` - 3rd accentuation - 2nd last is acute
+ * * `'4'` - 4th accentuation - 2nd last is circumflex/short
  * * `'a'` - 3rd last is acute
  * * `'b'` - 3rd last is circumflex/short
  * * `'2a'` - 2nd last is acute
@@ -19,6 +22,9 @@ export const SECOND_LAST_ACUTE = '2a'
  * @description moves accent to stem
  * @param {string} word - full word with a flectional ending
  * @param {AccentuationType} type='2a'
+ * * `'2'` - 2nd accentuation - 1st last is circumflex
+ * * `'3'` - 3rd accentuation - 2nd last is acute
+ * * `'4'` - 4th accentuation - 2nd last is circumflex/short
  * * `'a'` - 3rd last is acute
  * * `'b'` - 3rd last is circumflex/short
  * * `'2a'` - 2nd last is acute
@@ -40,20 +46,42 @@ export function moveThirdAccentuation(
  * @param {string} type='2a'
  * * `'a'` - 3rd last is acute
  * * `'b'` - 3rd last is circumflex/short
+ * * `'2'` - 2nd accentuation - 1st last is circumflex
+ * * `'3'` - 3rd accentuation - 2nd last is acute
+ * * `'4'` - 4th accentuation - 2nd last is circumflex/short
  * * `'2a'` - 2nd last is acute
  * * `'2b'` - 2nd last is circumflex/short
  * * `'#a'` - #th last is acute, # - number starting with 4
  * * `'#b'` - #th last is circumflex/short, # - number starting with 4
  */
 export function getThirdAccentuationType(
-  type: string = SECOND_LAST_ACUTE,
+  type: AccentuationType = SECOND_LAST_ACUTE,
 ): { isAcute: boolean; syllable: number } {
+  if (
+    typeof type === 'object' &&
+    typeof type.isAcute === 'boolean' &&
+    typeof type.syllable === 'number'
+  ) {
+    return type
+  }
+  if (typeof type !== 'string') {
+    throw thirdAccentuationTypeError
+  }
   const lowerCasedType = type.toLowerCase()
   if (lowerCasedType === 'a') {
     return { isAcute: true, syllable: 3 }
   }
   if (lowerCasedType === 'b') {
     return { isAcute: false, syllable: 3 }
+  }
+  if (lowerCasedType === '2') {
+    return { isAcute: false, syllable: 1 }
+  }
+  if (lowerCasedType === '3') {
+    return { isAcute: true, syllable: 2 }
+  }
+  if (lowerCasedType === '4') {
+    return { isAcute: false, syllable: 2 }
   }
   const regex = /(\d+)([ab])/
   if (!regex.test(lowerCasedType)) {

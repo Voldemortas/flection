@@ -35,6 +35,31 @@ describe('decliners/utils', () => {
         syllable: 4,
       })
     })
+    it('correctly parses 2', () => {
+      expect(getThirdAccentuationType('2')).toMatchObject({
+        isAcute: false,
+        syllable: 1,
+      })
+    })
+    it('correctly parses 3', () => {
+      expect(getThirdAccentuationType('3')).toMatchObject({
+        isAcute: true,
+        syllable: 2,
+      })
+    })
+    it('correctly parses 4', () => {
+      expect(getThirdAccentuationType('4')).toMatchObject({
+        isAcute: false,
+        syllable: 2,
+      })
+    })
+    it('correctly parses object', () => {
+      expect(getThirdAccentuationType({ isAcute: false, syllable: 5 }))
+        .toMatchObject({
+          isAcute: false,
+          syllable: 5,
+        })
+    })
     it('throws on unexpected', () => {
       expect(() => getThirdAccentuationType('')).toThrow(
         thirdAccentuationTypeError,
@@ -42,7 +67,11 @@ describe('decliners/utils', () => {
       expect(() => getThirdAccentuationType('0b')).toThrow(
         thirdAccentuationTypeError,
       )
-      expect(() => getThirdAccentuationType('3')).toThrow(
+      expect(() => getThirdAccentuationType('5')).toThrow(
+        thirdAccentuationTypeError,
+      )
+      //@ts-ignore bad value on purpose
+      expect(() => getThirdAccentuationType({ syllable: 4 })).toThrow(
         thirdAccentuationTypeError,
       )
     })

@@ -98,6 +98,56 @@ export default class ADeclinator {
       ...ADeclinator.#adjectival(stem),
     }
   }
+  static declinePronominalImmobile(stem: string): DeclinedType {
+    return {
+      gender: Gender.feminine,
+      sgNom: `${stem}oji`,
+      sgGen: `${stem}osios`,
+      sgDat: `${stem}ajai`,
+      sgAcc: `${stem}ąją`,
+      sgInst: `${stem}ąja`,
+      sgLoc: `${stem}ojoje`,
+      sgVoc: `${stem}oji`,
+      plNom: `${stem}osios`,
+      plGen: `${stem}ųjų`,
+      plDat: `${stem}osioms`,
+      plAcc: `${stem}ąsias`,
+      plInst: `${stem}osiomis`,
+      plLoc: `${stem}osiose`,
+      plVoc: `${stem}osios`,
+    }
+  }
+  /**
+   * @description declines pronominal adjectives of the 3rd and the 4th accentuation class
+   * @param stem stem without -a: gera - ger; stačia - stači
+   * @param type accentuation class: use 2b for the 4th accentuation
+   */
+  static declinePronominalMobile(
+    stem: string,
+    type: AccentuationType,
+  ): DeclinedType {
+    const accentedStem = moveThirdAccentuation(stem + 'a', type).replace(
+      /a$/,
+      '',
+    )
+    return {
+      gender: Gender.feminine,
+      sgNom: `${stem}o\u0301ji`,
+      sgGen: `${stem}o\u0303sios`,
+      sgDat: `${accentedStem}ajai`,
+      sgAcc: `${accentedStem}ąją`,
+      sgInst: `${stem}ą\u0301ja`,
+      sgLoc: `${stem}o\u0303joje`,
+      sgVoc: `${stem}o\u0301ji`,
+      plNom: `${accentedStem}osios`,
+      plGen: `${stem}ų\u0303jų`,
+      plDat: `${stem}o\u0301sioms`,
+      plAcc: `${stem}ą\u0301sias`,
+      plInst: `${stem}o\u0303siomis`,
+      plLoc: `${stem}o\u0303siose`,
+      plVoc: `${accentedStem}osios`,
+    }
+  }
   static #adjectival(stem: string): { sgVoc: string } {
     const accentlessStem = stripAllAccents(stem)
     return { sgVoc: `${accentlessStem}a\u0300` }

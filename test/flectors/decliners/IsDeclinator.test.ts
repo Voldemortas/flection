@@ -193,6 +193,30 @@ const DESINYS = makeDeclinedFromArray(Gender.masculine, [
   ['dešiniame\u0300', 'dešiniuose\u0300'],
   ['dešiny\u0303', 'dešini\u0300'],
 ])
+const PASKUTINIOJI = makeDeclinedFromArray(Gender.feminine, [
+  'paskutinióji paskutiniõsios paskutìniajai paskutìniąją paskutinią́ja paskutiniõjoje paskutinióji'
+    .split(' '),
+  'paskutìniosios paskutinių̃jų paskutiniósioms paskutinią́sias paskutiniõsiomis paskutiniõsiose paskutìniosios'
+    .split(' '),
+])
+const STACIOJI = makeDeclinedFromArray(Gender.feminine, [
+  'stačioji stačiosios stačiajai stačiąją stačiąja stačiojoje stačioji'
+    .split(' '),
+  'stačiosios stačiųjų stačiosioms stačiąsias stačiosiomis stačiosiose stačiosios'
+    .split(' '),
+])
+const DESINYSIS_3B = makeDeclinedFromArray(
+  Gender.masculine,
+  `dešinỹsis dẽšiniojo dešiniájam dẽšinįjį dešiniúoju dešiniãjame dešinỹsis
+dešiníeji dešinių̃jų dešiníesiems dešiniúosius dešiniaĩsiais dešiniuõsiuose dešiníeji`
+    .split(/\s/),
+)
+const DESINYSIS_0 = makeDeclinedFromArray(
+  Gender.masculine,
+  `dešinysis dešiniojo dešiniajam dešinįjį dešiniuoju dešiniajame dešinysis
+dešinieji dešiniųjų dešiniesiems dešiniuosius dešiniaisiais dešiniuosiuose dešinieji`
+    .split(/\s/),
+)
 
 describe('IsDeclinator', () => {
   it('declines 1st accentuation -io noun', () => {
@@ -278,5 +302,21 @@ describe('IsDeclinator', () => {
   it('declines 4th accentuation feminine adjective', () => {
     expect(IsDeclinator.declineFeminineIAdjectiveIV(`pravart`))
       .toMatchObject(PRAVARTI)
+  })
+  it('declines 2nd accentuation feminine pronominal adjective', () => {
+    expect(IsDeclinator.declineFemininePronominalMobile(`paskutin`, '2'))
+      .toMatchObject(PASKUTINIOJI)
+  })
+  it('declines immobile feminine pronominal adjective', () => {
+    expect(IsDeclinator.declineFemininePronominalImmobile(`stat`))
+      .toMatchObject(STACIOJI)
+  })
+  it('declines mobile masculine pronominal adjective', () => {
+    expect(IsDeclinator.declineMasculinePronominalMobile(`dešin`, '3b'))
+      .toMatchObject(DESINYSIS_3B)
+  })
+  it('declines immobile masculine pronominal adjective', () => {
+    expect(IsDeclinator.declineMasculinePronominalImmobile(`dešin`))
+      .toMatchObject(DESINYSIS_0)
   })
 })
