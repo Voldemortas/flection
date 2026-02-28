@@ -2,7 +2,7 @@ import ImmobileConjugator from './ImmobileConjugator.ts'
 import type { ConjugationType } from '~src/types.ts'
 import { appendSuffixWithAssimilation, getInfinitiveRoot } from '~src/utils.ts'
 
-export default class ConditionalConjugator extends ImmobileConjugator {
+export default class ImperativeConjugator extends ImmobileConjugator {
   override conjugateDefault(principalParts: string[]): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
     const suffixedRoot = appendSuffixWithAssimilation(root, 'k', [[
@@ -13,7 +13,7 @@ export default class ConditionalConjugator extends ImmobileConjugator {
       sg2: `${suffixedRoot} ${suffixedRoot}i`,
       pl1: `${suffixedRoot}im ${suffixedRoot}ime`,
       pl2: `${suffixedRoot}it ${suffixedRoot}ite`,
-      ...ConditionalConjugator.#emptyPersons,
+      ...ImperativeConjugator.#emptyPersons,
     }
   }
   override conjugateUnprefixedReflexive(
@@ -28,7 +28,7 @@ export default class ConditionalConjugator extends ImmobileConjugator {
       sg2: `${suffixedRoot}is`,
       pl1: `${suffixedRoot}imės`,
       pl2: `${suffixedRoot}itės`,
-      ...ConditionalConjugator.#emptyPersons,
+      ...ImperativeConjugator.#emptyPersons,
     }
   }
   protected override conjugateBasicPrefixed(
@@ -37,7 +37,7 @@ export default class ConditionalConjugator extends ImmobileConjugator {
   ): ConjugationType {
     return {
       ...super.conjugateBasicPrefixed(prefix, principalParts),
-      ...ConditionalConjugator.#emptyPersons,
+      ...ImperativeConjugator.#emptyPersons,
     }
   }
 

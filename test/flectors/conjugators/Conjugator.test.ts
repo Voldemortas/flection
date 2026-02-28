@@ -14,7 +14,7 @@ const GYVENA_ACCENTED = makeConjugatedFromArray([
 const PREFIXED_CONJUGATED = { sg3: 'prefixed' } as unknown as ConjugationType
 const GYVENA = [`_`, `_`, `_`]
 
-class NonAbstractConjugator extends Conjugator {
+class NonAbstractConjugator extends Conjugator<ConjugationType> {
   protected override conjugateBasicPrefixed(
     _prefix: string,
     _principalParts: string[],
@@ -23,6 +23,9 @@ class NonAbstractConjugator extends Conjugator {
   }
   public override conjugateDefault(_principalParts: string[]): ConjugationType {
     return DEFAULT_CONJUGATED
+  }
+  conjugateUnprefixedReflexive(_principalParts: string[]): ConjugationType {
+    throw ''
   }
 }
 

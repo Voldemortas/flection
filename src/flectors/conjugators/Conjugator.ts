@@ -1,14 +1,11 @@
-import type { ConjugationType } from '~src/types.ts'
 import {
-  appendSuffixWithAssimilation,
   hasAcuteAccent,
   hasAnyAccent,
   stripAllAccents,
   stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
-import { decorateConjugatedReflexive } from './utils.ts'
 
-export default abstract class Conjugator {
+export default abstract class Conjugator<T extends Record<string, string>> {
   static readonly #ACUTE_PREFIXES: string[] = [`pe\u0301r`]
   static readonly #EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
 
@@ -24,7 +21,7 @@ export default abstract class Conjugator {
   public readonly conjugatePrefixed = (
     principalParts: string[],
     prefix: string,
-  ): ConjugationType => {
+  ): T => {
     const joinedPrincipalParts = principalParts.join('-')
     if (
       prefix === 'ne' &&
@@ -72,7 +69,7 @@ export default abstract class Conjugator {
   public readonly conjugatePrefixedReflexive = (
     principalParts: string[],
     prefix: string,
-  ): ConjugationType => {
+  ): T => {
     const prefixToUse =
       Conjugator.#ACUTE_PREFIXES.filter((pr) =>
         stripAllAccents(pr) === prefix
@@ -83,7 +80,7 @@ export default abstract class Conjugator {
   protected abstract conjugateBasicPrefixed(
     prefix: string,
     principalParts: string[],
-  ): ConjugationType
+  ): T
 
   /**
    * conjugates verb by applying metatony if applicable
@@ -93,7 +90,7 @@ export default abstract class Conjugator {
    * const conjugatedVerb = conjugator.conjugateDefault(['būti', 'būna', 'buvo'])
    * ```
    */
-  public abstract conjugateDefault(principalParts: string[]): ConjugationType
+  public abstract conjugateDefault(principalParts: string[]): T
 
   /**
    * conjugates verb by adding the reflexive particle and applying metatony if applicable
@@ -103,35 +100,17 @@ export default abstract class Conjugator {
    * const conjugatedVerb = conjugator.conjugateUnprefixedReflexive(['būti', 'būna', 'buvo'])
    * ```
    */
-  public conjugateUnprefixedReflexive(
-    principalParts: string[],
-  ): ConjugationType {
-    const conjugated = this.conjugateDefault(principalParts)
-    return decorateConjugatedReflexive({
-      sg1: appendSuffixWithAssimilation(conjugated.sg1, 's', [
-        [/([^a])us$/, `$1uos`],
-        [/([^a])u\u0300s$/, `$1u\u0301os`],
-      ]),
-      sg2: appendSuffixWithAssimilation(conjugated.sg2, 's', [
-        [/([^a])is$/, `$1ies`],
-        [/([^a])i\u0300s$/, `$1i\u0301es`],
-      ]),
-      sg3: conjugated.sg3 + 's',
-      pl1: `${conjugated.pl1.split(' ')[1]}ės`,
-      pl2: `${conjugated.pl2.split(' ')[1]}ės`,
-      pl3: conjugated.pl3 + 's',
-    })
-  }
+  public abstract conjugateUnprefixedReflexive(principalParts: string[]): T
 
   protected static applyPrefixToForm(prefix: string, word: string): string {
     return word.split(' ').map((value) => value === '-' ? '-' : prefix + value)
       .join(' ')
   }
 
-  protected static applyPrefixToParadigm(
+  protected static applyPrefixToParadigm<T extends object>(
     prefix: string,
-    conjugated: ConjugationType,
-  ): ConjugationType {
+    conjugated: T,
+  ): T {
     return Object.fromEntries(
       Object.entries(conjugated).map((
         [key, value],
@@ -139,13 +118,13 @@ export default abstract class Conjugator {
         key,
         Conjugator.applyPrefixToForm(prefix, value),
       ]),
-    ) as ConjugationType
+    ) as T
   }
 
   protected readonly conjugateBasicImmobilePrefixed = (
     prefix: string,
     principalParts: string[],
-  ): ConjugationType => {
+  ): T => {
     const basicInflected = this.conjugateDefault(principalParts)
     return Conjugator.applyPrefixToParadigm(
       stripAllAccents(prefix),

@@ -1,4 +1,4 @@
-import Conjugator from './Conjugator.ts'
+import FiniteConjugator from './FiniteConjugator.ts'
 import type { ConjugationType } from '~src/types.ts'
 import {
   consonants,
@@ -16,7 +16,7 @@ import {
   conjugateMobileO,
 } from './utils.ts'
 
-export default class PastSimpleIndicativeConjugator extends Conjugator {
+export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
   override conjugateDefault(principalParts: string[]): ConjugationType {
     const { root, pattern } = getPastRoot(principalParts)
     const rootHasCircumflexOrShortAccent = hasCircumflexOrShortAccent(

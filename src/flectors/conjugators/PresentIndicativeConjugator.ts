@@ -1,3 +1,4 @@
+import FiniteConjugator from './FiniteConjugator.ts'
 import Conjugator from './Conjugator.ts'
 import type { ConjugationType } from '~src/types.ts'
 import {
@@ -23,7 +24,7 @@ import {
   isRootMonosyllabic,
 } from './utils.ts'
 
-export default class PresentIndicativeConjugator extends Conjugator {
+export default class PresentIndicativeConjugator extends FiniteConjugator {
   static readonly #COPULA_JOINED = `bū\u0301ti-yra\u0300-bu\u0300vo`
 
   override conjugateDefault(principalParts: string[]): ConjugationType {

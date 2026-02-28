@@ -4,7 +4,6 @@ import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import Verb from '~src/Verb.ts'
 import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
 import type Conjugator from '~conjugators/Conjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
 
 describe('Verb', () => {
   describe('conjugations', () => {
@@ -38,9 +37,14 @@ describe('Verb', () => {
       'conjugateImperative',
       'imperative',
     )
+    assertTense(
+      Verb.infinitive,
+      'conjugateInfinitive',
+      'infinitive',
+    )
 
-    function assertTense(
-      conjugator: Conjugator,
+    function assertTense<T extends Record<string, string>>(
+      conjugator: Conjugator<T>,
       conjugateMethod: keyof Verb,
       conjugatorName: string,
     ) {
@@ -88,13 +92,15 @@ describe('Verb', () => {
       })
     }
 
-    function assertCorrectConjugationWasCalled(
-      conjugator: Conjugator,
-      method: keyof Conjugator,
-      action: () => ConjugationType,
+    function assertCorrectConjugationWasCalled<
+      T extends Record<string, string>,
+    >(
+      conjugator: Conjugator<T>,
+      method: keyof Conjugator<T>,
+      action: () => T,
       args: [string[], string?],
     ) {
-      const mockedValue = Math.random() as unknown as ConjugationType
+      const mockedValue = Math.random() as unknown as T
       const myStub = stub(
         conjugator,
         method,
