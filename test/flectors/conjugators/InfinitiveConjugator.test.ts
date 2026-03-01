@@ -1,8 +1,9 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import InfinitiveConjugator from '~conjugators/InfinitiveConjugator.ts'
+import type { PrincipalPartsType } from '~src/types.ts'
 
-const BEGTI = [`bė\u0301gti`, `bė\u0301ga`, `bė\u0301go`]
+const BEGTI: PrincipalPartsType = [`bė\u0301gti`, `bė\u0301ga`, `bė\u0301go`]
 
 const EXPECTED_BEGTI = `bė\u0301gti bė\u0301gt`
 const EXPECTED_BEGTIS = `bė\u0301gtis`

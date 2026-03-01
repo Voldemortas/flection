@@ -1,9 +1,11 @@
 import ImmobileConjugator from './ImmobileConjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { getInfinitiveRoot, getPalatalizedRoot } from '~src/utils.ts'
 
 export default class ConditionalConjugator extends ImmobileConjugator {
-  override conjugateDefault(principalParts: string[]): ConjugationType {
+  override conjugateDefault(
+    principalParts: PrincipalPartsType,
+  ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
     const suffixedRoot = root + 't'
     return {
@@ -16,7 +18,7 @@ export default class ConditionalConjugator extends ImmobileConjugator {
     }
   }
   override conjugateUnprefixedReflexive(
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
     const suffixedRoot = root + 't'

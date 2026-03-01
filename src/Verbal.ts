@@ -6,12 +6,13 @@ import {
   unmatchingReflexivesError,
 } from './errors.ts'
 import { isEverythingEqual } from './utils.ts'
+import type { PrincipalPartsType } from './types.ts'
 
 export default class Verbal {
   static readonly #PRINCIPAL_PARTS_COUNT = 3
   static readonly #WORD_DiLIMIER = '-'
 
-  public readonly principalParts: [string, string, string]
+  public readonly principalParts: PrincipalPartsType
   public readonly prefix: string | undefined
   public readonly isReflexive: boolean
 

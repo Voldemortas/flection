@@ -1,6 +1,6 @@
 import FiniteConjugator from './FiniteConjugator.ts'
 import Conjugator from './Conjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import {
   consonants,
   getInfinitiveRoot,
@@ -27,7 +27,9 @@ import {
 export default class PresentIndicativeConjugator extends FiniteConjugator {
   static readonly #COPULA_JOINED = `bū\u0301ti-yra\u0300-bu\u0300vo`
 
-  override conjugateDefault(principalParts: string[]): ConjugationType {
+  override conjugateDefault(
+    principalParts: PrincipalPartsType,
+  ): ConjugationType {
     const joinedPrincipalParts = principalParts.join('-')
     if (
       Conjugator.isConjugatedTheSame(
@@ -68,7 +70,7 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
 
   protected override conjugateBasicPrefixed(
     prefix: string,
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): ConjugationType {
     const joinedPrincipalParts = principalParts.join('-')
     if (
@@ -89,13 +91,15 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
     if (this.#isPrefixMobile(principalParts)) {
       return PresentIndicativeConjugator.applyPrefixToParadigm(
         putAccentOnPrefix(prefix),
-        this.conjugateDefault(principalParts.map(stripAllAccents)),
+        this.conjugateDefault(
+          principalParts.map(stripAllAccents) as PrincipalPartsType,
+        ),
       )
     }
     return this.conjugateBasicImmobilePrefixed(prefix, principalParts)
   }
 
-  #isPrefixMobile(principalParts: string[]): boolean {
+  #isPrefixMobile(principalParts: PrincipalPartsType): boolean {
     if (!hasAnyAccent(principalParts[1]) || hasAcuteAccent(principalParts[1])) {
       return false
     }
@@ -132,7 +136,7 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
     return isRootMonosyllabic(root)
   }
 
-  #isAlternatingCircumflexIWithE(principalParts: string[]): boolean {
+  #isAlternatingCircumflexIWithE(principalParts: PrincipalPartsType): boolean {
     const infinitiveRoot = getInfinitiveRoot(principalParts).root
     const presentRoot = getPresentRoot(principalParts).root
     const pastRoot = getPastRoot(principalParts).root
@@ -159,7 +163,7 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
   }
 
   #isCircumflexArAlternatingWith_E_InOtherForms(
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): boolean {
     const infinitiveRoot = getInfinitiveRoot(principalParts).root
     const presentRoot = getPresentRoot(principalParts).root

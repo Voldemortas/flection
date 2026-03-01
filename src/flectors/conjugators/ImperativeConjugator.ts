@@ -1,9 +1,11 @@
 import ImmobileConjugator from './ImmobileConjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { appendSuffixWithAssimilation, getInfinitiveRoot } from '~src/utils.ts'
 
 export default class ImperativeConjugator extends ImmobileConjugator {
-  override conjugateDefault(principalParts: string[]): ConjugationType {
+  override conjugateDefault(
+    principalParts: PrincipalPartsType,
+  ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
     const suffixedRoot = appendSuffixWithAssimilation(root, 'k', [[
       /[kg]k$/,
@@ -17,7 +19,7 @@ export default class ImperativeConjugator extends ImmobileConjugator {
     }
   }
   override conjugateUnprefixedReflexive(
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
     const suffixedRoot = appendSuffixWithAssimilation(root, 'k', [[
@@ -33,7 +35,7 @@ export default class ImperativeConjugator extends ImmobileConjugator {
   }
   protected override conjugateBasicPrefixed(
     prefix: string,
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): ConjugationType {
     return {
       ...super.conjugateBasicPrefixed(prefix, principalParts),

@@ -1,9 +1,9 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import ImperativeConjugator from '~conjugators/ImperativeConjugator.ts'
 
-const BEGTI = [`bė\u0301gti`, `bė\u0301ga`, `bė\u0301go`]
+const BEGTI: PrincipalPartsType = [`bė\u0301gti`, `bė\u0301ga`, `bė\u0301go`]
 
 const EXPECTED_BEGTI: ConjugationType = {
   sg1: `-`,

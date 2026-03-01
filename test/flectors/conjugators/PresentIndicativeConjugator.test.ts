@@ -2,28 +2,72 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import { makeConjugatedFromArray } from '~test/testHelpers.ts'
 import PresentIndicativeConjugator from '~conjugators/PresentIndicativeConjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { stripAllAccents, stripAllAccentsFromParadigm } from '~src/utils.ts'
 import { assertPrefixedReflexive, assertReflexive } from './commons.ts'
 
-const COPULA_PARTS = [`bū\u0301ti`, `yra\u0300`, `bu\u0300vo`]
-const EITI_PARTS = [`ei\u0303ti`, `ei\u0303na`, `ė\u0303jo`]
-const SVIESTI_PARTS = [`švie\u0303sti`, `švie\u0303čia`, `švie\u0303tė`]
-const GALETI_PARTS = [`galė\u0301ti`, `ga\u0303li`, `galė\u0301jo`]
-const TURETI_PARTS = [`turė\u0301ti`, `tu\u0300ri`, `turė\u0301jo`]
-const GALVOTI_PARTS = [`galvo\u0301ti`, `galvo\u0301ja`, `galvo\u0301jo`]
-const DARYTI = [`dary\u0301ti`, `da\u0303ro`, `da\u0303rė`]
-const MOKYTI = [`mo\u0301kyti`, `mo\u0301ko`, `mo\u0301kė`]
-const LASETI = [`lašė\u0301ti`, `la\u0303ša`, `lašė\u0301jo`]
-const LESTI = [`le\u0300sti`, `le\u0303sa`, `le\u0303sė`]
-const MUSTI = [`mu\u0300šti`, `mu\u0300ša`, `mu\u0300šė`]
-const SIKTI = [`ši\u0300kti`, `ši\u0300ka`, `ši\u0300ko`]
-const GIMTI = [`gi\u0300mti`, `gi\u0300msta`, `gi\u0300mė`]
-const BRISTI = [`bri\u0300sti`, `bren\u0303da`, `bri\u0300do`]
-const RINKTI = [`rin\u0303kti`, `ren\u0303ka`, `rin\u0303ko`]
-const VILKTI = [`vil\u0303kti`, `vel\u0303ka`, `vil\u0303ko`]
-const KALBETI = [`kalbė\u0301ti`, `kal\u0303ba`, `kalbė\u0301jo`]
-const VARGTI = [`var\u0303gti`, `var\u0303gsta`, `var\u0303go`]
+const COPULA_PARTS: PrincipalPartsType = [
+  `bū\u0301ti`,
+  `yra\u0300`,
+  `bu\u0300vo`,
+]
+const EITI_PARTS: PrincipalPartsType = [`ei\u0303ti`, `ei\u0303na`, `ė\u0303jo`]
+const SVIESTI_PARTS: PrincipalPartsType = [
+  `švie\u0303sti`,
+  `švie\u0303čia`,
+  `švie\u0303tė`,
+]
+const GALETI_PARTS: PrincipalPartsType = [
+  `galė\u0301ti`,
+  `ga\u0303li`,
+  `galė\u0301jo`,
+]
+const TURETI_PARTS: PrincipalPartsType = [
+  `turė\u0301ti`,
+  `tu\u0300ri`,
+  `turė\u0301jo`,
+]
+const GALVOTI_PARTS: PrincipalPartsType = [
+  `galvo\u0301ti`,
+  `galvo\u0301ja`,
+  `galvo\u0301jo`,
+]
+const DARYTI: PrincipalPartsType = [`dary\u0301ti`, `da\u0303ro`, `da\u0303rė`]
+const MOKYTI: PrincipalPartsType = [`mo\u0301kyti`, `mo\u0301ko`, `mo\u0301kė`]
+const LASETI: PrincipalPartsType = [
+  `lašė\u0301ti`,
+  `la\u0303ša`,
+  `lašė\u0301jo`,
+]
+const LESTI: PrincipalPartsType = [`le\u0300sti`, `le\u0303sa`, `le\u0303sė`]
+const MUSTI: PrincipalPartsType = [`mu\u0300šti`, `mu\u0300ša`, `mu\u0300šė`]
+const SIKTI: PrincipalPartsType = [`ši\u0300kti`, `ši\u0300ka`, `ši\u0300ko`]
+const GIMTI: PrincipalPartsType = [`gi\u0300mti`, `gi\u0300msta`, `gi\u0300mė`]
+const BRISTI: PrincipalPartsType = [
+  `bri\u0300sti`,
+  `bren\u0303da`,
+  `bri\u0300do`,
+]
+const RINKTI: PrincipalPartsType = [
+  `rin\u0303kti`,
+  `ren\u0303ka`,
+  `rin\u0303ko`,
+]
+const VILKTI: PrincipalPartsType = [
+  `vil\u0303kti`,
+  `vel\u0303ka`,
+  `vil\u0303ko`,
+]
+const KALBETI: PrincipalPartsType = [
+  `kalbė\u0301ti`,
+  `kal\u0303ba`,
+  `kalbė\u0301jo`,
+]
+const VARGTI: PrincipalPartsType = [
+  `var\u0303gti`,
+  `var\u0303gsta`,
+  `var\u0303go`,
+]
 const COPULA = makeConjugatedFromArray([
   [`esu\u0300`, `esi\u0300`, `yra\u0300`],
   [
@@ -310,7 +354,7 @@ const NEG_VARGSTA = makeConjugatedFromArray([
   ],
 ])
 
-const DATA: [string[][], ConjugationType[], ConjugationType[]] = [
+const DATA: [PrincipalPartsType[], ConjugationType[], ConjugationType[]] = [
   [
     COPULA_PARTS,
     EITI_PARTS,
@@ -381,7 +425,11 @@ describe('PresentIndicativeConjugator', () => {
         expect(conjugator.conjugateDefault(DATA[0][i])).toMatchObject(
           DATA[1][i],
         )
-        expect(conjugator.conjugateDefault(DATA[0][i].map(stripAllAccents)))
+        expect(
+          conjugator.conjugateDefault(
+            DATA[0][i].map(stripAllAccents) as PrincipalPartsType,
+          ),
+        )
           .toMatchObject(
             stripAllAccentsFromParadigm(DATA[1][i]),
           )
@@ -394,7 +442,10 @@ describe('PresentIndicativeConjugator', () => {
         expect(conjugator.conjugatePrefixed(DATA[0][i], 'ne'))
           .toMatchObject(DATA[2][i])
         expect(
-          conjugator.conjugatePrefixed(DATA[0][i].map(stripAllAccents), 'ne'),
+          conjugator.conjugatePrefixed(
+            DATA[0][i].map(stripAllAccents) as PrincipalPartsType,
+            'ne',
+          ),
         )
           .toMatchObject(stripAllAccentsFromParadigm(DATA[2][i]))
       })

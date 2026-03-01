@@ -1,7 +1,7 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import Conjugator from '~conjugators/Conjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import { makeConjugatedFromArray } from '~test/testHelpers.ts'
 
@@ -12,19 +12,23 @@ const GYVENA_ACCENTED = makeConjugatedFromArray([
   [`gyve\u0303nate gyve\u0303nat`],
 ])
 const PREFIXED_CONJUGATED = { sg3: 'prefixed' } as unknown as ConjugationType
-const GYVENA = [`_`, `_`, `_`]
+const GYVENA: PrincipalPartsType = [`_`, `_`, `_`]
 
 class NonAbstractConjugator extends Conjugator<ConjugationType> {
   protected override conjugateBasicPrefixed(
     _prefix: string,
-    _principalParts: string[],
+    _principalParts: PrincipalPartsType,
   ): ConjugationType {
     return PREFIXED_CONJUGATED
   }
-  public override conjugateDefault(_principalParts: string[]): ConjugationType {
+  public override conjugateDefault(
+    _principalParts: PrincipalPartsType,
+  ): ConjugationType {
     return DEFAULT_CONJUGATED
   }
-  conjugateUnprefixedReflexive(_principalParts: string[]): ConjugationType {
+  conjugateUnprefixedReflexive(
+    _principalParts: PrincipalPartsType,
+  ): ConjugationType {
     throw ''
   }
 }

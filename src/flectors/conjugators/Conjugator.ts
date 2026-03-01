@@ -4,6 +4,7 @@ import {
   stripAllAccents,
   stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
+import type { PrincipalPartsType } from '~src/types.ts'
 
 export default abstract class Conjugator<T extends Record<string, string>> {
   static readonly #ACUTE_PREFIXES: string[] = [`pe\u0301r`]
@@ -19,7 +20,7 @@ export default abstract class Conjugator<T extends Record<string, string>> {
    * ```
    */
   public readonly conjugatePrefixed = (
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
     prefix: string,
   ): T => {
     const joinedPrincipalParts = principalParts.join('-')
@@ -30,7 +31,9 @@ export default abstract class Conjugator<T extends Record<string, string>> {
         Conjugator.#EITI_JOINED,
       )
     ) {
-      return this.conjugateDefault(principalParts.map((part) => `n${part}`))
+      return this.conjugateDefault(
+        principalParts.map((part) => `n${part}`) as PrincipalPartsType,
+      )
     }
     const isPrefixAcute =
       Conjugator.#ACUTE_PREFIXES.map(stripAllAccents).includes(prefix) ||
@@ -67,7 +70,7 @@ export default abstract class Conjugator<T extends Record<string, string>> {
    * ```
    */
   public readonly conjugatePrefixedReflexive = (
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
     prefix: string,
   ): T => {
     const prefixToUse =
@@ -79,7 +82,7 @@ export default abstract class Conjugator<T extends Record<string, string>> {
 
   protected abstract conjugateBasicPrefixed(
     prefix: string,
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): T
 
   /**
@@ -90,7 +93,7 @@ export default abstract class Conjugator<T extends Record<string, string>> {
    * const conjugatedVerb = conjugator.conjugateDefault(['būti', 'būna', 'buvo'])
    * ```
    */
-  public abstract conjugateDefault(principalParts: string[]): T
+  public abstract conjugateDefault(principalParts: PrincipalPartsType): T
 
   /**
    * conjugates verb by adding the reflexive particle and applying metatony if applicable
@@ -100,7 +103,9 @@ export default abstract class Conjugator<T extends Record<string, string>> {
    * const conjugatedVerb = conjugator.conjugateUnprefixedReflexive(['būti', 'būna', 'buvo'])
    * ```
    */
-  public abstract conjugateUnprefixedReflexive(principalParts: string[]): T
+  public abstract conjugateUnprefixedReflexive(
+    principalParts: PrincipalPartsType,
+  ): T
 
   protected static applyPrefixToForm(prefix: string, word: string): string {
     return word.split(' ').map((value) => value === '-' ? '-' : prefix + value)
@@ -123,7 +128,7 @@ export default abstract class Conjugator<T extends Record<string, string>> {
 
   protected readonly conjugateBasicImmobilePrefixed = (
     prefix: string,
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): T => {
     const basicInflected = this.conjugateDefault(principalParts)
     return Conjugator.applyPrefixToParadigm(

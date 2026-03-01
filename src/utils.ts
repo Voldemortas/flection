@@ -4,9 +4,9 @@ import {
   prefixMustContainVowelsError,
   presentRootError,
   syllableCannotCarryAcuteError,
-  threeRootsError,
   tooFewSyllablesError,
 } from './errors.ts'
+import type { PrincipalPartsType } from './types.ts'
 
 export const consonants = 'bcčdfghjklmnprsštvzž'
 export const longVowels = 'ąęįųėoyū'
@@ -46,11 +46,8 @@ export function getPalatalizedRoot(root: string) {
 }
 
 export function getPresentRoot(
-  principalParts: string[],
+  principalParts: PrincipalPartsType,
 ): RootPatternType<'i' | 'o' | 'a'> {
-  if (principalParts.length !== 3) {
-    throw threeRootsError
-  }
   const regexArr = /^(.+)([aio]\u0300?)$/.exec(principalParts[1])
   if (regexArr === null) {
     throw presentRootError
@@ -59,11 +56,8 @@ export function getPresentRoot(
 }
 
 export function getPastRoot(
-  principalParts: string[],
+  principalParts: PrincipalPartsType,
 ): RootPatternType<'ė' | 'o'> {
-  if (principalParts.length !== 3) {
-    throw threeRootsError
-  }
   const regexArr = /^(.+)([ėo])$/.exec(principalParts[2])
   if (regexArr === null) {
     throw pastRootError
@@ -72,11 +66,8 @@ export function getPastRoot(
 }
 
 export function getInfinitiveRoot(
-  principalParts: string[],
+  principalParts: PrincipalPartsType,
 ): RootPatternType<'ti' | 't'> {
-  if (principalParts.length !== 3) {
-    throw threeRootsError
-  }
   const regexArr = /^(.+)(ti?)$/.exec(principalParts[0])
   if (regexArr === null) {
     throw infinitiveRootError

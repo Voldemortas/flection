@@ -2,13 +2,13 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import PastSimpleIndicativeConjugator from '~conjugators/PastSimpleIndicativeConjugator.ts'
 import { OME, OMO, YTI } from '~test/testHelpers.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { assertPrefixedReflexive, assertReflexive } from './commons.ts'
 
 const DATA_OMO = Array.from({ length: 4 }).map((
   _,
   i,
-) => [`omti`, OMO[i], OMO[i]])
+) => [`omti`, OMO[i], OMO[i]] as PrincipalPartsType)
 const EXPECTED_OMO: ConjugationType[] = [
   {
     sg1: `omau\u0303`,
@@ -46,7 +46,7 @@ const EXPECTED_OMO: ConjugationType[] = [
 const DATA_OME = Array.from({ length: 4 }).map((
   _,
   i,
-) => [`omti`, OMO[i], OME[i]])
+) => [`omti`, OMO[i], OME[i]] as PrincipalPartsType)
 const EXPECTED_OME: ConjugationType[] = [
   {
     sg1: `omiau\u0303`,
@@ -84,7 +84,7 @@ const EXPECTED_OME: ConjugationType[] = [
 const DATA_OMYTI = Array.from({ length: 4 }).map((
   _,
   i,
-) => [`om${YTI[i]}`, OMO[i], OME[i]])
+) => [`om${YTI[i]}`, OMO[i], OME[i]] as PrincipalPartsType)
 const EXPECTED_NEOMYTI: ConjugationType[] = [
   {
     sg1: `ne\u0300omiau`,

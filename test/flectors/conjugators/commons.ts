@@ -1,6 +1,6 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import FiniteConjugator from '~conjugators/FiniteConjugator.ts'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 
@@ -8,7 +8,7 @@ export function assertReflexive(conjugator: FiniteConjugator) {
   describe(`conjugateUnprefixedReflexive`, () => {
     it(`calls Conjugator implementation`, () => {
       const mockedValue = { value: Math.random() } as unknown as ConjugationType
-      const input = [Math.random() + '']
+      const input = [Math.random() + ''] as unknown as PrincipalPartsType
       const myStub = stub(
         FiniteConjugator.prototype,
         'conjugateUnprefixedReflexive',
@@ -28,7 +28,7 @@ export function assertPrefixedReflexive(conjugator: FiniteConjugator) {
   describe(`conjugatePrefixedReflexive`, () => {
     it(`calls Conjugator implementation`, () => {
       const mockedValue = { value: Math.random() } as unknown as ConjugationType
-      const input = [Math.random() + '']
+      const input = [Math.random() + ''] as unknown as PrincipalPartsType
       const prefix = Math.random() + ''
       const reflexiveStub = stub(
         conjugator,

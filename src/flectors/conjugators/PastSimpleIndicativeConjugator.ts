@@ -1,5 +1,5 @@
 import FiniteConjugator from './FiniteConjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import {
   consonants,
   getInfinitiveRoot,
@@ -17,7 +17,9 @@ import {
 } from './utils.ts'
 
 export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
-  override conjugateDefault(principalParts: string[]): ConjugationType {
+  override conjugateDefault(
+    principalParts: PrincipalPartsType,
+  ): ConjugationType {
     const { root, pattern } = getPastRoot(principalParts)
     const rootHasCircumflexOrShortAccent = hasCircumflexOrShortAccent(
       principalParts[2],
@@ -37,7 +39,7 @@ export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
 
   protected override conjugateBasicPrefixed(
     prefix: string,
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { pattern } = getPastRoot(principalParts)
     const infinitiveRoot = getInfinitiveRoot(principalParts).root

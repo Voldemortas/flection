@@ -1,5 +1,5 @@
 import ImmobileConjugator from './ImmobileConjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import {
   appendSuffixWithAssimilation,
   getInfinitiveRoot,
@@ -15,7 +15,9 @@ import {
 } from './utils.ts'
 
 export default class FutureIndicativeConjugator extends ImmobileConjugator {
-  override conjugateDefault(principalParts: string[]): ConjugationType {
+  override conjugateDefault(
+    principalParts: PrincipalPartsType,
+  ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
 
     const dict = new Map([
@@ -58,7 +60,7 @@ export default class FutureIndicativeConjugator extends ImmobileConjugator {
     }
   }
   override conjugateUnprefixedReflexive(
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ): ConjugationType {
     const defaultConjugated = super.conjugateUnprefixedReflexive(principalParts)
     return {

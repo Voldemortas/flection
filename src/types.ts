@@ -1,3 +1,5 @@
+export type PrincipalPartsType = [string, string, string]
+
 export type ConjugationType = {
   sg1: string
   sg2: string

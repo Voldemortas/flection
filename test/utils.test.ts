@@ -23,7 +23,6 @@ import {
   prefixMustContainVowelsError,
   presentRootError,
   syllableCannotCarryAcuteError,
-  threeRootsError,
   tooFewSyllablesError,
 } from '~src/errors.ts'
 import {
@@ -86,11 +85,6 @@ describe('utils', () => {
         infinitiveRootError,
       )
     })
-    it('throws when principal part count is not 3', () => {
-      expect(() => getInfinitiveRoot(['šokti'])).toThrow(
-        threeRootsError,
-      )
-    })
   })
   describe('getPastRoot', () => {
     OME.map(makePastRoots).forEach((principalParts) => {
@@ -116,11 +110,6 @@ describe('utils', () => {
     it('throws when principal part ends in -a', () => {
       expect(() => getPastRoot(['šoka', 'šoka', 'šoka'])).toThrow(
         pastRootError,
-      )
-    })
-    it('throws when principal part count is not 3', () => {
-      expect(() => getPastRoot(['šokti'])).toThrow(
-        threeRootsError,
       )
     })
   })
@@ -158,11 +147,6 @@ describe('utils', () => {
     it('throws when principal part ends in -ė', () => {
       expect(() => getPresentRoot(['šoka', 'šokė', 'šoka'])).toThrow(
         presentRootError,
-      )
-    })
-    it('throws when principal part count is not 3', () => {
-      expect(() => getPresentRoot(['šokti'])).toThrow(
-        threeRootsError,
       )
     })
   })

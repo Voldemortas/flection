@@ -1,12 +1,12 @@
 import Conjugator from './Conjugator.ts'
-import type { ConjugationType } from '~src/types.ts'
+import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { decorateConjugatedReflexive } from './utils.ts'
 import { appendSuffixWithAssimilation } from '~src/utils.ts'
 
 export default abstract class FiniteConjugator
   extends Conjugator<ConjugationType> {
   override conjugateUnprefixedReflexive(
-    principalParts: string[],
+    principalParts: PrincipalPartsType,
   ) {
     const conjugated = this.conjugateDefault(principalParts)
     return decorateConjugatedReflexive({
