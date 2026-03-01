@@ -6,10 +6,11 @@ import {
 } from '~src/utils.ts'
 import type { PrincipalPartsType } from '~src/types.ts'
 
-export default abstract class Conjugator<T extends Record<string, string>> {
-  static readonly #ACUTE_PREFIXES: string[] = [`pe\u0301r`]
-  static readonly #EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
+const ACUTE_PREFIXES: string[] = [`pe\u0301r`]
+const EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
+const PREFIX_EXCLUSION_KEYS = ['gender']
 
+export default abstract class Conjugator<T extends Record<string, string>> {
   /**
    * conjugates prefixed verb by applying metatony if applicable
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
@@ -25,10 +26,10 @@ export default abstract class Conjugator<T extends Record<string, string>> {
   ): T => {
     const joinedPrincipalParts = principalParts.join('-')
     if (
-      prefix === 'ne' &&
+      stripAllAccents(prefix) === 'ne' &&
       Conjugator.isConjugatedTheSame(
         joinedPrincipalParts,
-        Conjugator.#EITI_JOINED,
+        EITI_JOINED,
       )
     ) {
       return this.conjugateDefault(
@@ -36,14 +37,14 @@ export default abstract class Conjugator<T extends Record<string, string>> {
       )
     }
     const isPrefixAcute =
-      Conjugator.#ACUTE_PREFIXES.map(stripAllAccents).includes(prefix) ||
+      ACUTE_PREFIXES.map(stripAllAccents).includes(prefix) ||
       hasAcuteAccent(prefix)
     if (isPrefixAcute) {
       const conjugated = this.conjugateDefault(principalParts)
       const hasConjugatedValuesAnyAccented = Object.values(conjugated).some(
         hasAnyAccent,
       )
-      const prefixToUse = Conjugator.#ACUTE_PREFIXES.filter((pr) =>
+      const prefixToUse = ACUTE_PREFIXES.filter((pr) =>
         stripAllAccents(pr) === prefix && hasConjugatedValuesAnyAccented
       )[0] ?? prefix
       if (hasConjugatedValuesAnyAccented) {
@@ -74,9 +75,7 @@ export default abstract class Conjugator<T extends Record<string, string>> {
     prefix: string,
   ): T => {
     const prefixToUse =
-      Conjugator.#ACUTE_PREFIXES.filter((pr) =>
-        stripAllAccents(pr) === prefix
-      )[0] ?? prefix
+      ACUTE_PREFIXES.filter((pr) => stripAllAccents(pr) === prefix)[0] ?? prefix
     return this.conjugatePrefixed(principalParts, prefixToUse + 'si')
   }
 
@@ -121,7 +120,9 @@ export default abstract class Conjugator<T extends Record<string, string>> {
         [key, value],
       ) => [
         key,
-        Conjugator.applyPrefixToForm(prefix, value),
+        PREFIX_EXCLUSION_KEYS.includes(key)
+          ? value
+          : Conjugator.applyPrefixToForm(prefix, value),
       ]),
     ) as T
   }

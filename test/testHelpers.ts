@@ -66,13 +66,14 @@ export function makeConjugatedFromArray(
 }
 
 export function makeDeclinedFromArray(
-  gender: Gender,
+  gender: Omit<keyof typeof Gender, 'neuter'>,
   arr: string[] | string[][],
 ): DeclinedType {
   const err = new Error('cannot make declination')
   if (arr.length === 14) {
     if (arr.every((v) => typeof v === 'string')) {
       return {
+        //@ts-ignore gender omission is correct
         gender,
         sgNom: arr[0],
         sgGen: arr[1],

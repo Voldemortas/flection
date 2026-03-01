@@ -17,7 +17,7 @@ export enum Gender {
 }
 
 export type NounType = {
-  gender: Omit<Gender, Gender.neuter>
+  gender: 'masculine' | 'feminine' | 'common'
   sgNom: string
   sgGen: string
   sgDat: string
@@ -35,7 +35,7 @@ export type NounType = {
 }
 
 export type AdjectiveType = {
-  gender: Gender.masculine | Gender.feminine
+  gender: 'masculine' | 'feminine'
   sgNom: string
   sgGen: string
   sgDat: string
@@ -52,7 +52,7 @@ export type AdjectiveType = {
   plVoc: string
   neuter: never
 } & {
-  gender: Gender.neuter
+  gender: 'neuter'
   neuter: string
   sgNom: never
   sgGen: never

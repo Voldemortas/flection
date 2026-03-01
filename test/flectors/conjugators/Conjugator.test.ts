@@ -5,13 +5,19 @@ import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import { makeConjugatedFromArray } from '~test/testHelpers.ts'
 
-const DEFAULT_CONJUGATED = { sg3: 'default' } as unknown as ConjugationType
+const DEFAULT_CONJUGATED = {
+  sg3: 'default',
+  gender: 'masculine',
+} as unknown as ConjugationType
 const GYVENA_ACCENTED = makeConjugatedFromArray([
   [`gyvenu\u0300`, `gyveni\u0300`, `gyve\u0303na`],
   [`gyve\u0303name gyve\u0303nam`],
   [`gyve\u0303nate gyve\u0303nat`],
 ])
-const PREFIXED_CONJUGATED = { sg3: 'prefixed' } as unknown as ConjugationType
+const PREFIXED_CONJUGATED = {
+  sg3: 'prefixed',
+  gender: 'masculine',
+} as unknown as ConjugationType
 const GYVENA: PrincipalPartsType = [`_`, `_`, `_`]
 
 class NonAbstractConjugator extends Conjugator<ConjugationType> {

@@ -10,6 +10,7 @@ import ImperativeConjugator from '~conjugators/ImperativeConjugator.ts'
 import InfinitiveConjugator, {
   type InfinitiveType,
 } from '~conjugators/InfinitiveConjugator.ts'
+import ImasDecliner from './flectors/conjugators/ImasDecliner.ts'
 import ADeclinator from '~decliners/ADeclinator.ts'
 import { getInfinitiveRoot } from './utils.ts'
 
@@ -29,6 +30,7 @@ export default class Verb extends Verbal {
     new ImperativeConjugator()
   public static readonly infinitive: Conjugator<InfinitiveType> =
     new InfinitiveConjugator()
+  public static readonly imasNoun: Conjugator<NounType> = new ImasDecliner()
 
   public constructor(
     roots: string | string[],
@@ -70,6 +72,11 @@ export default class Verb extends Verbal {
   public conjugateInfinitive(): InfinitiveType {
     return this.#conjugateConjugatorBasedOnOptions(
       Verb.infinitive,
+    )
+  }
+  public declineImas(): NounType {
+    return this.#conjugateConjugatorBasedOnOptions(
+      Verb.imasNoun,
     )
   }
   public declineSenaNoun(): NounType {
