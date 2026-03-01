@@ -34,11 +34,11 @@ export default class ImperativeConjugator extends ImmobileConjugator {
     }
   }
   protected override conjugateBasicPrefixed(
-    prefix: string,
     principalParts: PrincipalPartsType,
+    prefix: string,
   ): ConjugationType {
     return {
-      ...super.conjugateBasicPrefixed(prefix, principalParts),
+      ...super.conjugateBasicPrefixed(principalParts, prefix),
       ...ImperativeConjugator.#emptyPersons,
     }
   }

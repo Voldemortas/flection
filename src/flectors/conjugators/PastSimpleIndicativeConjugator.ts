@@ -38,8 +38,8 @@ export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
   }
 
   protected override conjugateBasicPrefixed(
-    prefix: string,
     principalParts: PrincipalPartsType,
+    prefix: string,
   ): ConjugationType {
     const { pattern } = getPastRoot(principalParts)
     const infinitiveRoot = getInfinitiveRoot(principalParts).root

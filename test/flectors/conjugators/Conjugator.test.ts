@@ -16,8 +16,8 @@ const GYVENA: PrincipalPartsType = [`_`, `_`, `_`]
 
 class NonAbstractConjugator extends Conjugator<ConjugationType> {
   protected override conjugateBasicPrefixed(
-    _prefix: string,
     _principalParts: PrincipalPartsType,
+    _prefix: string,
   ): ConjugationType {
     return PREFIXED_CONJUGATED
   }

@@ -19,8 +19,8 @@ export default class InfinitiveConjugator extends Conjugator<InfinitiveType> {
   }
 
   protected conjugateBasicPrefixed(
-    prefix: string,
     principalParts: PrincipalPartsType,
+    prefix: string,
   ): InfinitiveType {
     return this.conjugateBasicImmobilePrefixed(prefix, principalParts)
   }

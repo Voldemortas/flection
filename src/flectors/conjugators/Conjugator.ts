@@ -57,7 +57,7 @@ export default abstract class Conjugator<T extends Record<string, string>> {
         conjugated,
       )
     }
-    return this.conjugateBasicPrefixed(prefix, principalParts)
+    return this.conjugateBasicPrefixed(principalParts, prefix)
   }
 
   /**
@@ -81,8 +81,8 @@ export default abstract class Conjugator<T extends Record<string, string>> {
   }
 
   protected abstract conjugateBasicPrefixed(
-    prefix: string,
     principalParts: PrincipalPartsType,
+    prefix: string,
   ): T
 
   /**

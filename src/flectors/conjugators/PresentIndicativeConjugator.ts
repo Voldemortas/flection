@@ -69,8 +69,8 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
   }
 
   protected override conjugateBasicPrefixed(
-    prefix: string,
     principalParts: PrincipalPartsType,
+    prefix: string,
   ): ConjugationType {
     const joinedPrincipalParts = principalParts.join('-')
     if (
