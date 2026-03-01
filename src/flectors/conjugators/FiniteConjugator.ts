@@ -1,14 +1,14 @@
-import Conjugator from './Conjugator.ts'
+import Inflector from './Inflector.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { decorateConjugatedReflexive } from './utils.ts'
 import { appendSuffixWithAssimilation } from '~src/utils.ts'
 
 export default abstract class FiniteConjugator
-  extends Conjugator<ConjugationType> {
-  override conjugateUnprefixedReflexive(
+  extends Inflector<ConjugationType> {
+  override getReflexive(
     principalParts: PrincipalPartsType,
   ) {
-    const conjugated = this.conjugateDefault(principalParts)
+    const conjugated = this.getDefault(principalParts)
     return decorateConjugatedReflexive({
       sg1: appendSuffixWithAssimilation(conjugated.sg1, 's', [
         [/([^a])us$/, `$1uos`],

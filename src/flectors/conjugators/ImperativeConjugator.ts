@@ -3,7 +3,7 @@ import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { appendSuffixWithAssimilation, getInfinitiveRoot } from '~src/utils.ts'
 
 export default class ImperativeConjugator extends ImmobileConjugator {
-  override conjugateDefault(
+  override getDefault(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
@@ -18,7 +18,7 @@ export default class ImperativeConjugator extends ImmobileConjugator {
       ...ImperativeConjugator.#emptyPersons,
     }
   }
-  override conjugateUnprefixedReflexive(
+  override getReflexive(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
@@ -33,12 +33,12 @@ export default class ImperativeConjugator extends ImmobileConjugator {
       ...ImperativeConjugator.#emptyPersons,
     }
   }
-  protected override conjugateBasicPrefixed(
+  protected override getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
   ): ConjugationType {
     return {
-      ...super.conjugateBasicPrefixed(principalParts, prefix),
+      ...super.getBasicPrefixed(principalParts, prefix),
       ...ImperativeConjugator.#emptyPersons,
     }
   }

@@ -49,25 +49,25 @@ const EXPECTED_NESIBEGTI: ConjugationType = {
 describe('ConditionalConjugator', () => {
   const conjugator = new ImperativeConjugator()
   it('conjugates bėgti', () => {
-    expect(conjugator.conjugateDefault(BEGTI)).toMatchObject(EXPECTED_BEGTI)
+    expect(conjugator.getDefault(BEGTI)).toMatchObject(EXPECTED_BEGTI)
   })
   it('conjugates bėgtis', () => {
-    expect(conjugator.conjugateUnprefixedReflexive(BEGTI)).toMatchObject(
+    expect(conjugator.getReflexive(BEGTI)).toMatchObject(
       EXPECTED_BEGTIS,
     )
   })
   it('conjugates nesibėgti', () => {
-    expect(conjugator.conjugatePrefixedReflexive(BEGTI, 'ne')).toMatchObject(
+    expect(conjugator.getPrefixedReflexive(BEGTI, 'ne')).toMatchObject(
       EXPECTED_NESIBEGTI,
     )
   })
   it('conjugates perbėgti', () => {
-    expect(conjugator.conjugatePrefixed(BEGTI, 'per')).toMatchObject(
+    expect(conjugator.getPrefixed(BEGTI, 'per')).toMatchObject(
       EXPECTED_PERBEGTI,
     )
   })
   it('conjugates nebėgti', () => {
-    expect(conjugator.conjugatePrefixed(BEGTI, 'ne')).toMatchObject(
+    expect(conjugator.getPrefixed(BEGTI, 'ne')).toMatchObject(
       EXPECTED_NEBEGTI,
     )
   })

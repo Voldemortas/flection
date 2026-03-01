@@ -10,29 +10,29 @@ const ACUTE_PREFIXES: string[] = [`pe\u0301r`]
 const EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
 const PREFIX_EXCLUSION_KEYS = ['gender']
 
-export default abstract class Conjugator<T extends Record<string, string>> {
+export default abstract class Inflector<T extends Record<string, string>> {
   /**
-   * conjugates prefixed verb by applying metatony if applicable
+   * inflects prefixed verb form by applying metatony if applicable
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @example
    * ```ts
-   * const conjugatedVerb = conjugator.conjugatePrefixed('iš', ['būti', 'būna', 'buvo'])
+   * const inflectedVerb = inflector.getPrefixed('iš', ['būti', 'būna', 'buvo'])
    * ```
    */
-  public readonly conjugatePrefixed = (
+  public readonly getPrefixed = (
     principalParts: PrincipalPartsType,
     prefix: string,
   ): T => {
     const joinedPrincipalParts = principalParts.join('-')
     if (
       stripAllAccents(prefix) === 'ne' &&
-      Conjugator.isConjugatedTheSame(
+      Inflector.isInflectedTheSame(
         joinedPrincipalParts,
         EITI_JOINED,
       )
     ) {
-      return this.conjugateDefault(
+      return this.getDefault(
         principalParts.map((part) => `n${part}`) as PrincipalPartsType,
       )
     }
@@ -40,69 +40,69 @@ export default abstract class Conjugator<T extends Record<string, string>> {
       ACUTE_PREFIXES.map(stripAllAccents).includes(prefix) ||
       hasAcuteAccent(prefix)
     if (isPrefixAcute) {
-      const conjugated = this.conjugateDefault(principalParts)
-      const hasConjugatedValuesAnyAccented = Object.values(conjugated).some(
+      const inflected = this.getDefault(principalParts)
+      const hasValuesAnyAccented = Object.values(inflected).some(
         hasAnyAccent,
       )
       const prefixToUse = ACUTE_PREFIXES.filter((pr) =>
-        stripAllAccents(pr) === prefix && hasConjugatedValuesAnyAccented
+        stripAllAccents(pr) === prefix && hasValuesAnyAccented
       )[0] ?? prefix
-      if (hasConjugatedValuesAnyAccented) {
-        return Conjugator.applyPrefixToParadigm(
+      if (hasValuesAnyAccented) {
+        return Inflector.applyPrefixToParadigm(
           prefixToUse,
-          stripAllAccentsFromParadigm(conjugated),
+          stripAllAccentsFromParadigm(inflected),
         )
       }
-      return Conjugator.applyPrefixToParadigm(
+      return Inflector.applyPrefixToParadigm(
         stripAllAccents(prefix),
-        conjugated,
+        inflected,
       )
     }
-    return this.conjugateBasicPrefixed(principalParts, prefix)
+    return this.getBasicPrefixed(principalParts, prefix)
   }
 
   /**
-   * conjugates prefixed verb by adding the reflexive particle and applying metatony if applicable
+   * inflects prefixed verb by adding the reflexive particle and applying metatony if applicable
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @example
    * ```ts
-   * const conjugatedVerb = conjugator.conjugatePrefixedReflexive('iš', ['būti', 'būna', 'buvo'])
+   * const inflectedVerb = conjugator.getPrefixedReflexive('iš', ['būti', 'būna', 'buvo'])
    * ```
    */
-  public readonly conjugatePrefixedReflexive = (
+  public readonly getPrefixedReflexive = (
     principalParts: PrincipalPartsType,
     prefix: string,
   ): T => {
     const prefixToUse =
       ACUTE_PREFIXES.filter((pr) => stripAllAccents(pr) === prefix)[0] ?? prefix
-    return this.conjugatePrefixed(principalParts, prefixToUse + 'si')
+    return this.getPrefixed(principalParts, prefixToUse + 'si')
   }
 
-  protected abstract conjugateBasicPrefixed(
+  protected abstract getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
   ): T
 
   /**
-   * conjugates verb by applying metatony if applicable
+   * inflects verb by applying metatony if applicable
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts
-   * const conjugatedVerb = conjugator.conjugateDefault(['būti', 'būna', 'buvo'])
+   * const inflectedVerb = conjugator.getDefault(['būti', 'būna', 'buvo'])
    * ```
    */
-  public abstract conjugateDefault(principalParts: PrincipalPartsType): T
+  public abstract getDefault(principalParts: PrincipalPartsType): T
 
   /**
-   * conjugates verb by adding the reflexive particle and applying metatony if applicable
+   * inflects verb by adding the reflexive particle and applying metatony if applicable
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts
-   * const conjugatedVerb = conjugator.conjugateUnprefixedReflexive(['būti', 'būna', 'buvo'])
+   * const inflectedVerb = conjugator.getReflexive(['būti', 'būna', 'buvo'])
    * ```
    */
-  public abstract conjugateUnprefixedReflexive(
+  public abstract getReflexive(
     principalParts: PrincipalPartsType,
   ): T
 
@@ -113,32 +113,32 @@ export default abstract class Conjugator<T extends Record<string, string>> {
 
   protected static applyPrefixToParadigm<T extends object>(
     prefix: string,
-    conjugated: T,
+    inflected: T,
   ): T {
     return Object.fromEntries(
-      Object.entries(conjugated).map((
+      Object.entries(inflected).map((
         [key, value],
       ) => [
         key,
         PREFIX_EXCLUSION_KEYS.includes(key)
           ? value
-          : Conjugator.applyPrefixToForm(prefix, value),
+          : Inflector.applyPrefixToForm(prefix, value),
       ]),
     ) as T
   }
 
-  protected readonly conjugateBasicImmobilePrefixed = (
+  protected readonly getBasicImmobilePrefixed = (
     prefix: string,
     principalParts: PrincipalPartsType,
   ): T => {
-    const basicInflected = this.conjugateDefault(principalParts)
-    return Conjugator.applyPrefixToParadigm(
+    const basicInflected = this.getDefault(principalParts)
+    return Inflector.applyPrefixToParadigm(
       stripAllAccents(prefix),
       basicInflected,
     )
   }
 
-  protected static isConjugatedTheSame(
+  protected static isInflectedTheSame(
     joinedPrincipalPartsA: string,
     joinedPrincipalPartsB: string,
   ): boolean {

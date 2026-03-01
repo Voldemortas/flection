@@ -1,6 +1,6 @@
 import Verbal from './Verbal.ts'
 import type { ConjugationType, NounType } from './types.ts'
-import type Conjugator from '~conjugators/Conjugator.ts'
+import type Inflector from './flectors/conjugators/Inflector.ts'
 import PastFrequentativeIndicativeConjugator from '~conjugators/PastFrequentativeIndicativeConjugator.ts'
 import FutureIndicativeConjugator from '~conjugators/FutureIndicativeConjugator.ts'
 import PastSimpleIndicativeConjugator from '~conjugators/PastSimpleIndicativeConjugator.ts'
@@ -15,22 +15,22 @@ import ADeclinator from '~decliners/ADeclinator.ts'
 import { getInfinitiveRoot } from './utils.ts'
 
 export default class Verb extends Verbal {
-  public static readonly pastFrequentativeIndicative: Conjugator<
+  public static readonly pastFrequentativeIndicative: Inflector<
     ConjugationType
   > = new PastFrequentativeIndicativeConjugator()
-  public static readonly futureIndicative: Conjugator<ConjugationType> =
+  public static readonly futureIndicative: Inflector<ConjugationType> =
     new FutureIndicativeConjugator()
-  public static readonly pastSimpleIndicative: Conjugator<ConjugationType> =
+  public static readonly pastSimpleIndicative: Inflector<ConjugationType> =
     new PastSimpleIndicativeConjugator()
-  public static readonly presentIndicative: Conjugator<ConjugationType> =
+  public static readonly presentIndicative: Inflector<ConjugationType> =
     new PresentIndicativeConjugator()
-  public static readonly conditional: Conjugator<ConjugationType> =
+  public static readonly conditional: Inflector<ConjugationType> =
     new ConditionalConjugator()
-  public static readonly imperative: Conjugator<ConjugationType> =
+  public static readonly imperative: Inflector<ConjugationType> =
     new ImperativeConjugator()
-  public static readonly infinitive: Conjugator<InfinitiveType> =
+  public static readonly infinitive: Inflector<InfinitiveType> =
     new InfinitiveConjugator()
-  public static readonly imasNoun: Conjugator<NounType> = new ImasDecliner()
+  public static readonly imasNoun: Inflector<NounType> = new ImasDecliner()
 
   public constructor(
     roots: string | string[],
@@ -40,42 +40,42 @@ export default class Verb extends Verbal {
   }
 
   public conjugatePastFrequentativeIndicative(): ConjugationType {
-    return this.#conjugateConjugatorBasedOnOptions(
+    return this.#inflectBasedOnOptions(
       Verb.pastFrequentativeIndicative,
     )
   }
   public conjugateFutureIndicative(): ConjugationType {
-    return this.#conjugateConjugatorBasedOnOptions(
+    return this.#inflectBasedOnOptions(
       Verb.futureIndicative,
     )
   }
   public conjugatePastSimpleIndicative(): ConjugationType {
-    return this.#conjugateConjugatorBasedOnOptions(
+    return this.#inflectBasedOnOptions(
       Verb.pastSimpleIndicative,
     )
   }
   public conjugatePresentIndicative(): ConjugationType {
-    return this.#conjugateConjugatorBasedOnOptions(
+    return this.#inflectBasedOnOptions(
       Verb.presentIndicative,
     )
   }
   public conjugateConditional(): ConjugationType {
-    return this.#conjugateConjugatorBasedOnOptions(
+    return this.#inflectBasedOnOptions(
       Verb.conditional,
     )
   }
   public conjugateImperative(): ConjugationType {
-    return this.#conjugateConjugatorBasedOnOptions(
+    return this.#inflectBasedOnOptions(
       Verb.imperative,
     )
   }
   public conjugateInfinitive(): InfinitiveType {
-    return this.#conjugateConjugatorBasedOnOptions(
+    return this.#inflectBasedOnOptions(
       Verb.infinitive,
     )
   }
   public declineImas(): NounType {
-    return this.#conjugateConjugatorBasedOnOptions(
+    return this.#inflectBasedOnOptions(
       Verb.imasNoun,
     )
   }
@@ -84,19 +84,19 @@ export default class Verb extends Verbal {
     return ADeclinator.declineI(`${root}sen`)
   }
 
-  #conjugateConjugatorBasedOnOptions<T extends Record<string, string>>(
-    conjugator: Conjugator<T>,
+  #inflectBasedOnOptions<T extends Record<string, string>>(
+    conjugator: Inflector<T>,
   ): T {
     if (!this.isReflexive && !this.prefix) {
-      return conjugator.conjugateDefault(this.principalParts)
+      return conjugator.getDefault(this.principalParts)
     }
     if (this.isReflexive && !this.prefix) {
-      return conjugator.conjugateUnprefixedReflexive(this.principalParts)
+      return conjugator.getReflexive(this.principalParts)
     }
     if (!this.isReflexive && !!this.prefix) {
-      return conjugator.conjugatePrefixed(this.principalParts, this.prefix)
+      return conjugator.getPrefixed(this.principalParts, this.prefix)
     }
-    return conjugator.conjugatePrefixedReflexive(
+    return conjugator.getPrefixedReflexive(
       this.principalParts,
       this.prefix!,
     )

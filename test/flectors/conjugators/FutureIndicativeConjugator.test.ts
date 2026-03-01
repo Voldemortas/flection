@@ -132,51 +132,51 @@ const EXPECTED_BUTI: ConjugationType[] = [
 
 describe('FutureIndicativeConjugator', () => {
   const conjugator = new FutureIndicativeConjugator()
-  describe('conjugateDefault', () => {
+  describe('getDefault', () => {
     SOKTI_DATA.forEach((data, i) => {
       it(`conjugates ${data[0]}`, () => {
-        expect(conjugator.conjugateDefault(data)).toMatchObject(
+        expect(conjugator.getDefault(data)).toMatchObject(
           EXPECTED_SOKTI[i],
         )
       })
     })
     SOKTI_DATA.forEach((data, i) => {
       it(`conjugates ${data[0]}s`, () => {
-        expect(conjugator.conjugateUnprefixedReflexive(data)).toMatchObject(
+        expect(conjugator.getReflexive(data)).toMatchObject(
           EXPECTED_SOKTIS[i],
         )
       })
     })
     GYTI_DATA.forEach((data, i) => {
       it(`conjugates ${data[0]}`, () => {
-        expect(conjugator.conjugateDefault(data)).toMatchObject(
+        expect(conjugator.getDefault(data)).toMatchObject(
           EXPECTED_GYTI[i],
         )
       })
     })
     BUTI_DATA.forEach((data, i) => {
       it(`conjugates ${data[0]}`, () => {
-        expect(conjugator.conjugateDefault(data)).toMatchObject(
+        expect(conjugator.getDefault(data)).toMatchObject(
           EXPECTED_BUTI[i],
         )
       })
     })
     it(`conjugates vyti`, () => {
-      expect(conjugator.conjugateDefault(makeInfinitiveRoots(`vyti`)))
+      expect(conjugator.getDefault(makeInfinitiveRoots(`vyti`)))
         .toMatchObject(
           stripAllAccentsFromParadigm(vytiFuture),
         )
-      expect(conjugator.conjugateDefault(makeInfinitiveRoots(`vy\u0301ti`)))
+      expect(conjugator.getDefault(makeInfinitiveRoots(`vy\u0301ti`)))
         .toMatchObject(
           vytiFuture,
         )
     })
     it(`conjugates siūti`, () => {
-      expect(conjugator.conjugateDefault(makeInfinitiveRoots(`siūti`)))
+      expect(conjugator.getDefault(makeInfinitiveRoots(`siūti`)))
         .toMatchObject(
           stripAllAccentsFromParadigm(siutiFuture),
         )
-      expect(conjugator.conjugateDefault(makeInfinitiveRoots(`siū\u0301ti`)))
+      expect(conjugator.getDefault(makeInfinitiveRoots(`siū\u0301ti`)))
         .toMatchObject(
           siutiFuture,
         )
@@ -186,27 +186,27 @@ describe('FutureIndicativeConjugator', () => {
     const gauti = makeInfinitiveRoots(`ga\u0301uti`)
     const myzti = makeInfinitiveRoots(`my\u0301žti`)
     it('correcly conjugates prefixed words', () => {
-      expect(conjugator.conjugatePrefixed(gauti, 'ne').sg3).toStrictEqual(
+      expect(conjugator.getPrefixed(gauti, 'ne').sg3).toStrictEqual(
         `negau\u0303s`,
       )
-      expect(conjugator.conjugatePrefixed(myzti, 'ne').sg3).toStrictEqual(
+      expect(conjugator.getPrefixed(myzti, 'ne').sg3).toStrictEqual(
         `nemy\u0303š`,
       )
-      expect(conjugator.conjugatePrefixed(gauti, 'per').sg3).toStrictEqual(
+      expect(conjugator.getPrefixed(gauti, 'per').sg3).toStrictEqual(
         `pe\u0301rgaus`,
       )
-      expect(conjugator.conjugatePrefixed(myzti, 'per').sg3).toStrictEqual(
+      expect(conjugator.getPrefixed(myzti, 'per').sg3).toStrictEqual(
         `pe\u0301rmyš`,
       )
     })
     it('correcly conjugates prefixed reflexive words', () => {
-      expect(conjugator.conjugatePrefixedReflexive(gauti, 'ne').sg3)
+      expect(conjugator.getPrefixedReflexive(gauti, 'ne').sg3)
         .toStrictEqual(`nesigau\u0303s`)
-      expect(conjugator.conjugatePrefixedReflexive(myzti, 'ne').sg3)
+      expect(conjugator.getPrefixedReflexive(myzti, 'ne').sg3)
         .toStrictEqual(`nesimy\u0303š`)
-      expect(conjugator.conjugatePrefixedReflexive(gauti, 'per').sg3)
+      expect(conjugator.getPrefixedReflexive(gauti, 'per').sg3)
         .toStrictEqual(`pe\u0301rsigaus`)
-      expect(conjugator.conjugatePrefixedReflexive(myzti, 'per').sg3)
+      expect(conjugator.getPrefixedReflexive(myzti, 'per').sg3)
         .toStrictEqual(`pe\u0301rsimyš`)
     })
   })

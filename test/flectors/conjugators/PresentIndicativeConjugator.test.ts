@@ -422,11 +422,11 @@ describe('PresentIndicativeConjugator', () => {
   describe('default', () => {
     for (let i = 0; i < DATA[0].length; i++) {
       it(`Conjugates default ${DATA[0][i].join('-')}`, () => {
-        expect(conjugator.conjugateDefault(DATA[0][i])).toMatchObject(
+        expect(conjugator.getDefault(DATA[0][i])).toMatchObject(
           DATA[1][i],
         )
         expect(
-          conjugator.conjugateDefault(
+          conjugator.getDefault(
             DATA[0][i].map(stripAllAccents) as PrincipalPartsType,
           ),
         )
@@ -439,10 +439,10 @@ describe('PresentIndicativeConjugator', () => {
   describe('negated', () => {
     for (let i = 0; i < DATA[0].length; i++) {
       it(`Conjugates negated ${DATA[0][i].join('-')}`, () => {
-        expect(conjugator.conjugatePrefixed(DATA[0][i], 'ne'))
+        expect(conjugator.getPrefixed(DATA[0][i], 'ne'))
           .toMatchObject(DATA[2][i])
         expect(
-          conjugator.conjugatePrefixed(
+          conjugator.getPrefixed(
             DATA[0][i].map(stripAllAccents) as PrincipalPartsType,
             'ne',
           ),

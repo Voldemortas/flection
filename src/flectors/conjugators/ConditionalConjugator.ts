@@ -3,7 +3,7 @@ import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { getInfinitiveRoot, getPalatalizedRoot } from '~src/utils.ts'
 
 export default class ConditionalConjugator extends ImmobileConjugator {
-  override conjugateDefault(
+  override getDefault(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
@@ -17,7 +17,7 @@ export default class ConditionalConjugator extends ImmobileConjugator {
       pl3: `${suffixedRoot}ų`,
     }
   }
-  override conjugateUnprefixedReflexive(
+  override getReflexive(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)

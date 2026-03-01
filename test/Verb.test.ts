@@ -3,7 +3,7 @@ import { describe, it } from '@std/testing/bdd'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import Verb from '~src/Verb.ts'
 import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
-import type Conjugator from '~conjugators/Conjugator.ts'
+import type Inflector from '~conjugators/Inflector.ts'
 import ADeclinator from '~decliners/ADeclinator.ts'
 import type { NounType } from '~src/types.ts'
 
@@ -68,44 +68,44 @@ describe('Verb', () => {
     )
 
     function assertTense<T extends Record<string, string>>(
-      conjugator: Conjugator<T>,
+      conjugator: Inflector<T>,
       conjugateMethod: keyof Verb,
       conjugatorName: string,
     ) {
       describe(conjugateMethod, () => {
         const principalParts = EMPTY_PRINCIPAL_PARTS
-        it(`uses ${conjugatorName}.conjugateDefault() when there's no prefix and reflexiveness`, () => {
+        it(`uses ${conjugatorName}.getDefault() when there's no prefix and reflexiveness`, () => {
           assertCorrectConjugationWasCalled(
             conjugator,
-            'conjugateDefault',
+            'getDefault',
             //@ts-ignore method is actually callable
             () => new Verb(principalParts)[conjugateMethod](),
             [principalParts],
           )
         })
-        it(`uses ${conjugatorName}.conjugatePrefixed() when there's a prefix`, () => {
+        it(`uses ${conjugatorName}.getPrefixed() when there's a prefix`, () => {
           assertCorrectConjugationWasCalled(
             conjugator,
-            'conjugatePrefixed',
+            'getPrefixed',
             //@ts-ignore method is actually callable
             () => new Verb(principalParts, { prefix: 'ne' })[conjugateMethod](),
             [principalParts, 'ne'],
           )
         })
-        it(`uses ${conjugatorName}.conjugateUnprefixedReflexive() for reflexive`, () => {
+        it(`uses ${conjugatorName}.getReflexive() for reflexive`, () => {
           assertCorrectConjugationWasCalled(
             conjugator,
-            'conjugateUnprefixedReflexive',
+            'getReflexive',
             () =>
               //@ts-ignore method is actually callable
               new Verb(principalParts, { reflexive: true })[conjugateMethod](),
             [principalParts],
           )
         })
-        it(`uses ${conjugatorName}.conjugatePrefixedReflexive() for prefixed reflexive`, () => {
+        it(`uses ${conjugatorName}.getPrefixedReflexive() for prefixed reflexive`, () => {
           assertCorrectConjugationWasCalled(
             conjugator,
-            'conjugatePrefixedReflexive',
+            'getPrefixedReflexive',
             () =>
               //@ts-ignore method is actually callable
               new Verb(principalParts, { prefix: 'ne', reflexive: true })
@@ -119,8 +119,8 @@ describe('Verb', () => {
     function assertCorrectConjugationWasCalled<
       T extends Record<string, string>,
     >(
-      conjugator: Conjugator<T>,
-      method: keyof Conjugator<T>,
+      conjugator: Inflector<T>,
+      method: keyof Inflector<T>,
       action: () => T,
       args: [string[], string?],
     ) {

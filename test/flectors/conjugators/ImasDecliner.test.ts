@@ -14,23 +14,23 @@ describe('ImasDecliner', () => {
     ]
     const expectedRoot = `bėgi\u0300m`
     it('declines default', () => {
-      expect(decliner.conjugateDefault(principalParts))
+      expect(decliner.getDefault(principalParts))
         .toMatchObject(AsDeclinator.declineAsNounII(expectedRoot))
     })
     it('declines reflexive', () => {
-      expect(decliner.conjugateUnprefixedReflexive(principalParts))
+      expect(decliner.getReflexive(principalParts))
         .toMatchObject(AsDeclinator.declineAsReflexiveNoun(expectedRoot))
     })
     it('declines negated reflexive', () => {
-      expect(decliner.conjugatePrefixedReflexive(principalParts, 'ne'))
+      expect(decliner.getPrefixedReflexive(principalParts, 'ne'))
         .toMatchObject(AsDeclinator.declineAsNounII(`nesi${expectedRoot}`))
     })
     it('declines prefix per', () => {
-      expect(decliner.conjugatePrefixed(principalParts, 'per'))
+      expect(decliner.getPrefixed(principalParts, 'per'))
         .toMatchObject(AsDeclinator.declineAsNounI(`pe\u0301rbėgim`))
     })
     it('declines negated', () => {
-      expect(decliner.conjugatePrefixed(principalParts, 'ne'))
+      expect(decliner.getPrefixed(principalParts, 'ne'))
         .toMatchObject(AsDeclinator.declineAsNounII(`ne${expectedRoot}`))
     })
   })
@@ -38,23 +38,23 @@ describe('ImasDecliner', () => {
     const principalParts: PrincipalPartsType = [`dėti`, `deda`, `dėjo`]
     const expectedRoot = `dėjim`
     it('declines default', () => {
-      expect(decliner.conjugateDefault(principalParts))
+      expect(decliner.getDefault(principalParts))
         .toMatchObject(AsDeclinator.declineAsNounI(expectedRoot))
     })
     it('declines reflexive', () => {
-      expect(decliner.conjugateUnprefixedReflexive(principalParts))
+      expect(decliner.getReflexive(principalParts))
         .toMatchObject(AsDeclinator.declineAsReflexiveNoun(expectedRoot))
     })
     it('declines negated reflexive', () => {
-      expect(decliner.conjugatePrefixedReflexive(principalParts, 'ne'))
+      expect(decliner.getPrefixedReflexive(principalParts, 'ne'))
         .toMatchObject(AsDeclinator.declineAsNounI(`nesi${expectedRoot}`))
     })
     it('declines prefix per', () => {
-      expect(decliner.conjugatePrefixed(principalParts, 'per'))
+      expect(decliner.getPrefixed(principalParts, 'per'))
         .toMatchObject(AsDeclinator.declineAsNounI(`per${expectedRoot}`))
     })
     it('declines negated', () => {
-      expect(decliner.conjugatePrefixed(principalParts, 'ne'))
+      expect(decliner.getPrefixed(principalParts, 'ne'))
         .toMatchObject(AsDeclinator.declineAsNounI(`ne${expectedRoot}`))
     })
   })
@@ -66,23 +66,23 @@ describe('ImasDecliner', () => {
     ]
     const expectedRoot = `sa\u0303kym`
     it('declines default', () => {
-      expect(decliner.conjugateDefault(principalParts))
+      expect(decliner.getDefault(principalParts))
         .toMatchObject(AsDeclinator.declineAsNounI(expectedRoot))
     })
     it('declines reflexive', () => {
-      expect(decliner.conjugateUnprefixedReflexive(principalParts))
+      expect(decliner.getReflexive(principalParts))
         .toMatchObject(AsDeclinator.declineAsReflexiveNoun(expectedRoot))
     })
     it('declines negated reflexive', () => {
-      expect(decliner.conjugatePrefixedReflexive(principalParts, 'ne'))
+      expect(decliner.getPrefixedReflexive(principalParts, 'ne'))
         .toMatchObject(AsDeclinator.declineAsNounI(`nesi${expectedRoot}`))
     })
     it('declines prefix per', () => {
-      expect(decliner.conjugatePrefixed(principalParts, 'per'))
+      expect(decliner.getPrefixed(principalParts, 'per'))
         .toMatchObject(AsDeclinator.declineAsNounI(`pe\u0301rsakym`))
     })
     it('declines negated', () => {
-      expect(decliner.conjugatePrefixed(principalParts, 'ne'))
+      expect(decliner.getPrefixed(principalParts, 'ne'))
         .toMatchObject(AsDeclinator.declineAsNounI(`ne${expectedRoot}`))
     })
   })

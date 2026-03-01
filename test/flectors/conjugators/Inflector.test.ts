@@ -1,6 +1,6 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
-import Conjugator from '~conjugators/Conjugator.ts'
+import Inflector from '~src/flectors/conjugators/Inflector.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import { makeConjugatedFromArray } from '~test/testHelpers.ts'
@@ -20,36 +20,36 @@ const PREFIXED_CONJUGATED = {
 } as unknown as ConjugationType
 const GYVENA: PrincipalPartsType = [`_`, `_`, `_`]
 
-class NonAbstractConjugator extends Conjugator<ConjugationType> {
-  protected override conjugateBasicPrefixed(
+class NonAbstractConjugator extends Inflector<ConjugationType> {
+  protected override getBasicPrefixed(
     _principalParts: PrincipalPartsType,
     _prefix: string,
   ): ConjugationType {
     return PREFIXED_CONJUGATED
   }
-  public override conjugateDefault(
+  public override getDefault(
     _principalParts: PrincipalPartsType,
   ): ConjugationType {
     return DEFAULT_CONJUGATED
   }
-  conjugateUnprefixedReflexive(
+  getReflexive(
     _principalParts: PrincipalPartsType,
   ): ConjugationType {
     throw ''
   }
 }
 
-describe('Conjugator', () => {
+describe('Inflector', () => {
   const conjugator = new NonAbstractConjugator()
   describe('prefixed', () => {
     it('calls default method for negated eiti', () => {
       const mockedValue = Math.random() as unknown as ConjugationType
       const myStub = stub(
         conjugator,
-        'conjugateDefault',
+        'getDefault',
         returnsNext([mockedValue]),
       )
-      const result = conjugator.conjugatePrefixed(['eiti', 'eina', 'ėjo'], 'ne')
+      const result = conjugator.getPrefixed(['eiti', 'eina', 'ėjo'], 'ne')
       expect(result).toStrictEqual(mockedValue)
       assertSpyCall(myStub, 0, {
         args: [['neiti', 'neina', 'nėjo']],
@@ -61,10 +61,10 @@ describe('Conjugator', () => {
       const mockedValue = Math.random() as unknown as ConjugationType
       const myStub = stub(
         conjugator,
-        'conjugateDefault',
+        'getDefault',
         returnsNext([mockedValue]),
       )
-      const result = conjugator.conjugatePrefixed([
+      const result = conjugator.getPrefixed([
         'ei\u0303ti',
         'ei\u0303na',
         'ė\u0303jo',
@@ -76,21 +76,21 @@ describe('Conjugator', () => {
       })
       myStub.restore()
     })
-    it(`calls conjugatePrefixed method for ne+gyvena`, () => {
-      const result = conjugator.conjugatePrefixed(GYVENA, 'ne')
+    it(`calls getPrefixed method for ne+gyvena`, () => {
+      const result = conjugator.getPrefixed(GYVENA, 'ne')
       expect(result.sg3).toStrictEqual(PREFIXED_CONJUGATED.sg3)
     })
     it(`calls default method for per+gyvena`, () => {
-      const result = conjugator.conjugatePrefixed(GYVENA, 'per')
+      const result = conjugator.getPrefixed(GYVENA, 'per')
       expect(result.sg3).toStrictEqual(`per${DEFAULT_CONJUGATED.sg3}`)
     })
     it(`calls default method for per+gyve\u0303na`, () => {
       const myStub = stub(
         conjugator,
-        'conjugateDefault',
+        'getDefault',
         returnsNext([GYVENA_ACCENTED]),
       )
-      const result = conjugator.conjugatePrefixed(GYVENA, 'per')
+      const result = conjugator.getPrefixed(GYVENA, 'per')
       expect(result.sg3).toStrictEqual(`pe\u0301rgyvena`)
       myStub.restore()
     })

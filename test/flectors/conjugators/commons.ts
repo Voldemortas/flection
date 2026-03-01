@@ -5,16 +5,16 @@ import FiniteConjugator from '~conjugators/FiniteConjugator.ts'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 
 export function assertReflexive(conjugator: FiniteConjugator) {
-  describe(`conjugateUnprefixedReflexive`, () => {
+  describe(`getReflexive`, () => {
     it(`calls Conjugator implementation`, () => {
       const mockedValue = { value: Math.random() } as unknown as ConjugationType
       const input = [Math.random() + ''] as unknown as PrincipalPartsType
       const myStub = stub(
         FiniteConjugator.prototype,
-        'conjugateUnprefixedReflexive',
+        'getReflexive',
         returnsNext([mockedValue]),
       )
-      const result = conjugator.conjugateUnprefixedReflexive(input)
+      const result = conjugator.getReflexive(input)
       expect(result).toMatchObject(mockedValue)
       assertSpyCall(myStub, 0, {
         args: [input],
@@ -25,17 +25,17 @@ export function assertReflexive(conjugator: FiniteConjugator) {
   })
 }
 export function assertPrefixedReflexive(conjugator: FiniteConjugator) {
-  describe(`conjugatePrefixedReflexive`, () => {
+  describe(`getPrefixedReflexive`, () => {
     it(`calls Conjugator implementation`, () => {
       const mockedValue = { value: Math.random() } as unknown as ConjugationType
       const input = [Math.random() + ''] as unknown as PrincipalPartsType
       const prefix = Math.random() + ''
       const reflexiveStub = stub(
         conjugator,
-        'conjugatePrefixed',
+        'getPrefixed',
         returnsNext([mockedValue]),
       )
-      const result = conjugator.conjugatePrefixedReflexive(input, prefix)
+      const result = conjugator.getPrefixedReflexive(input, prefix)
       expect(result).toMatchObject(mockedValue)
       assertSpyCall(reflexiveStub, 0, {
         args: [input, prefix + 'si'],

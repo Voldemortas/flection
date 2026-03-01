@@ -78,14 +78,14 @@ describe('ConditionalConjugator', () => {
   const conjugator = new ConditionalConjugator()
   SOKTI_DATA.forEach((data, i) => {
     it(`conjugates ${data[0]}`, () => {
-      expect(conjugator.conjugateDefault(data)).toMatchObject(
+      expect(conjugator.getDefault(data)).toMatchObject(
         EXPECTED_SOKTI[i],
       )
     })
   })
   SOKTI_DATA.forEach((data, i) => {
     it(`conjugates ${data[0]}s`, () => {
-      expect(conjugator.conjugateUnprefixedReflexive(data)).toMatchObject(
+      expect(conjugator.getReflexive(data)).toMatchObject(
         EXPECTED_SOKTIS[i],
       )
     })

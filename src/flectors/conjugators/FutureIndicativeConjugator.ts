@@ -15,7 +15,7 @@ import {
 } from './utils.ts'
 
 export default class FutureIndicativeConjugator extends ImmobileConjugator {
-  override conjugateDefault(
+  override getDefault(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)
@@ -59,10 +59,10 @@ export default class FutureIndicativeConjugator extends ImmobileConjugator {
       pl3: third,
     }
   }
-  override conjugateUnprefixedReflexive(
+  override getReflexive(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
-    const defaultConjugated = super.conjugateUnprefixedReflexive(principalParts)
+    const defaultConjugated = super.getReflexive(principalParts)
     return {
       ...defaultConjugated,
       sg3: defaultConjugated.sg3.replace(/^(.+)si \1s$/, '$1is'),

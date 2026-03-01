@@ -1,4 +1,4 @@
-import Conjugator from './Conjugator.ts'
+import Inflector from './Inflector.ts'
 import type { NounType, PrincipalPartsType } from '~src/types.ts'
 import {
   getInfinitiveRoot,
@@ -9,8 +9,8 @@ import {
 import { isRootMonosyllabic } from './utils.ts'
 import AsDeclinator from '~decliners/AsDeclinator.ts'
 
-export default class ImasDecliner extends Conjugator<NounType> {
-  override conjugateDefault(
+export default class ImasDecliner extends Inflector<NounType> {
+  override getDefault(
     principalParts: PrincipalPartsType,
   ): NounType {
     const stem = ImasDecliner.#makeStem(principalParts)
@@ -18,18 +18,18 @@ export default class ImasDecliner extends Conjugator<NounType> {
       ? AsDeclinator.declineAsNounI(stem)
       : AsDeclinator.declineAsNounII(stem)
   }
-  override conjugateUnprefixedReflexive(
+  override getReflexive(
     principalParts: PrincipalPartsType,
   ): NounType {
     const stem = ImasDecliner.#makeStem(principalParts)
     return AsDeclinator.declineAsReflexiveNoun(stem)
   }
 
-  protected conjugateBasicPrefixed(
+  protected getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
   ): NounType {
-    return this.conjugateBasicImmobilePrefixed(prefix, principalParts)
+    return this.getBasicImmobilePrefixed(prefix, principalParts)
   }
 
   static #makeStem(principalParts: PrincipalPartsType): string {

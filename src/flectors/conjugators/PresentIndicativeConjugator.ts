@@ -1,5 +1,5 @@
 import FiniteConjugator from './FiniteConjugator.ts'
-import Conjugator from './Conjugator.ts'
+import Inflector from './Inflector.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import {
   consonants,
@@ -27,12 +27,12 @@ import {
 export default class PresentIndicativeConjugator extends FiniteConjugator {
   static readonly #COPULA_JOINED = `bū\u0301ti-yra\u0300-bu\u0300vo`
 
-  override conjugateDefault(
+  override getDefault(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
     const joinedPrincipalParts = principalParts.join('-')
     if (
-      Conjugator.isConjugatedTheSame(
+      Inflector.isInflectedTheSame(
         joinedPrincipalParts,
         PresentIndicativeConjugator.#COPULA_JOINED,
       )
@@ -40,7 +40,7 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
       const yra = hasAnyAccent(principalParts[1]) ? `yra\u0300` : `yra`
       const esa = hasAnyAccent(principalParts[1]) ? `e\u0303sa` : `esa`
       return {
-        ...this.conjugateDefault([`_`, esa, ``]),
+        ...this.getDefault([`_`, esa, ``]),
         sg3: yra,
         pl3: yra,
       }
@@ -68,14 +68,14 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
     return conjugateImmobileA(root)
   }
 
-  protected override conjugateBasicPrefixed(
+  protected override getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
   ): ConjugationType {
     const joinedPrincipalParts = principalParts.join('-')
     if (
       prefix === 'ne' &&
-      Conjugator.isConjugatedTheSame(
+      Inflector.isInflectedTheSame(
         joinedPrincipalParts,
         PresentIndicativeConjugator.#COPULA_JOINED,
       )
@@ -83,7 +83,7 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
       const nera = hasAnyAccent(principalParts[1]) ? `nėra\u0300` : `nėra`
       const nesa = hasAnyAccent(principalParts[1]) ? `ne\u0303sa` : `nesa`
       return {
-        ...this.conjugateDefault([`_`, nesa, ``]),
+        ...this.getDefault([`_`, nesa, ``]),
         sg3: nera,
         pl3: nera,
       }
@@ -91,12 +91,12 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
     if (this.#isPrefixMobile(principalParts)) {
       return PresentIndicativeConjugator.applyPrefixToParadigm(
         putAccentOnPrefix(prefix),
-        this.conjugateDefault(
+        this.getDefault(
           principalParts.map(stripAllAccents) as PrincipalPartsType,
         ),
       )
     }
-    return this.conjugateBasicImmobilePrefixed(prefix, principalParts)
+    return this.getBasicImmobilePrefixed(prefix, principalParts)
   }
 
   #isPrefixMobile(principalParts: PrincipalPartsType): boolean {
@@ -106,11 +106,11 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
     const galeti = `galė\u0301ti-ga\u0303li-galė\u0301jo`
     const tureti = `turė\u0301ti-tu\u0300ri-turė\u0301jo`
     if (
-      PresentIndicativeConjugator.isConjugatedTheSame(
+      PresentIndicativeConjugator.isInflectedTheSame(
         principalParts.join('-'),
         galeti,
       ) ||
-      PresentIndicativeConjugator.isConjugatedTheSame(
+      PresentIndicativeConjugator.isInflectedTheSame(
         principalParts.join('-'),
         tureti,
       )

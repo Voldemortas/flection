@@ -43,10 +43,10 @@ const EXPECTED_DEFAULT: ConjugationType[] = [
 
 describe('PastFrequentativeIndicativeConjugator', () => {
   const conjugator = new PastFrequentativeIndicativeConjugator()
-  describe('conjugateDefault', () => {
+  describe('getDefault', () => {
     DATA.forEach((data, i) => {
       it(`conjugates default ${data[0]}`, () => {
-        expect(conjugator.conjugateDefault(data)).toMatchObject(
+        expect(conjugator.getDefault(data)).toMatchObject(
           EXPECTED_DEFAULT[i],
         )
       })

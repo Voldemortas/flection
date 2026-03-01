@@ -14,23 +14,23 @@ const EXPECTED_NESIBEGTI = `nesibė\u0301gti nesibė\u0301gt`
 describe('InfinitiveConjugator', () => {
   const conjugator = new InfinitiveConjugator()
   it('conjugates bėgti', () => {
-    expect(conjugator.conjugateDefault(BEGTI).infinitive)
+    expect(conjugator.getDefault(BEGTI).infinitive)
       .toStrictEqual(EXPECTED_BEGTI)
   })
   it('conjugates bėgtis', () => {
-    expect(conjugator.conjugateUnprefixedReflexive(BEGTI).infinitive)
+    expect(conjugator.getReflexive(BEGTI).infinitive)
       .toStrictEqual(EXPECTED_BEGTIS)
   })
   it('conjugates nesibėgti', () => {
-    expect(conjugator.conjugatePrefixedReflexive(BEGTI, 'ne').infinitive)
+    expect(conjugator.getPrefixedReflexive(BEGTI, 'ne').infinitive)
       .toStrictEqual(EXPECTED_NESIBEGTI)
   })
   it('conjugates perbėgti', () => {
-    expect(conjugator.conjugatePrefixed(BEGTI, 'per').infinitive)
+    expect(conjugator.getPrefixed(BEGTI, 'per').infinitive)
       .toStrictEqual(EXPECTED_PERBEGTI)
   })
   it('conjugates nebėgti', () => {
-    expect(conjugator.conjugatePrefixed(BEGTI, 'ne').infinitive)
+    expect(conjugator.getPrefixed(BEGTI, 'ne').infinitive)
       .toStrictEqual(EXPECTED_NEBEGTI)
   })
 })

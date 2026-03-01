@@ -127,21 +127,21 @@ describe('PastSimpleIndicativeConjugator', () => {
   describe('conjugate default', () => {
     DATA_OMO.forEach((data, i) => {
       it(`conjugates ${data[2]}`, () => {
-        expect(conjugator.conjugateDefault(data)).toMatchObject(
+        expect(conjugator.getDefault(data)).toMatchObject(
           EXPECTED_OMO[i],
         )
       })
     })
     DATA_OME.forEach((data, i) => {
       it(`conjugates ${data[2]}`, () => {
-        expect(conjugator.conjugateDefault(data)).toMatchObject(
+        expect(conjugator.getDefault(data)).toMatchObject(
           EXPECTED_OME[i],
         )
       })
     })
     DATA_OMO.forEach((data, i) => {
       it(`conjugates ne${data[0]} ne${data[2]}`, () => {
-        expect(conjugator.conjugatePrefixed(data, 'ne')).toMatchObject(
+        expect(conjugator.getPrefixed(data, 'ne')).toMatchObject(
           Object.fromEntries(
             Object.entries(EXPECTED_OMO[i]).map((
               [key, value],
@@ -152,14 +152,14 @@ describe('PastSimpleIndicativeConjugator', () => {
     })
     DATA_OME.forEach((data, i) => {
       it(`conjugates ne${data[0]} ne${data[2]}`, () => {
-        expect(conjugator.conjugatePrefixed(data, 'ne')).toMatchObject(
+        expect(conjugator.getPrefixed(data, 'ne')).toMatchObject(
           EXPECTED_NEOMYTI[i],
         )
       })
     })
     DATA_OMYTI.forEach((data, i) => {
       it(`conjugates ne${data[0]} ne${data[2]}`, () => {
-        expect(conjugator.conjugatePrefixed(data, 'ne')).toMatchObject(
+        expect(conjugator.getPrefixed(data, 'ne')).toMatchObject(
           Object.fromEntries(
             Object.entries(EXPECTED_OME[i]).map((
               [key, value],

@@ -5,7 +5,7 @@ import { conjugateImmobileO } from './utils.ts'
 
 export default class PastFrequentativeIndicativeConjugator
   extends ImmobileConjugator {
-  override conjugateDefault(
+  override getDefault(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root } = getInfinitiveRoot(principalParts)

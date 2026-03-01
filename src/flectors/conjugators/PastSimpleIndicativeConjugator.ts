@@ -17,7 +17,7 @@ import {
 } from './utils.ts'
 
 export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
-  override conjugateDefault(
+  override getDefault(
     principalParts: PrincipalPartsType,
   ): ConjugationType {
     const { root, pattern } = getPastRoot(principalParts)
@@ -37,7 +37,7 @@ export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
     return conjugateImmobileE(root)
   }
 
-  protected override conjugateBasicPrefixed(
+  protected override getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
   ): ConjugationType {
@@ -51,10 +51,10 @@ export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
     if (isPrefixMobile) {
       return PastSimpleIndicativeConjugator.applyPrefixToParadigm(
         putAccentOnPrefix(prefix),
-        stripAllAccentsFromParadigm(this.conjugateDefault(principalParts)),
+        stripAllAccentsFromParadigm(this.getDefault(principalParts)),
       )
     }
-    return this.conjugateBasicImmobilePrefixed(prefix, principalParts)
+    return this.getBasicImmobilePrefixed(prefix, principalParts)
   }
 
   static readonly #polysyllabicEndsInYRegex = new RegExp(
