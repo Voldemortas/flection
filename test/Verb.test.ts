@@ -4,8 +4,27 @@ import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import Verb from '~src/Verb.ts'
 import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
 import type Conjugator from '~conjugators/Conjugator.ts'
+import ADeclinator from '~decliners/ADeclinator.ts'
+import type { NounType } from '~src/types.ts'
 
 describe('Verb', () => {
+  describe('deverbial nouns', () => {
+    it('makes -sena noun from the infinitive root with the 1st -as accentuation', () => {
+      const mockedNoun = { sgNom: 'sena' } as unknown as NounType
+      const principalParts = [`dary\u0303t`, `daro`, `darė`]
+      const declinerStub = stub(
+        ADeclinator,
+        'declineI',
+        returnsNext([mockedNoun]),
+      )
+      const result = new Verb(principalParts).declineSenaNoun()
+      expect(result).toMatchObject(mockedNoun)
+      assertSpyCall(declinerStub, 0, {
+        args: [`dary\u0303sen`],
+        returned: mockedNoun,
+      })
+    })
+  })
   describe('conjugations', () => {
     assertTense(
       Verb.pastFrequentativeIndicative,

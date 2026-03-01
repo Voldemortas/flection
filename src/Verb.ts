@@ -1,5 +1,5 @@
 import Verbal from './Verbal.ts'
-import type { ConjugationType } from './types.ts'
+import type { ConjugationType, NounType } from './types.ts'
 import type Conjugator from '~conjugators/Conjugator.ts'
 import PastFrequentativeIndicativeConjugator from '~conjugators/PastFrequentativeIndicativeConjugator.ts'
 import FutureIndicativeConjugator from '~conjugators/FutureIndicativeConjugator.ts'
@@ -10,6 +10,8 @@ import ImperativeConjugator from '~conjugators/ImperativeConjugator.ts'
 import InfinitiveConjugator, {
   type InfinitiveType,
 } from '~conjugators/InfinitiveConjugator.ts'
+import ADeclinator from '~decliners/ADeclinator.ts'
+import { getInfinitiveRoot } from './utils.ts'
 
 export default class Verb extends Verbal {
   public static readonly pastFrequentativeIndicative: Conjugator<
@@ -69,6 +71,10 @@ export default class Verb extends Verbal {
     return this.#conjugateConjugatorBasedOnOptions(
       Verb.infinitive,
     )
+  }
+  public declineSenaNoun(): NounType {
+    const { root } = getInfinitiveRoot(this.principalParts)
+    return ADeclinator.declineI(`${root}sen`)
   }
 
   #conjugateConjugatorBasedOnOptions<T extends Record<string, string>>(
