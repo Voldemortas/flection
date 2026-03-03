@@ -223,7 +223,6 @@ export default class IsDeclinator {
     type: AccentuationType = SECOND_LAST_ACUTE,
   ): DeclinedType {
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...IsDeclinator.declineMasculineIsAdjectiveIII(stem, type),
       sgNom: `${stem}y\u0303s`,
       sgVoc: `${stem}y\u0303`,
@@ -231,7 +230,6 @@ export default class IsDeclinator {
   }
   static declineMasculineYsAdjectiveIV(stem: string): DeclinedType {
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...IsDeclinator.declineMasculineIsAdjectiveIV(stem),
       sgNom: `${stem}y\u0303s`,
       sgVoc: `${stem}y\u0303`,
@@ -268,7 +266,6 @@ export default class IsDeclinator {
   static declineFeminineIAdjectiveIV(stem: string): DeclinedType {
     const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...IsDeclinator.declineFeminineIAdjectiveIII(stem, '4'),
       sgInst: `${palatalisedRoot}a\u0300`,
       plAcc: `${palatalisedRoot}a\u0300s`,

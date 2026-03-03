@@ -181,7 +181,6 @@ export default class UsDeclinator {
   static declineUsAdjectivalIV(stem: string): DeclinedType {
     const palatalisedStem = getPalatalizedRoot(stem)
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...UsDeclinator.declineUsAdjectivalIII(stem, {
         isAcute: false,
         syllable: 2,

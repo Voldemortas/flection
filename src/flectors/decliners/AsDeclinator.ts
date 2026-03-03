@@ -160,7 +160,6 @@ export default class AsDeclinator {
   }
   static declineAsAdjectivalIII(stem: string): DeclinedType {
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalIV(stem),
       sgInst: `${stem}u`,
       plAcc: `${stem}us`,
@@ -180,7 +179,6 @@ export default class AsDeclinator {
   }
   static declineIasAdjectivalI(stem: string): DeclinedType {
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalI(stem),
       ...AsDeclinator.#adjectivalIasStem(stem),
     }
@@ -193,14 +191,12 @@ export default class AsDeclinator {
   }
   static declineIasAdjectivalIII(stem: string): DeclinedType {
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalIII(stem),
       ...AsDeclinator.#adjectivalIasFlection(stem),
     }
   }
   static declineIasAdjectivalIV(stem: string): DeclinedType {
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalIV(stem),
       ...AsDeclinator.#adjectivalIasFlection(stem),
     }
@@ -252,7 +248,6 @@ export default class AsDeclinator {
   static declineIasPronominalImmobile(stem: string): DeclinedType {
     const depalatalisedStem = getUnpalatalizedRoot(stem).replace(/i$/, '')
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsPronominalImmobile(stem),
       plNom: `${depalatalisedStem}ieji`,
       plDat: `${depalatalisedStem}iesiems`,
@@ -270,7 +265,6 @@ export default class AsDeclinator {
       getUnpalatalizedRoot(stem).replace(/i$/, ''),
     )
     return {
-      //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsPronominalMobile(stem),
       plNom: `${depalatalisedAccentlessStem}i\u0301eji`,
       plDat: `${depalatalisedAccentlessStem}i\u0301esiems`,
