@@ -10,7 +10,9 @@ const ACUTE_PREFIXES: string[] = [`pe\u0301r`]
 const EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
 const PREFIX_EXCLUSION_KEYS = ['gender']
 
-export default abstract class Inflector<T extends Record<string, string>> {
+export default abstract class Inflector<
+  T extends Record<string, string | Record<string, string>>,
+> {
   /**
    * inflects prefixed verb form by applying metatony if applicable
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
@@ -41,7 +43,10 @@ export default abstract class Inflector<T extends Record<string, string>> {
       hasAcuteAccent(prefix)
     if (isPrefixAcute) {
       const inflected = this.getDefault(principalParts)
-      const hasValuesAnyAccented = Object.values(inflected).some(
+      const deepestInflected = (typeof Object.values(inflected)[0] === 'string'
+        ? inflected
+        : Object.entries(inflected)[0]) as Record<string, string>
+      const hasValuesAnyAccented = Object.values(deepestInflected).some(
         hasAnyAccent,
       )
       const prefixToUse = ACUTE_PREFIXES.filter((pr) =>
@@ -115,15 +120,22 @@ export default abstract class Inflector<T extends Record<string, string>> {
     prefix: string,
     inflected: T,
   ): T {
+    if (typeof Object.values(inflected)[0] === 'string') {
+      return Object.fromEntries(
+        Object.entries(inflected).map((
+          [key, value],
+        ) => [
+          key,
+          PREFIX_EXCLUSION_KEYS.includes(key)
+            ? value
+            : Inflector.applyPrefixToForm(prefix, value),
+        ]),
+      ) as T
+    }
     return Object.fromEntries(
       Object.entries(inflected).map((
         [key, value],
-      ) => [
-        key,
-        PREFIX_EXCLUSION_KEYS.includes(key)
-          ? value
-          : Inflector.applyPrefixToForm(prefix, value),
-      ]),
+      ) => [key, this.applyPrefixToParadigm(prefix, value)]),
     ) as T
   }
 

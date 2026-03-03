@@ -14,18 +14,14 @@ const GYVENA_ACCENTED = makeConjugatedFromArray([
   [`gyve\u0303name gyve\u0303nam`],
   [`gyve\u0303nate gyve\u0303nat`],
 ])
-const PREFIXED_CONJUGATED = {
-  sg3: 'prefixed',
-  gender: 'masculine',
-} as unknown as ConjugationType
 const GYVENA: PrincipalPartsType = [`_`, `_`, `_`]
 
 class NonAbstractConjugator extends Inflector<ConjugationType> {
   protected override getBasicPrefixed(
-    _principalParts: PrincipalPartsType,
-    _prefix: string,
+    principalParts: PrincipalPartsType,
+    prefix: string,
   ): ConjugationType {
-    return PREFIXED_CONJUGATED
+    return this.getBasicImmobilePrefixed(prefix, principalParts)
   }
   public override getDefault(
     _principalParts: PrincipalPartsType,
@@ -78,7 +74,7 @@ describe('Inflector', () => {
     })
     it(`calls getPrefixed method for ne+gyvena`, () => {
       const result = conjugator.getPrefixed(GYVENA, 'ne')
-      expect(result.sg3).toStrictEqual(PREFIXED_CONJUGATED.sg3)
+      expect(result.sg3).toStrictEqual(`ne${DEFAULT_CONJUGATED.sg3}`)
     })
     it(`calls default method for per+gyvena`, () => {
       const result = conjugator.getPrefixed(GYVENA, 'per')
@@ -92,6 +88,40 @@ describe('Inflector', () => {
       )
       const result = conjugator.getPrefixed(GYVENA, 'per')
       expect(result.sg3).toStrictEqual(`pe\u0301rgyvena`)
+      myStub.restore()
+    })
+    it(`correctly applies ne- to nested element`, () => {
+      const mockedValue = {
+        nested: { sg3: 'deda' },
+      } as unknown as ConjugationType
+      const myStub = stub(
+        conjugator,
+        'getDefault',
+        returnsNext([mockedValue]),
+      )
+      const result = conjugator.getPrefixed(['dėti', 'deda', 'dėjo'], 'ne')
+      expect(result).toMatchObject({ nested: { sg3: 'nededa' } })
+      assertSpyCall(myStub, 0, {
+        args: [['dėti', 'deda', 'dėjo']],
+        returned: mockedValue,
+      })
+      myStub.restore()
+    })
+    it(`correctly applies per- to nested element`, () => {
+      const mockedValue = {
+        nested: { sg3: 'deda' },
+      } as unknown as ConjugationType
+      const myStub = stub(
+        conjugator,
+        'getDefault',
+        returnsNext([mockedValue]),
+      )
+      const result = conjugator.getPrefixed(['dėti', 'deda', 'dėjo'], 'per')
+      expect(result).toMatchObject({ nested: { sg3: 'perdeda' } })
+      assertSpyCall(myStub, 0, {
+        args: [['dėti', 'deda', 'dėjo']],
+        returned: mockedValue,
+      })
       myStub.restore()
     })
   })

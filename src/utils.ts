@@ -86,11 +86,22 @@ export function appendSuffixWithAssimilation(
   )
 }
 
-export function stripAllAccentsFromParadigm<T extends Record<string, string>>(
+export function stripAllAccentsFromParadigm<
+  T extends Record<string, string | Record<string, string>>,
+>(
   paradigm: T,
 ): T {
+  if (typeof Object.values(paradigm)[0] === 'string') {
+    return Object.fromEntries(
+      Object.keys(paradigm).map((
+        key,
+      ) => [key, stripAllAccents(paradigm[key] as string)]),
+    ) as T
+  }
   return Object.fromEntries(
-    Object.keys(paradigm).map((key) => [key, stripAllAccents(paradigm[key])]),
+    Object.entries(paradigm).map((
+      [key, value],
+    ) => [key, stripAllAccentsFromParadigm(value as Record<string, string>)]),
   ) as T
 }
 

@@ -191,7 +191,13 @@ describe('utils', () => {
       circumflex: 'coc',
       none: 'coc',
     }
-    expect(stripAllAccentsFromParadigm(data)).toMatchObject(expected)
+    it('strips all accents from paradigm without nesting', () => {
+      expect(stripAllAccentsFromParadigm(data)).toMatchObject(expected)
+    })
+    it('strips all accents from paradigm with nesting', () => {
+      expect(stripAllAccentsFromParadigm({ nested: data }))
+        .toMatchObject({ nested: expected })
+    })
   })
   describe('getPalatalizedRoot', () => {
     ;[

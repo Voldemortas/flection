@@ -66,6 +66,11 @@ describe('Verb', () => {
       'declineImas',
       'imasNoun',
     )
+    assertTense(
+      Verb.pusdalyvis,
+      'declinePusdalyvis',
+      'pusdalyvis',
+    )
 
     function assertTense<T extends Record<string, string>>(
       conjugator: Inflector<T>,

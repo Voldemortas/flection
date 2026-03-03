@@ -13,6 +13,9 @@ import InfinitiveConjugator, {
 import ImasDecliner from './flectors/conjugators/ImasDecliner.ts'
 import ADeclinator from '~decliners/ADeclinator.ts'
 import { getInfinitiveRoot } from './utils.ts'
+import PusdalyvisDecliner, {
+  type PusdalyvisType,
+} from './flectors/conjugators/PusdalyvisDecliner.ts'
 
 export default class Verb extends Verbal {
   public static readonly pastFrequentativeIndicative: Inflector<
@@ -31,6 +34,8 @@ export default class Verb extends Verbal {
   public static readonly infinitive: Inflector<InfinitiveType> =
     new InfinitiveConjugator()
   public static readonly imasNoun: Inflector<NounType> = new ImasDecliner()
+  public static readonly pusdalyvis: Inflector<PusdalyvisType> =
+    new PusdalyvisDecliner()
 
   public constructor(
     roots: string | string[],
@@ -77,6 +82,11 @@ export default class Verb extends Verbal {
   public declineImas(): NounType {
     return this.#inflectBasedOnOptions(
       Verb.imasNoun,
+    )
+  }
+  public declinePusdalyvis(): PusdalyvisType {
+    return this.#inflectBasedOnOptions(
+      Verb.pusdalyvis,
     )
   }
   public declineSenaNoun(): NounType {
