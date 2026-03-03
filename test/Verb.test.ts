@@ -5,12 +5,12 @@ import Verb from '~src/Verb.ts'
 import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
 import type Inflector from '~conjugators/Inflector.ts'
 import ADeclinator from '~decliners/ADeclinator.ts'
-import type { NounType } from '~src/types.ts'
+import type { DeclinedType } from '~src/types.ts'
 
 describe('Verb', () => {
   describe('deverbial nouns', () => {
     it('makes -sena noun from the infinitive root with the 1st -as accentuation', () => {
-      const mockedNoun = { sgNom: 'sena' } as unknown as NounType
+      const mockedNoun = { sgNom: 'sena' } as unknown as DeclinedType
       const principalParts = [`dary\u0303t`, `daro`, `darė`]
       const declinerStub = stub(
         ADeclinator,

@@ -1,4 +1,4 @@
-import { type DeclinedType, Gender } from '~src/types.ts'
+import type { DeclinedType } from '~src/types.ts'
 import { putAccentOnString, stripAllAccents } from '~src/utils.ts'
 import {
   type AccentuationType,
@@ -12,10 +12,8 @@ import {
 export default class ADeclinator {
   static declineI(
     stem: string,
-    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     return {
-      gender,
       sgNom: `${stem}a`,
       sgGen: `${stem}os`,
       sgDat: `${stem}ai`,
@@ -34,12 +32,10 @@ export default class ADeclinator {
   }
   static declineII(
     stem: string,
-    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     return {
       ...ADeclinator.declineI(
         putAccentOnString(stripAllAccents(stem), 1, false),
-        gender,
       ),
       sgNom: `${stem}a\u0300`,
       sgInst: `${stem}a\u0300`,
@@ -49,7 +45,6 @@ export default class ADeclinator {
   static declineNounIII(
     stem: string,
     type: AccentuationType = SECOND_LAST_ACUTE,
-    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     const accentlessStem = stripAllAccents(stem)
     return {
@@ -58,7 +53,6 @@ export default class ADeclinator {
           /a$/,
           '',
         ),
-        gender,
       ),
       sgNom: `${accentlessStem}a\u0300`,
       sgGen: `${accentlessStem}o\u0303s`,
@@ -71,10 +65,9 @@ export default class ADeclinator {
   }
   static declineNounIV(
     stem: string,
-    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     return {
-      ...ADeclinator.declineII(stem, gender),
+      ...ADeclinator.declineII(stem),
       sgGen: `${stem}o\u0303s`,
       sgLoc: `${stem}oje\u0300`,
       plGen: `${stem}ų\u0303`,
@@ -100,7 +93,6 @@ export default class ADeclinator {
   }
   static declinePronominalImmobile(stem: string): DeclinedType {
     return {
-      gender: Gender.feminine,
       sgNom: `${stem}oji`,
       sgGen: `${stem}osios`,
       sgDat: `${stem}ajai`,
@@ -131,7 +123,6 @@ export default class ADeclinator {
       '',
     )
     return {
-      gender: Gender.feminine,
       sgNom: `${stem}o\u0301ji`,
       sgGen: `${stem}o\u0303sios`,
       sgDat: `${accentedStem}ajai`,

@@ -1,4 +1,4 @@
-import { type DeclinedType, Gender, type NounType } from '~src/types.ts'
+import type { DeclinedType } from '~src/types.ts'
 import {
   getPalatalizedRoot,
   putAccentOnString,
@@ -16,11 +16,9 @@ import {
 export default class EDeclinator {
   static declineI(
     stem: string,
-    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     const palatalisedStem = getPalatalizedRoot(stem)
     return {
-      gender,
       sgNom: `${stem}ė`,
       sgGen: `${stem}ės`,
       sgDat: `${stem}ei`,
@@ -39,13 +37,11 @@ export default class EDeclinator {
   }
   static declineII(
     stem: string,
-    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     const accentlessStem = stripAllAccents(stem)
     return {
       ...EDeclinator.declineI(
         putAccentOnString(stripAllAccents(stem), 1, false),
-        gender,
       ),
       sgInst: `${accentlessStem}e\u0300`,
       plAcc: `${accentlessStem}e\u0300s`,
@@ -54,7 +50,6 @@ export default class EDeclinator {
   static declineIII(
     stem: string,
     type: AccentuationType = SECOND_LAST_ACUTE,
-    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     const accentedStem = moveThirdAccentuation(stem + 'ė', type)
       .replace(
@@ -63,7 +58,7 @@ export default class EDeclinator {
       )
     const palatalisedStem = getPalatalizedRoot(stem)
     return {
-      ...EDeclinator.declineI(accentedStem, gender),
+      ...EDeclinator.declineI(accentedStem),
       sgNom: `${stem}ė\u0303`,
       sgGen: `${stem}ė\u0303s`,
       sgLoc: `${stem}ėje\u0300`,
@@ -75,11 +70,10 @@ export default class EDeclinator {
   }
   static declineIV(
     stem: string,
-    gender: Gender.feminine | Gender.common = Gender.feminine,
   ): DeclinedType {
     const palatalisedStem = getPalatalizedRoot(stem)
     return {
-      ...EDeclinator.declineII(putAccentOnString(stem, 1, false), gender),
+      ...EDeclinator.declineII(putAccentOnString(stem, 1, false)),
       sgNom: `${stem}ė\u0303`,
       sgGen: `${stem}ė\u0303s`,
       sgLoc: `${stem}ėje\u0300`,
@@ -90,8 +84,7 @@ export default class EDeclinator {
       plLoc: `${stem}ėse\u0300`,
     }
   }
-  static DUKTE: NounType = {
-    gender: Gender.feminine,
+  static DUKTE: DeclinedType = {
     sgNom: `duktė\u0303`,
     sgGen: `dukter\u0303s`,
     sgDat: `du\u0300kteriai`,

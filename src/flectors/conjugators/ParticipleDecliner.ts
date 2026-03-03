@@ -4,17 +4,16 @@ import Inflector, {
   REFLEXIVE_PREFIX,
 } from '~conjugators/Inflector.ts'
 import type {
-  AdjectiveType,
-  GenderfulAdjectiveType,
-  NeuterAdjectiveType,
+  DeclinedType,
+  NeuterDeclinedType,
   PrincipalPartsType,
 } from '~src/types.ts'
 import { stripAllAccents } from '~src/utils.ts'
 
 export type ParticipleType = {
-  masculine: GenderfulAdjectiveType & { gender: 'masculine' }
-  feminine: GenderfulAdjectiveType & { gender: 'feminine' }
-  neuter: NeuterAdjectiveType & { gender: 'neuter' }
+  masculine: DeclinedType & { gender: 'masculine' }
+  feminine: DeclinedType & { gender: 'feminine' }
+  neuter: NeuterDeclinedType & { gender: 'neuter' }
 }
 export type ComplementingParticipleType = Omit<ParticipleType, 'neuter'>
 
@@ -113,7 +112,7 @@ export default abstract class ParticipleDecliner
       ]),
     ) as unknown as T
   }
-  static #applyBracesWithDashToParticiple(ptcp: AdjectiveType): AdjectiveType {
+  static #applyBracesWithDashToParticiple(ptcp: DeclinedType): DeclinedType {
     return Object.fromEntries(
       Object.entries(ptcp).map((
         [key, value],
@@ -121,6 +120,6 @@ export default abstract class ParticipleDecliner
         key,
         PREFIX_EXCLUSION_KEYS.includes(key) ? value : `- (${value})`,
       ]),
-    ) as AdjectiveType
+    ) as DeclinedType
   }
 }

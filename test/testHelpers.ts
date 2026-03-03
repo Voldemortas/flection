@@ -1,7 +1,6 @@
 import type {
   ConjugationType,
   DeclinedType,
-  Gender,
   PrincipalPartsType,
 } from '~src/types.ts'
 export const SOKTI = [`šo\u0300kti`, `šo\u0301kti`, `šo\u0303kti`, `šokti`]
@@ -66,15 +65,12 @@ export function makeConjugatedFromArray(
 }
 
 export function makeDeclinedFromArray(
-  gender: Omit<keyof typeof Gender, 'neuter'>,
   arr: string[] | string[][],
 ): DeclinedType {
   const err = new Error('cannot make declination')
   if (arr.length === 14) {
     if (arr.every((v) => typeof v === 'string')) {
       return {
-        //@ts-ignore gender omission is correct
-        gender,
         sgNom: arr[0],
         sgGen: arr[1],
         sgDat: arr[2],
@@ -94,7 +90,7 @@ export function makeDeclinedFromArray(
   }
   const flatten = arr.flat()
   if (flatten.length === 14 && arr.length === 7) {
-    return makeDeclinedFromArray(gender, [
+    return makeDeclinedFromArray([
       arr[0][0],
       arr[1][0],
       arr[2][0],
@@ -112,7 +108,7 @@ export function makeDeclinedFromArray(
     ]) as unknown as DeclinedType
   }
   if (flatten.length === 14 && arr.length === 2) {
-    return makeDeclinedFromArray(gender, flatten) as unknown as DeclinedType
+    return makeDeclinedFromArray(flatten) as unknown as DeclinedType
   }
   throw err
 }

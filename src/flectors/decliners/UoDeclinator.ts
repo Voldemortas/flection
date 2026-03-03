@@ -1,4 +1,4 @@
-import { Gender, type NounType } from '~src/types.ts'
+import type { DeclinedType } from '~src/types.ts'
 import {
   type AccentuationType,
   moveThirdAccentuation,
@@ -13,14 +13,13 @@ export default class UoDeclinator {
   static decline(
     stem: string,
     type: AccentuationType = SECOND_LAST_ACUTE,
-  ): NounType {
+  ): DeclinedType {
     const accentedStem = moveThirdAccentuation(stem + 'enis', type)
       .replace(
         /enis$/,
         '',
       )
     return {
-      gender: Gender.masculine,
       sgNom: `${stem}uo\u0303`,
       sgGen: `${stem}en\u0303s`,
       sgDat: `${accentedStem}eniui`,
@@ -37,8 +36,7 @@ export default class UoDeclinator {
       plVoc: `${accentedStem}enys`,
     }
   }
-  static SUO: NounType = {
-    gender: Gender.masculine,
+  static SUO: DeclinedType = {
     sgNom: `šuo\u0303`,
     sgGen: `šun\u0303s`,
     sgDat: `šu\u0300niui`,
@@ -54,12 +52,11 @@ export default class UoDeclinator {
     plLoc: `šunyse\u0300`,
     plVoc: `šu\u0300nys`,
   }
-  static MENUO: NounType = {
+  static MENUO: DeclinedType = {
     ...IsDeclinator.declineIoNounI(`mė\u0301nes`),
     nomSg: `mė\u0301nuo`,
-  } as unknown as NounType
-  static SESUO: NounType = {
-    gender: Gender.feminine,
+  } as unknown as DeclinedType
+  static SESUO: DeclinedType = {
     sgNom: `sesuo\u0303`,
     sgGen: `seser\u0303s`,
     sgDat: `se\u0303seriai`,

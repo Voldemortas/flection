@@ -1,5 +1,5 @@
 import Verbal from './Verbal.ts'
-import type { ConjugationType, NounType } from './types.ts'
+import type { ConjugationType, DeclinedType } from './types.ts'
 import type Inflector from '~conjugators/Inflector.ts'
 import PastFrequentativeIndicativeConjugator from '~conjugators/PastFrequentativeIndicativeConjugator.ts'
 import FutureIndicativeConjugator from '~conjugators/FutureIndicativeConjugator.ts'
@@ -33,7 +33,7 @@ export default class Verb extends Verbal {
     new ImperativeConjugator()
   public static readonly infinitive: Inflector<InfinitiveType> =
     new InfinitiveConjugator()
-  public static readonly imasNoun: Inflector<NounType> = new ImasDecliner()
+  public static readonly imasNoun: Inflector<DeclinedType> = new ImasDecliner()
   public static readonly pusdalyvis: Inflector<PusdalyvisType> =
     new PusdalyvisDecliner()
 
@@ -79,7 +79,7 @@ export default class Verb extends Verbal {
       Verb.infinitive,
     )
   }
-  public declineImas(): NounType {
+  public declineImas(): DeclinedType {
     return this.#inflectBasedOnOptions(
       Verb.imasNoun,
     )
@@ -89,7 +89,7 @@ export default class Verb extends Verbal {
       Verb.pusdalyvis,
     )
   }
-  public declineSenaNoun(): NounType {
+  public declineSenaNoun(): DeclinedType {
     const { root } = getInfinitiveRoot(this.principalParts)
     return ADeclinator.declineI(`${root}sen`)
   }

@@ -1,10 +1,9 @@
 import { describe, it } from '@std/testing/bdd'
 import { expect } from '@std/expect'
-import { Gender } from '~src/types.ts'
 import { makeDeclinedFromArray } from '~test/testHelpers.ts'
 import EDeclinator from '~decliners/EDeclinator.ts'
 
-const BULVE = makeDeclinedFromArray(Gender.feminine, [
+const BULVE = makeDeclinedFromArray([
   [`bu\u0300lvė`, `bu\u0300lvės`],
   [`bu\u0300lvės`, `bu\u0300lvių`],
   [`bu\u0300lvei`, `bu\u0300lvėms`],
@@ -13,7 +12,7 @@ const BULVE = makeDeclinedFromArray(Gender.feminine, [
   [`bu\u0300lvėje`, `bu\u0300lvėse`],
   [`bu\u0300lve`, `bu\u0300lvės`],
 ])
-const ZVAKE = makeDeclinedFromArray(Gender.feminine, [
+const ZVAKE = makeDeclinedFromArray([
   [`žva\u0303kė`, `žva\u0303kės`],
   [`žva\u0303kės`, `žva\u0303kių`],
   [`žva\u0303kei`, `žva\u0303kėms`],
@@ -22,7 +21,7 @@ const ZVAKE = makeDeclinedFromArray(Gender.feminine, [
   [`žva\u0303kėje`, `žva\u0303kėse`],
   [`žva\u0303ke`, `žva\u0303kės`],
 ])
-const GERKLE = makeDeclinedFromArray(Gender.feminine, [
+const GERKLE = makeDeclinedFromArray([
   [`gerklė\u0303`, `ge\u0301rklės`],
   [`gerklė\u0303s`, `gerklių\u0303`],
   [`ge\u0301rklei`, `gerklė\u0301ms`],
@@ -31,7 +30,7 @@ const GERKLE = makeDeclinedFromArray(Gender.feminine, [
   [`gerklėje\u0300`, `gerklėse\u0300`],
   [`ge\u0301rkle`, `ge\u0301rklės`],
 ])
-const EKETE = makeDeclinedFromArray(Gender.feminine, [
+const EKETE = makeDeclinedFromArray([
   [`eketė\u0303`, `e\u0303ketės`],
   [`eketė\u0303s`, `ekečių\u0303`],
   [`e\u0303ketei`, `eketė\u0301ms`],
@@ -40,7 +39,7 @@ const EKETE = makeDeclinedFromArray(Gender.feminine, [
   [`eketėje\u0300`, `eketėse\u0300`],
   [`e\u0303kete`, `e\u0303ketės`],
 ])
-const LELE = makeDeclinedFromArray(Gender.feminine, [
+const LELE = makeDeclinedFromArray([
   [`lėlė\u0303`, `lė\u0303lės`],
   [`lėlė\u0303s`, `lėlių\u0303`],
   [`lė\u0303lei`, `lėlė\u0301ms`],

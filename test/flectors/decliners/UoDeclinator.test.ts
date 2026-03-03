@@ -1,10 +1,9 @@
 import { describe, it } from '@std/testing/bdd'
 import { expect } from '@std/expect'
-import { Gender } from '~src/types.ts'
 import { makeDeclinedFromArray } from '~test/testHelpers.ts'
 import UoDeclinator from '~decliners/UoDeclinator.ts'
 
-const AKMUO = makeDeclinedFromArray(Gender.masculine, [
+const AKMUO = makeDeclinedFromArray([
   [`akmuo\u0303`, `a\u0303kmenys`],
   [`akmen\u0303s`, `akmenų\u0303`],
   [`a\u0303kmeniui`, `akmeni\u0300ms`],

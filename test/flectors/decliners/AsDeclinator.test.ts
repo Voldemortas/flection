@@ -1,11 +1,10 @@
 import { describe, it } from '@std/testing/bdd'
 import { expect } from '@std/expect'
-import { Gender } from '~src/types.ts'
 import { makeDeclinedFromArray } from '~test/testHelpers.ts'
 import AsDeclinator from '~decliners/AsDeclinator.ts'
 import { notAttestedInLanguageError } from '~src/errors.ts'
 
-const VYRAS = makeDeclinedFromArray(Gender.masculine, [
+const VYRAS = makeDeclinedFromArray([
   [`vy\u0301ras`, `vy\u0301rai`],
   [`vy\u0301ro`, `vy\u0301rų`],
   [`vy\u0301rui`, `vy\u0301rams`],
@@ -14,7 +13,7 @@ const VYRAS = makeDeclinedFromArray(Gender.masculine, [
   [`vy\u0301re`, `vy\u0301ruose`],
   [`vy\u0301re`, `vy\u0301rai`],
 ])
-const RATAS = makeDeclinedFromArray(Gender.masculine, [
+const RATAS = makeDeclinedFromArray([
   [`ra\u0303tas`, `ra\u0303tai`],
   [`ra\u0303to`, `ra\u0303tų`],
   [`ra\u0303tui`, `ra\u0303tams`],
@@ -23,7 +22,7 @@ const RATAS = makeDeclinedFromArray(Gender.masculine, [
   [`rate\u0300`, `ra\u0303tuose`],
   [`ra\u0303te`, `ra\u0303tai`],
 ])
-const LANGAS = makeDeclinedFromArray(Gender.masculine, [
+const LANGAS = makeDeclinedFromArray([
   [`la\u0301ngas`, `langai\u0303`],
   [`la\u0301ngo`, `langų\u0303`],
   [`la\u0301ngui`, `langa\u0301ms`],
@@ -32,7 +31,7 @@ const LANGAS = makeDeclinedFromArray(Gender.masculine, [
   [`lange\u0300`, `languose\u0300`],
   [`la\u0301nge`, `langai\u0303`],
 ])
-const NAMAS = makeDeclinedFromArray(Gender.masculine, [
+const NAMAS = makeDeclinedFromArray([
   [`na\u0303mas`, `namai\u0303`],
   [`na\u0303mo`, `namų\u0303`],
   [`na\u0303mui`, `nama\u0301ms`],
@@ -42,7 +41,7 @@ const NAMAS = makeDeclinedFromArray(Gender.masculine, [
   [`na\u0303me`, `namai\u0303`],
 ])
 
-const VEJAS = makeDeclinedFromArray(Gender.masculine, [
+const VEJAS = makeDeclinedFromArray([
   [`vė\u0301jas`, `vė\u0301jai`],
   [`vė\u0301jo`, `vė\u0301jų`],
   [`vė\u0301jui`, `vė\u0301jams`],
@@ -51,7 +50,7 @@ const VEJAS = makeDeclinedFromArray(Gender.masculine, [
   [`vė\u0301jyje vė\u0301juje`, `vė\u0301juose`],
   [`vė\u0301jau`, `vė\u0301jai`],
 ])
-const GEJAS = makeDeclinedFromArray(Gender.masculine, [
+const GEJAS = makeDeclinedFromArray([
   [`gė\u0303jas`, `gė\u0303jai`],
   [`gė\u0303jo`, `gė\u0303jų`],
   [`gė\u0303jui`, `gė\u0303jams`],
@@ -60,7 +59,7 @@ const GEJAS = makeDeclinedFromArray(Gender.masculine, [
   [`gė\u0303jyje gė\u0303juje`, `gė\u0303juose`],
   [`gė\u0303jau`, `gė\u0303jai`],
 ])
-const SEJAS = makeDeclinedFromArray(Gender.masculine, [
+const SEJAS = makeDeclinedFromArray([
   [`sė\u0301jas`, `sėjai\u0303`],
   [`sė\u0301jo`, `sėjų\u0303`],
   [`sė\u0301jui`, `sėja\u0301ms`],
@@ -69,7 +68,7 @@ const SEJAS = makeDeclinedFromArray(Gender.masculine, [
   [`sė\u0301jyje sė\u0301juje`, `sėjuose\u0300`],
   [`sė\u0301jau`, `sėjai\u0303`],
 ])
-const KRAUJAS = makeDeclinedFromArray(Gender.masculine, [
+const KRAUJAS = makeDeclinedFromArray([
   [`krau\u0303jas`, `kraujai\u0303`],
   [`krau\u0303jo`, `kraujų\u0303`],
   [`krau\u0303jui`, `krauja\u0301ms`],
@@ -79,7 +78,7 @@ const KRAUJAS = makeDeclinedFromArray(Gender.masculine, [
   [`krau\u0303jau`, `kraujai\u0303`],
 ])
 
-const VIREJAS_I = makeDeclinedFromArray(Gender.masculine, [
+const VIREJAS_I = makeDeclinedFromArray([
   [`virė\u0301jas`, `virė\u0301jai`],
   [`virė\u0301jo`, `virė\u0301jų`],
   [`virė\u0301jui`, `virė\u0301jams`],
@@ -88,7 +87,7 @@ const VIREJAS_I = makeDeclinedFromArray(Gender.masculine, [
   [`virė\u0301juje`, `virė\u0301juose`],
   [`virė\u0301jau`, `virė\u0301jai`],
 ])
-const VIREJAS_II = makeDeclinedFromArray(Gender.masculine, [
+const VIREJAS_II = makeDeclinedFromArray([
   [`virė\u0303jas`, `virė\u0303jai`],
   [`virė\u0303jo`, `virė\u0303jų`],
   [`virė\u0303jui`, `virė\u0303jams`],
@@ -97,7 +96,7 @@ const VIREJAS_II = makeDeclinedFromArray(Gender.masculine, [
   [`virė\u0303juje`, `virė\u0303juose`],
   [`virė\u0303jau`, `virė\u0303jai`],
 ])
-const VIREJAS_III = makeDeclinedFromArray(Gender.masculine, [
+const VIREJAS_III = makeDeclinedFromArray([
   [`virė\u0301jas`, `virėjai\u0303`],
   [`virė\u0301jo`, `virėjų\u0303`],
   [`virė\u0301jui`, `virėja\u0301ms`],
@@ -106,7 +105,7 @@ const VIREJAS_III = makeDeclinedFromArray(Gender.masculine, [
   [`virė\u0301juje`, `virėjuose\u0300`],
   [`virė\u0301jau`, `virėjai\u0303`],
 ])
-const VIREJAS_IV = makeDeclinedFromArray(Gender.masculine, [
+const VIREJAS_IV = makeDeclinedFromArray([
   [`virė\u0303jas`, `virėjai\u0303`],
   [`virė\u0303jo`, `virėjų\u0303`],
   [`virė\u0303jui`, `virėja\u0301ms`],
@@ -116,7 +115,7 @@ const VIREJAS_IV = makeDeclinedFromArray(Gender.masculine, [
   [`virė\u0303jau`, `virėjai\u0303`],
 ])
 
-const ELNIAS = makeDeclinedFromArray(Gender.masculine, [
+const ELNIAS = makeDeclinedFromArray([
   [`e\u0301lnias`, `e\u0301lniai`],
   [`e\u0301lnio`, `e\u0301lnių`],
   [`e\u0301lniui`, `e\u0301lniams`],
@@ -125,7 +124,7 @@ const ELNIAS = makeDeclinedFromArray(Gender.masculine, [
   [`e\u0301lnyje`, `e\u0301lniuose`],
   [`e\u0301lni e\u0301lniau`, `e\u0301lniai`],
 ])
-const KELIAS_II = makeDeclinedFromArray(Gender.masculine, [
+const KELIAS_II = makeDeclinedFromArray([
   [`ke\u0303lias`, `ke\u0303liai`],
   [`ke\u0303lio`, `ke\u0303lių`],
   [`ke\u0303liui`, `ke\u0303liams`],
@@ -134,7 +133,7 @@ const KELIAS_II = makeDeclinedFromArray(Gender.masculine, [
   [`ke\u0303lyje`, `ke\u0303liuose`],
   [`ke\u0303li`, `ke\u0303liai`],
 ])
-const VELNIAS = makeDeclinedFromArray(Gender.masculine, [
+const VELNIAS = makeDeclinedFromArray([
   [`ve\u0301lnias`, `velniai\u0303`],
   [`ve\u0301lnio`, `velnių\u0303`],
   [`ve\u0301lniui`, `velnia\u0301ms`],
@@ -143,7 +142,7 @@ const VELNIAS = makeDeclinedFromArray(Gender.masculine, [
   [`velnyje\u0300`, `velniuose\u0300`],
   [`velny\u0303`, `velniai\u0303`],
 ])
-const KELIAS_IV = makeDeclinedFromArray(Gender.masculine, [
+const KELIAS_IV = makeDeclinedFromArray([
   [`ke\u0303lias`, `keliai\u0303`],
   [`ke\u0303lio`, `kelių\u0303`],
   [`ke\u0303liui`, `kelia\u0301ms`],
@@ -153,7 +152,7 @@ const KELIAS_IV = makeDeclinedFromArray(Gender.masculine, [
   [`kely\u0303`, `keliai\u0303`],
 ])
 
-const ILGOKAS = makeDeclinedFromArray(Gender.masculine, [
+const ILGOKAS = makeDeclinedFromArray([
   [`ilgo\u0301kas`, `ilgo\u0301ki`],
   [`ilgo\u0301ko`, `ilgo\u0301kų`],
   [`ilgo\u0301kam`, `ilgo\u0301kiems`],
@@ -162,7 +161,7 @@ const ILGOKAS = makeDeclinedFromArray(Gender.masculine, [
   [`ilgo\u0301kame`, `ilgo\u0301kuose`],
   [`ilgo\u0301kas`, `ilgo\u0301ki`],
 ])
-const STORAS = makeDeclinedFromArray(Gender.masculine, [
+const STORAS = makeDeclinedFromArray([
   [`sto\u0301ras`, `stori\u0300`],
   [`sto\u0301ro`, `storų\u0303`],
   [`stora\u0301m`, `stori\u0301ems`],
@@ -171,7 +170,7 @@ const STORAS = makeDeclinedFromArray(Gender.masculine, [
   [`storame\u0300`, `storuose\u0300`],
   [`sto\u0301ras`, `stori\u0300`],
 ])
-const MAZAS = makeDeclinedFromArray(Gender.masculine, [
+const MAZAS = makeDeclinedFromArray([
   [`ma\u0303žas`, `maži\u0300`],
   [`ma\u0303žo`, `mažų\u0303`],
   [`maža\u0301m`, `maži\u0301ems`],
@@ -181,7 +180,7 @@ const MAZAS = makeDeclinedFromArray(Gender.masculine, [
   [`ma\u0303žas`, `maži\u0300`],
 ])
 
-const PESCIAS = makeDeclinedFromArray(Gender.masculine, [
+const PESCIAS = makeDeclinedFromArray([
   [`pė\u0301sčias`, `pė\u0301sti`],
   [`pė\u0301sčio`, `pė\u0301sčių`],
   [`pė\u0301sčiam`, `pė\u0301stiems`],
@@ -190,7 +189,7 @@ const PESCIAS = makeDeclinedFromArray(Gender.masculine, [
   [`pė\u0301sčiame`, `pė\u0301sčiuose`],
   [`pė\u0301sčias`, `pė\u0301sti`],
 ])
-const PLOKSCIAS = makeDeclinedFromArray(Gender.masculine, [
+const PLOKSCIAS = makeDeclinedFromArray([
   [`plo\u0301kščias`, `plokšti\u0300`],
   [`plo\u0301kščio`, `plokščių\u0303`],
   [`plokščia\u0301m`, `plokšti\u0301ems`],
@@ -199,7 +198,7 @@ const PLOKSCIAS = makeDeclinedFromArray(Gender.masculine, [
   [`plokščiame\u0300`, `plokščiuose\u0300`],
   [`plo\u0301kščias`, `plokšti\u0300`],
 ])
-const STACIAS = makeDeclinedFromArray(Gender.masculine, [
+const STACIAS = makeDeclinedFromArray([
   [`sta\u0303čias`, `stati\u0300`],
   [`sta\u0303čio`, `stačių\u0303`],
   [`stačia\u0301m`, `stati\u0301ems`],
@@ -209,7 +208,7 @@ const STACIAS = makeDeclinedFromArray(Gender.masculine, [
   [`sta\u0303čias`, `stati\u0300`],
 ])
 
-const KREIPIMASIS = makeDeclinedFromArray(Gender.masculine, [
+const KREIPIMASIS = makeDeclinedFromArray([
   [`kreipi\u0300masis`, `kreipi\u0300maisi`],
   [`kreipi\u0300mosi`, `kreipi\u0300mųsi`],
   [`kreipi\u0300muisi`, `kreipi\u0300mamsis`],
@@ -219,19 +218,19 @@ const KREIPIMASIS = makeDeclinedFromArray(Gender.masculine, [
   [`kreipi\u0300mesi`, `kreipi\u0300maisi`],
 ])
 
-const GERASIS_0 = makeDeclinedFromArray(Gender.masculine, [
+const GERASIS_0 = makeDeclinedFromArray([
   'gerasis gerojo gerajam gerąjį geruoju gerajame gerasis'.split(' '),
   'gerieji gerųjų geriesiems geruosius geraisiais geruosiuose gerieji'.split(
     ' ',
   ),
 ])
-const GERASIS_4 = makeDeclinedFromArray(Gender.masculine, [
+const GERASIS_4 = makeDeclinedFromArray([
   'geràsis gẽrojo gerájam gẽrąjį gerúoju gerãjame geràsis'.split(' '),
   'geríeji gerų̃jų geríesiems gerúosius geraĩsiais geruõsiuose geríeji'.split(
     ' ',
   ),
 ])
-const PESCIASIS_0 = makeDeclinedFromArray(Gender.masculine, [
+const PESCIASIS_0 = makeDeclinedFromArray([
   'pėsčiasis pėsčiojo pėsčiajam pėsčiąjį pėsčiuoju pėsčiajame pėsčiasis'.split(
     ' ',
   ),
@@ -240,7 +239,7 @@ const PESCIASIS_0 = makeDeclinedFromArray(Gender.masculine, [
       ' ',
     ),
 ])
-const PESCIASIS_3 = makeDeclinedFromArray(Gender.masculine, [
+const PESCIASIS_3 = makeDeclinedFromArray([
   'pėsčiàsis pė́sčiojo pėsčiájam pė́sčiąjį pėsčiúoju pėsčiãjame pėsčiàsis'.split(
     ' ',
   ),

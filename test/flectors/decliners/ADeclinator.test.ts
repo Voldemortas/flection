@@ -1,10 +1,9 @@
 import { describe, it } from '@std/testing/bdd'
 import { expect } from '@std/expect'
-import { Gender } from '~src/types.ts'
 import { makeDeclinedFromArray } from '~test/testHelpers.ts'
 import ADeclinator from '~decliners/ADeclinator.ts'
 
-const VARNA = makeDeclinedFromArray(Gender.feminine, [
+const VARNA = makeDeclinedFromArray([
   [`va\u0301rna`, `va\u0301rnos`],
   [`va\u0301rnos`, `va\u0301rnų`],
   [`va\u0301rnai`, `va\u0301rnoms`],
@@ -13,7 +12,7 @@ const VARNA = makeDeclinedFromArray(Gender.feminine, [
   [`va\u0301rnoje`, `va\u0301rnose`],
   [`va\u0301rna`, `va\u0301rnos`],
 ])
-const RANKA = makeDeclinedFromArray(Gender.feminine, [
+const RANKA = makeDeclinedFromArray([
   [`ranka\u0300`, `ran\u0303kos`],
   [`ran\u0303kos`, `ran\u0303kų`],
   [`ran\u0303kai`, `ran\u0303koms`],
@@ -22,7 +21,7 @@ const RANKA = makeDeclinedFromArray(Gender.feminine, [
   [`ran\u0303koje`, `ran\u0303kose`],
   [`ran\u0303ka`, `ran\u0303kos`],
 ])
-const KLAIDA = makeDeclinedFromArray(Gender.feminine, [
+const KLAIDA = makeDeclinedFromArray([
   [`klaida\u0300`, `klai\u0303dos`],
   [`klaido\u0303s`, `klaidų\u0303`],
   [`klai\u0303dai`, `klaido\u0301ms`],
@@ -31,7 +30,7 @@ const KLAIDA = makeDeclinedFromArray(Gender.feminine, [
   [`klaidoje\u0300`, `klaidose\u0300`],
   [`klai\u0303da`, `klai\u0303dos`],
 ])
-const ATRAMA = makeDeclinedFromArray(Gender.feminine, [
+const ATRAMA = makeDeclinedFromArray([
   [`atrama\u0300`, `a\u0303tramos`],
   [`atramo\u0303s`, `atramų\u0303`],
   [`a\u0303tramai`, `atramo\u0301ms`],
@@ -40,7 +39,7 @@ const ATRAMA = makeDeclinedFromArray(Gender.feminine, [
   [`atramoje\u0300`, `atramose\u0300`],
   [`a\u0303trama`, `a\u0303tramos`],
 ])
-const JUODA = makeDeclinedFromArray(Gender.feminine, [
+const JUODA = makeDeclinedFromArray([
   [`juoda\u0300`, `ju\u0301odos`],
   [`juodo\u0303s`, `juodų\u0303`],
   [`ju\u0301odai`, `juodo\u0301ms`],
@@ -49,7 +48,7 @@ const JUODA = makeDeclinedFromArray(Gender.feminine, [
   [`juodoje\u0300`, `juodose\u0300`],
   [`juoda\u0300`, `ju\u0301odos`],
 ])
-const TIKRA = makeDeclinedFromArray(Gender.feminine, [
+const TIKRA = makeDeclinedFromArray([
   [`tikra\u0300`, `ti\u0300kros`],
   [`tikro\u0303s`, `tikrų\u0303`],
   [`ti\u0300krai`, `tikro\u0301ms`],
@@ -58,7 +57,7 @@ const TIKRA = makeDeclinedFromArray(Gender.feminine, [
   [`tikroje\u0300`, `tikrose\u0300`],
   [`tikra\u0300`, `ti\u0300kros`],
 ])
-const TIKROJI = makeDeclinedFromArray(Gender.feminine, [
+const TIKROJI = makeDeclinedFromArray([
   [`tikro\u0301ji`, `ti\u0300krosios`],
   [`tikro\u0303sios`, `tikrų\u0303jų`],
   [`ti\u0300krajai`, `tikro\u0301sioms`],
@@ -67,7 +66,7 @@ const TIKROJI = makeDeclinedFromArray(Gender.feminine, [
   [`tikro\u0303joje`, `tikro\u0303siose`],
   [`tikro\u0301ji`, `ti\u0300krosios`],
 ])
-const PALAIMINTOJI = makeDeclinedFromArray(Gender.feminine, [
+const PALAIMINTOJI = makeDeclinedFromArray([
   [`pala\u0301imintoji`, `pala\u0301imintosios`],
   [`pala\u0301imintosios`, `pala\u0301imintųjų`],
   [`pala\u0301imintajai`, `pala\u0301imintosioms`],

@@ -5,7 +5,7 @@ import {
   makeDeclinedFromArray,
   makePrincipalPartsArray,
 } from './testHelpers.ts'
-import { type ConjugationType, Gender } from '~src/types.ts'
+import type { ConjugationType } from '~src/types.ts'
 
 describe('testHelpers', () => {
   const expected: ConjugationType = {
@@ -63,9 +63,7 @@ describe('testHelpers', () => {
   })
   describe('makeDeclinedFromArray', () => {
     it('throws when array count is not 14', () => {
-      expect(() =>
-        makeDeclinedFromArray(Gender.masculine, [['a', 'b'], ['e', 'f']])
-      )
+      expect(() => makeDeclinedFromArray([['a', 'b'], ['e', 'f']]))
         .toThrow()
     })
   })

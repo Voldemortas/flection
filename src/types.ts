@@ -16,8 +16,7 @@ export enum Gender {
   common = 'common',
 }
 
-export type NounType = {
-  gender: 'masculine' | 'feminine' | 'common'
+export type DeclinedType = {
   sgNom: string
   sgGen: string
   sgDat: string
@@ -34,43 +33,6 @@ export type NounType = {
   plVoc: string
 }
 
-export type GenderfulAdjectiveType = {
-  gender: 'masculine' | 'feminine'
-  sgNom: string
-  sgGen: string
-  sgDat: string
-  sgAcc: string
-  sgInst: string
-  sgLoc: string
-  sgVoc: string
-  plNom: string
-  plGen: string
-  plDat: string
-  plAcc: string
-  plInst: string
-  plLoc: string
-  plVoc: string
-  neuter: never
-}
-
-export type NeuterAdjectiveType = {
-  gender: 'neuter'
+export type NeuterDeclinedType = {
   neuter: string
-  sgNom: never
-  sgGen: never
-  sgDat: never
-  sgAcc: never
-  sgInst: never
-  sgLoc: never
-  sgVoc: never
-  plNom: never
-  plGen: never
-  plDat: never
-  plAcc: never
-  plInst: never
-  plLoc: never
-  plVoc: never
 }
-export type AdjectiveType = GenderfulAdjectiveType & NeuterAdjectiveType
-
-export type DeclinedType = NounType | AdjectiveType

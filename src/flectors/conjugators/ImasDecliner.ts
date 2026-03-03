@@ -1,5 +1,5 @@
 import Inflector from './Inflector.ts'
-import type { NounType, PrincipalPartsType } from '~src/types.ts'
+import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import {
   getInfinitiveRoot,
   getPastRoot,
@@ -9,10 +9,10 @@ import {
 } from '~src/utils.ts'
 import AsDeclinator from '~decliners/AsDeclinator.ts'
 
-export default class ImasDecliner extends Inflector<NounType> {
+export default class ImasDecliner extends Inflector<DeclinedType> {
   override getDefault(
     principalParts: PrincipalPartsType,
-  ): NounType {
+  ): DeclinedType {
     const stem = ImasDecliner.#makeStem(principalParts)
     return (/ym$/.test(stem) || !hasAnyAccent(stem))
       ? AsDeclinator.declineAsNounI(stem)
@@ -20,7 +20,7 @@ export default class ImasDecliner extends Inflector<NounType> {
   }
   override getReflexive(
     principalParts: PrincipalPartsType,
-  ): NounType {
+  ): DeclinedType {
     const stem = ImasDecliner.#makeStem(principalParts)
     return AsDeclinator.declineAsReflexiveNoun(stem)
   }
@@ -28,7 +28,7 @@ export default class ImasDecliner extends Inflector<NounType> {
   protected getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
-  ): NounType {
+  ): DeclinedType {
     return this.getBasicImmobilePrefixed(prefix, principalParts)
   }
 

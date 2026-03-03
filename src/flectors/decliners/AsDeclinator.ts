@@ -1,4 +1,4 @@
-import { type AdjectiveType, Gender, type NounType } from '~src/types.ts'
+import type { DeclinedType } from '~src/types.ts'
 import { getUnpalatalizedRoot, stripAllAccents } from '~src/utils.ts'
 import { notAttestedInLanguageError } from '~src/errors.ts'
 
@@ -6,19 +6,17 @@ import { notAttestedInLanguageError } from '~src/errors.ts'
  * @description Declinator for -(i/j)as nominals. All methods accept stems without nominative -as (but with i/j)
  */
 export default class AsDeclinator {
-  static declineAsReflexiveNoun(stem: string): NounType {
+  static declineAsReflexiveNoun(stem: string): DeclinedType {
     return {
       ...Object.fromEntries(
         Object.entries(AsDeclinator.declineAsNounI(stem)).map((
           [key, value],
         ) => [key, (value + 'si').replace(/ssi$/, 'sis')]),
       ),
-      gender: Gender.masculine,
-    } as unknown as NounType
+    } as unknown as DeclinedType
   }
-  static declineAsNounI(stem: string): NounType {
+  static declineAsNounI(stem: string): DeclinedType {
     return {
-      gender: Gender.masculine,
       sgNom: `${stem}as`,
       sgGen: `${stem}o`,
       sgDat: `${stem}ui`,
@@ -35,7 +33,7 @@ export default class AsDeclinator {
       plVoc: `${stem}ai`,
     }
   }
-  static declineAsNounII(stem: string): NounType {
+  static declineAsNounII(stem: string): DeclinedType {
     const accentlessRoot = stripAllAccents(stem)
     return {
       ...AsDeclinator.declineAsNounI(stem),
@@ -44,14 +42,14 @@ export default class AsDeclinator {
       plAcc: `${accentlessRoot}u\u0300s`,
     }
   }
-  static declineAsNounIII(stem: string): NounType {
+  static declineAsNounIII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIV(stem),
       sgInst: `${stem}u`,
       plAcc: `${stem}us`,
     }
   }
-  static declineAsNounIV(stem: string): NounType {
+  static declineAsNounIV(stem: string): DeclinedType {
     const accentlessRoot = stripAllAccents(stem)
     return {
       ...AsDeclinator.declineAsNounII(stem),
@@ -63,55 +61,55 @@ export default class AsDeclinator {
       plVoc: `${accentlessRoot}ai\u0303`,
     }
   }
-  static declineBisyllabicJasNounI(stem: string): NounType {
+  static declineBisyllabicJasNounI(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
       ...AsDeclinator.#bisyllabic(stem),
     }
   }
-  static declineBisyllabicJasNounII(stem: string): NounType {
+  static declineBisyllabicJasNounII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounII(stem),
       ...AsDeclinator.#bisyllabic(stem),
     }
   }
-  static declineBisyllabicJasNounIII(stem: string): NounType {
+  static declineBisyllabicJasNounIII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIII(stem),
       ...AsDeclinator.#bisyllabic(stem),
     }
   }
-  static declineBisyllabicJasNounIV(stem: string): NounType {
+  static declineBisyllabicJasNounIV(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIV(stem),
       ...AsDeclinator.#bisyllabic(stem),
     }
   }
-  static declinePolysyllabicJasNounI(stem: string): NounType {
+  static declinePolysyllabicJasNounI(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
       ...AsDeclinator.#polysyllabic(stem),
     }
   }
-  static declinePolysyllabicJasNounII(stem: string): NounType {
+  static declinePolysyllabicJasNounII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounII(stem),
       ...AsDeclinator.#polysyllabic(stem),
     }
   }
-  static declinePolysyllabicJasNounIII(stem: string): NounType {
+  static declinePolysyllabicJasNounIII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIII(stem),
       ...AsDeclinator.#polysyllabic(stem),
     }
   }
-  static declinePolysyllabicJasNounIV(stem: string): NounType {
+  static declinePolysyllabicJasNounIV(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIV(stem),
       ...AsDeclinator.#polysyllabic(stem),
     }
   }
-  static declineIasNounI(stem: string): NounType {
+  static declineIasNounI(stem: string): DeclinedType {
     const depalatalisedStem = getUnpalatalizedRoot(stem).replace(/i$/, '')
     return {
       ...AsDeclinator.declineAsNounI(stem),
@@ -119,7 +117,7 @@ export default class AsDeclinator {
       sgVoc: `${stem} ${stem}au`,
     }
   }
-  static declineIasNounII(stem: string): NounType {
+  static declineIasNounII(stem: string): DeclinedType {
     const depalatalisedStem = getUnpalatalizedRoot(stem).replace(/i$/, '')
     return {
       ...AsDeclinator.declineAsNounII(stem),
@@ -127,7 +125,7 @@ export default class AsDeclinator {
       sgVoc: `${stem}`,
     }
   }
-  static declineIasNounIII(stem: string): NounType {
+  static declineIasNounIII(stem: string): DeclinedType {
     const depalatalisedUnAccentedStem = stripAllAccents(
       getUnpalatalizedRoot(stem).replace(/i$/, ''),
     )
@@ -137,7 +135,7 @@ export default class AsDeclinator {
       sgVoc: `${depalatalisedUnAccentedStem}y\u0303`,
     }
   }
-  static declineIasNounIV(stem: string): NounType {
+  static declineIasNounIV(stem: string): DeclinedType {
     const depalatalisedUnAccentedStem = stripAllAccents(
       getUnpalatalizedRoot(stem).replace(/i$/, ''),
     )
@@ -148,27 +146,27 @@ export default class AsDeclinator {
     }
   }
 
-  static declineAsAdjectivalI(stem: string): AdjectiveType {
+  static declineAsAdjectivalI(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
       ...this.#adjectivalAs(stem),
-    } as AdjectiveType & { gender: Gender.masculine }
+    }
   }
   /**
    * @description no adjectives ending -as and belonging to the 2nd accentuation have been found but just in case the method is here
    */
-  static declineAsAdjectivalII(_stem: string): AdjectiveType {
+  static declineAsAdjectivalII(_stem: string): DeclinedType {
     throw notAttestedInLanguageError
   }
-  static declineAsAdjectivalIII(stem: string): AdjectiveType {
+  static declineAsAdjectivalIII(stem: string): DeclinedType {
     return {
       //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalIV(stem),
       sgInst: `${stem}u`,
       plAcc: `${stem}us`,
-    } as AdjectiveType & { gender: Gender.masculine }
+    }
   }
-  static declineAsAdjectivalIV(stem: string): AdjectiveType {
+  static declineAsAdjectivalIV(stem: string): DeclinedType {
     const accentlessRoot = stripAllAccents(stem)
     return {
       ...AsDeclinator.declineAsNounIV(stem),
@@ -178,9 +176,9 @@ export default class AsDeclinator {
       plNom: `${accentlessRoot}i\u0300`,
       plDat: `${accentlessRoot}i\u0301ems`,
       plVoc: `${accentlessRoot}i\u0300`,
-    } as AdjectiveType & { gender: Gender.masculine }
+    }
   }
-  static declineIasAdjectivalI(stem: string): AdjectiveType {
+  static declineIasAdjectivalI(stem: string): DeclinedType {
     return {
       //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalI(stem),
@@ -190,17 +188,17 @@ export default class AsDeclinator {
   /**
    * @description no adjectives ending -as and belonging to the 2nd accentuation have been found but just in case the method is here
    */
-  static declineIasAdjectivalII(_stem: string): AdjectiveType {
+  static declineIasAdjectivalII(_stem: string): DeclinedType {
     throw notAttestedInLanguageError
   }
-  static declineIasAdjectivalIII(stem: string): AdjectiveType {
+  static declineIasAdjectivalIII(stem: string): DeclinedType {
     return {
       //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalIII(stem),
       ...AsDeclinator.#adjectivalIasFlection(stem),
     }
   }
-  static declineIasAdjectivalIV(stem: string): AdjectiveType {
+  static declineIasAdjectivalIV(stem: string): DeclinedType {
     return {
       //@ts-ignore spreading is good, stop complaining
       ...AsDeclinator.declineAsAdjectivalIV(stem),
@@ -208,9 +206,8 @@ export default class AsDeclinator {
     }
   }
 
-  static declineAsPronominalImmobile(stem: string): AdjectiveType {
+  static declineAsPronominalImmobile(stem: string): DeclinedType {
     return {
-      gender: Gender.masculine,
       sgNom: `${stem}asis`,
       sgGen: `${stem}ojo`,
       sgDat: `${stem}ajam`,
@@ -225,7 +222,7 @@ export default class AsDeclinator {
       plInst: `${stem}aisiais`,
       plLoc: `${stem}uosiuose`,
       plVoc: `${stem}ieji`,
-    } as AdjectiveType & { gender: Gender.masculine }
+    }
   }
   /**
    * @description declines pronominal adjectives of the 3rd and the 4th accentuation class
@@ -233,10 +230,9 @@ export default class AsDeclinator {
    */
   static declineAsPronominalMobile(
     stem: string,
-  ): AdjectiveType {
+  ): DeclinedType {
     const accentlessRoot = stripAllAccents(stem)
     return {
-      gender: Gender.masculine,
       sgNom: `${accentlessRoot}a\u0300sis`,
       sgGen: `${stem}ojo`,
       sgDat: `${accentlessRoot}a\u0301jam`,
@@ -251,9 +247,9 @@ export default class AsDeclinator {
       plInst: `${accentlessRoot}ai\u0303siais`,
       plLoc: `${accentlessRoot}uo\u0303siuose`,
       plVoc: `${accentlessRoot}i\u0301eji`,
-    } as AdjectiveType & { gender: Gender.masculine }
+    }
   }
-  static declineIasPronominalImmobile(stem: string): AdjectiveType {
+  static declineIasPronominalImmobile(stem: string): DeclinedType {
     const depalatalisedStem = getUnpalatalizedRoot(stem).replace(/i$/, '')
     return {
       //@ts-ignore spreading is good, stop complaining
@@ -261,7 +257,7 @@ export default class AsDeclinator {
       plNom: `${depalatalisedStem}ieji`,
       plDat: `${depalatalisedStem}iesiems`,
       plVoc: `${depalatalisedStem}ieji`,
-    } as AdjectiveType & { gender: Gender.masculine }
+    }
   }
   /**
    * @description declines pronominal adjectives of the 3rd and the 4th accentuation class
@@ -269,7 +265,7 @@ export default class AsDeclinator {
    */
   static declineIasPronominalMobile(
     stem: string,
-  ): AdjectiveType {
+  ): DeclinedType {
     const depalatalisedAccentlessStem = stripAllAccents(
       getUnpalatalizedRoot(stem).replace(/i$/, ''),
     )
@@ -279,7 +275,7 @@ export default class AsDeclinator {
       plNom: `${depalatalisedAccentlessStem}i\u0301eji`,
       plDat: `${depalatalisedAccentlessStem}i\u0301esiems`,
       plVoc: `${depalatalisedAccentlessStem}i\u0301eji`,
-    } as AdjectiveType & { gender: Gender.masculine }
+    }
   }
 
   static #bisyllabic(stem: string): { sgLoc: string; sgVoc: string } {
