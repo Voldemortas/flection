@@ -9,7 +9,6 @@ import type { PrincipalPartsType } from '~src/types.ts'
 export const REFLEXIVE_PREFIX = 'si'
 export const ACUTE_PREFIXES: string[] = [`pe\u0301r`]
 const EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
-export const PREFIX_EXCLUSION_KEYS = ['gender']
 
 export default abstract class Inflector<
   T extends Record<string, string | Record<string, string>>,
@@ -130,23 +129,23 @@ export default abstract class Inflector<
     prefix: string,
     inflected: T,
   ): T {
-    if (typeof Object.values(inflected)[0] === 'string') {
-      return Object.fromEntries(
-        Object.entries(inflected).map((
-          [key, value],
-        ) => [
-          key,
-          PREFIX_EXCLUSION_KEYS.includes(key)
-            ? value
-            : Inflector.applyPrefixToForm(prefix, value),
-        ]),
-      ) as T
-    }
+    // if (typeof Object.values(inflected)[0] === 'string') {
     return Object.fromEntries(
       Object.entries(inflected).map((
         [key, value],
-      ) => [key, this.applyPrefixToParadigm(prefix, value)]),
+      ) => [
+        key,
+        typeof value === 'string'
+          ? Inflector.applyPrefixToForm(prefix, value)
+          : this.applyPrefixToParadigm(prefix, value),
+      ]),
     ) as T
+    // }
+    // return Object.fromEntries(
+    //   Object.entries(inflected).map((
+    //     [key, value],
+    //   ) => [key, this.applyPrefixToParadigm(prefix, value)]),
+    // ) as T
   }
 
   protected readonly getBasicImmobilePrefixed = (

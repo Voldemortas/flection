@@ -6,6 +6,8 @@ import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
 import type Inflector from '~conjugators/Inflector.ts'
 import ADeclinator from '~decliners/ADeclinator.ts'
 import type { DeclinedType } from '~src/types.ts'
+import type ParticipleDecliner from '~conjugators/ParticipleDecliner.ts'
+import type { ParticipleType } from '~conjugators/ParticipleDecliner.ts'
 
 describe('Verb', () => {
   describe('deverbial nouns', () => {
@@ -71,8 +73,20 @@ describe('Verb', () => {
       'declinePusdalyvis',
       'pusdalyvis',
     )
+    assertTense(
+      Verb.pastPassiveParticiple,
+      'declinePastPassiveParticiple',
+      'pastPassiveParticiple',
+    )
+    assertPronominal(
+      Verb.pastPassiveParticiple,
+      'declinePastPassiveParticiple',
+      'pastPassiveParticiple',
+    )
 
-    function assertTense<T extends Record<string, string>>(
+    function assertTense<
+      T extends Record<string, string | Record<string, string>>,
+    >(
       conjugator: Inflector<T>,
       conjugateMethod: keyof Verb,
       conjugatorName: string,
@@ -84,7 +98,7 @@ describe('Verb', () => {
             conjugator,
             'getDefault',
             //@ts-ignore method is actually callable
-            () => new Verb(principalParts)[conjugateMethod](),
+            () => new Verb(principalParts)[conjugateMethod](false),
             [principalParts],
           )
         })
@@ -92,8 +106,11 @@ describe('Verb', () => {
           assertCorrectConjugationWasCalled(
             conjugator,
             'getPrefixed',
-            //@ts-ignore method is actually callable
-            () => new Verb(principalParts, { prefix: 'ne' })[conjugateMethod](),
+            () =>
+              //@ts-ignore method is actually callable
+              new Verb(principalParts, { prefix: 'ne' })[conjugateMethod](
+                false,
+              ),
             [principalParts, 'ne'],
           )
         })
@@ -103,7 +120,9 @@ describe('Verb', () => {
             'getReflexive',
             () =>
               //@ts-ignore method is actually callable
-              new Verb(principalParts, { reflexive: true })[conjugateMethod](),
+              new Verb(principalParts, { reflexive: true })[conjugateMethod](
+                false,
+              ),
             [principalParts],
           )
         })
@@ -114,7 +133,59 @@ describe('Verb', () => {
             () =>
               //@ts-ignore method is actually callable
               new Verb(principalParts, { prefix: 'ne', reflexive: true })
-                [conjugateMethod](),
+                [conjugateMethod](false),
+            [principalParts, 'ne'],
+          )
+        })
+      })
+    }
+
+    function assertPronominal(
+      conjugator: ParticipleDecliner,
+      conjugateMethod: keyof Verb,
+      conjugatorName: string,
+    ) {
+      describe(conjugateMethod, () => {
+        const principalParts = EMPTY_PRINCIPAL_PARTS
+        it(`uses pronominal ${conjugatorName}.getDefault() when there's no prefix and reflexiveness`, () => {
+          assertCorrectConjugationWasCalled(
+            conjugator,
+            'getPronominal',
+            //@ts-ignore method is actually callable
+            () => new Verb(principalParts)[conjugateMethod](true),
+            [principalParts],
+          )
+        })
+        it(`uses pronominal ${conjugatorName}.getPrefixed() when there's a prefix`, () => {
+          assertCorrectConjugationWasCalled(
+            conjugator,
+            'getPrefixedPronominal',
+            () =>
+              //@ts-ignore method is actually callable
+              new Verb(principalParts, { prefix: 'ne' })[conjugateMethod](true),
+            [principalParts, 'ne'],
+          )
+        })
+        it(`uses pronominal ${conjugatorName}.getReflexive() for reflexive`, () => {
+          assertCorrectConjugationWasCalled(
+            conjugator,
+            'getReflexivePronominal',
+            () =>
+              //@ts-ignore method is actually callable
+              new Verb(principalParts, { reflexive: true })[conjugateMethod](
+                true,
+              ),
+            [principalParts],
+          )
+        })
+        it(`uses pronominal ${conjugatorName}.getPrefixedReflexive() for prefixed reflexive`, () => {
+          assertCorrectConjugationWasCalled(
+            conjugator,
+            'getPrefixedReflexivePronominal',
+            () =>
+              //@ts-ignore method is actually callable
+              new Verb(principalParts, { prefix: 'ne', reflexive: true })
+                [conjugateMethod](true),
             [principalParts, 'ne'],
           )
         })
@@ -122,24 +193,24 @@ describe('Verb', () => {
     }
 
     function assertCorrectConjugationWasCalled<
-      T extends Record<string, string>,
+      T extends Record<string, string | Record<string, string>>,
     >(
-      conjugator: Inflector<T>,
-      method: keyof Inflector<T>,
+      conjugator: Inflector<T> | ParticipleDecliner,
+      method: keyof (ParticipleDecliner),
       action: () => T,
       args: [string[], string?],
     ) {
       const mockedValue = Math.random() as unknown as T
       const myStub = stub(
-        conjugator,
+        conjugator as unknown as ParticipleDecliner,
         method,
-        returnsNext([mockedValue]),
+        returnsNext([mockedValue as unknown as ParticipleType]),
       )
       const result = action()
       expect(result).toStrictEqual(mockedValue)
       assertSpyCall(myStub, 0, {
         args,
-        returned: mockedValue,
+        returned: mockedValue as unknown as ParticipleType,
       })
       myStub.restore()
     }

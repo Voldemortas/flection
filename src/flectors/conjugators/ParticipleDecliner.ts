@@ -1,6 +1,5 @@
 import Inflector, {
   ACUTE_PREFIXES,
-  PREFIX_EXCLUSION_KEYS,
   REFLEXIVE_PREFIX,
 } from '~conjugators/Inflector.ts'
 import type {
@@ -11,9 +10,9 @@ import type {
 import { stripAllAccents } from '~src/utils.ts'
 
 export type ParticipleType = {
-  masculine: DeclinedType & { gender: 'masculine' }
-  feminine: DeclinedType & { gender: 'feminine' }
-  neuter: NeuterDeclinedType & { gender: 'neuter' }
+  masculine: DeclinedType
+  feminine: DeclinedType
+  neuter: NeuterDeclinedType
 }
 export type ComplementingParticipleType = Omit<ParticipleType, 'neuter'>
 
@@ -118,7 +117,7 @@ export default abstract class ParticipleDecliner
         [key, value],
       ) => [
         key,
-        PREFIX_EXCLUSION_KEYS.includes(key) ? value : `- (${value})`,
+        `- (${value})`,
       ]),
     ) as DeclinedType
   }
