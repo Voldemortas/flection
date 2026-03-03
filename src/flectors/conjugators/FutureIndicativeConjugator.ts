@@ -3,12 +3,12 @@ import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import {
   appendSuffixWithAssimilation,
   getInfinitiveRoot,
+  isRootMonosyllabic,
   stripAllAccents,
   stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
 import {
   conjugateThematicThirdAndPlural,
-  isRootMonosyllabic,
   metatonise3rdFuture,
   siutiFuture,
   vytiFuture,

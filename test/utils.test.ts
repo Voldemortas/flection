@@ -12,6 +12,7 @@ import {
   hasAnyAccent,
   hasCircumflexOrShortAccent,
   isEverythingEqual,
+  isRootMonosyllabic,
   putAccentOnPrefix,
   putAccentOnString,
   stripAllAccents,
@@ -492,6 +493,24 @@ describe('utils', () => {
         hasAccentedSyllable: true,
         type: 'circumflex',
         syllable: 3,
+      })
+    })
+  })
+  describe('isRootMonosyllabic', () => {
+    const data: [string, boolean][] = [
+      ['duod', true],
+      ['duo', true],
+      ['uod', true],
+      ['liuod', true],
+      ['liuo', true],
+      [`rin\u0303kt`, true],
+      ['pažy', false],
+      ['pažys', false],
+      ['ažys', false],
+    ]
+    data.forEach(([root, isMonosyllabic]) => {
+      describe(`checks if ${root} is monosyllabic`, () => {
+        expect(isRootMonosyllabic(root)).toStrictEqual(isMonosyllabic)
       })
     })
   })

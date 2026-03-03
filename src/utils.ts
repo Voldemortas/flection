@@ -6,7 +6,7 @@ import {
   syllableCannotCarryAcuteError,
   tooFewSyllablesError,
 } from './errors.ts'
-import type { PrincipalPartsType } from './types.ts'
+import type { DeclinedType, PrincipalPartsType } from './types.ts'
 
 export const consonants = 'bcčdfghjklmnprsštvzž'
 export const longVowels = 'ąęįųėoyū'
@@ -219,4 +219,25 @@ export function countAccentedSyllable(
       }
     }
   } while (true)
+}
+
+export function isRootMonosyllabic(root: string) {
+  return [...SYLLABLE_REGEX.exec(root)!][1] === ''
+}
+
+export const declinedEmpty: Omit<DeclinedType, 'gender' | 'neuter'> = {
+  sgNom: '',
+  sgGen: '',
+  sgDat: '',
+  sgAcc: '',
+  sgInst: '',
+  sgLoc: '',
+  sgVoc: '',
+  plNom: '',
+  plGen: '',
+  plDat: '',
+  plAcc: '',
+  plInst: '',
+  plLoc: '',
+  plVoc: '',
 }

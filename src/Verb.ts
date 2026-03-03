@@ -1,6 +1,6 @@
 import Verbal from './Verbal.ts'
 import type { ConjugationType, NounType } from './types.ts'
-import type Inflector from './flectors/conjugators/Inflector.ts'
+import type Inflector from '~conjugators/Inflector.ts'
 import PastFrequentativeIndicativeConjugator from '~conjugators/PastFrequentativeIndicativeConjugator.ts'
 import FutureIndicativeConjugator from '~conjugators/FutureIndicativeConjugator.ts'
 import PastSimpleIndicativeConjugator from '~conjugators/PastSimpleIndicativeConjugator.ts'
@@ -10,12 +10,12 @@ import ImperativeConjugator from '~conjugators/ImperativeConjugator.ts'
 import InfinitiveConjugator, {
   type InfinitiveType,
 } from '~conjugators/InfinitiveConjugator.ts'
-import ImasDecliner from './flectors/conjugators/ImasDecliner.ts'
+import ImasDecliner from '~conjugators/ImasDecliner.ts'
 import ADeclinator from '~decliners/ADeclinator.ts'
 import { getInfinitiveRoot } from './utils.ts'
 import PusdalyvisDecliner, {
   type PusdalyvisType,
-} from './flectors/conjugators/PusdalyvisDecliner.ts'
+} from '~conjugators/PusdalyvisDecliner.ts'
 
 export default class Verb extends Verbal {
   public static readonly pastFrequentativeIndicative: Inflector<

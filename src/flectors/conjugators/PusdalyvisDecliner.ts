@@ -1,7 +1,11 @@
 import type { PrincipalPartsType } from '~src/types.ts'
-import { getInfinitiveRoot, hasAnyAccent, stripAllAccents } from '~src/utils.ts'
+import {
+  getInfinitiveRoot,
+  hasAnyAccent,
+  isRootMonosyllabic,
+  stripAllAccents,
+} from '~src/utils.ts'
 import Inflector from './Inflector.ts'
-import { isRootMonosyllabic } from './utils.ts'
 
 export type PusdalyvisType = Record<
   'sgMasc' | 'sgFem' | 'plMasc' | 'plFem',

@@ -7,7 +7,6 @@ import {
   resonants,
   shortVowels,
   stripAllAccents,
-  vowels,
 } from '~src/utils.ts'
 
 export function conjugateThematicThirdAndPlural(
@@ -42,14 +41,6 @@ export function decorateConjugatedReflexive(
     pl2: mood.pl2,
     pl3: `${mood.pl3}i ${mood.pl3}`,
   }
-}
-
-export function isRootMonosyllabic(root: string) {
-  const pattern = new RegExp(
-    `^[${consonants}]*?[${vowels}]+[\u0300\u0301\u0303]?[${consonants}]*?$`,
-    'i',
-  )
-  return pattern.test(root)
 }
 
 export function metatonise3rdFuture(word: string) {
@@ -152,12 +143,4 @@ export const siutiFuture: ConjugationType = {
   sg3: `siū\u0303s`,
   ...conjugateThematicPlural(`siū\u0301s`, 'i'),
   pl3: `siū\u0303s`,
-}
-
-export const nera: ConjugationType = {
-  sg1: `nesu\u0300`,
-  sg2: `nesi\u0300`,
-  sg3: `nėra\u3000`,
-  ...conjugateThematicPlural(`ne\u0303s`, 'a'),
-  pl3: `nėra\u3000`,
 }

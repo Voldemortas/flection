@@ -6,10 +6,12 @@ import {
   getInfinitiveRoot,
   getPastRoot,
   getPresentRoot,
+  getUnpalatalizedRoot,
   hasAcuteAccent,
   hasAnyAccent,
   hasCircumflexOrShortAccent,
   isEverythingEqual,
+  isRootMonosyllabic,
   putAccentOnPrefix,
   stripAllAccents,
   vowels,
@@ -21,7 +23,6 @@ import {
   conjugateMobileA,
   conjugateMobileI,
   conjugateMobileO,
-  isRootMonosyllabic,
 } from './utils.ts'
 
 export default class PresentIndicativeConjugator extends FiniteConjugator {
@@ -133,7 +134,7 @@ export default class PresentIndicativeConjugator extends FiniteConjugator {
     ) {
       return true
     }
-    return isRootMonosyllabic(root)
+    return !isRootMonosyllabic(getUnpalatalizedRoot(root))
   }
 
   #isAlternatingCircumflexIWithE(principalParts: PrincipalPartsType): boolean {

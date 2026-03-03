@@ -3,7 +3,7 @@ import { describe, it } from '@std/testing/bdd'
 import ParticipleDecliner, {
   type ComplementingParticipleType,
   type ParticipleType,
-} from '~src/flectors/conjugators/ParticipleDecliner.ts'
+} from '~conjugators/ParticipleDecliner.ts'
 import { Gender, type PrincipalPartsType } from '~src/types.ts'
 import { returnsNext, stub } from '@std/testing/mock'
 
@@ -51,11 +51,6 @@ class NonAbstractParticipleDecliner extends ParticipleDecliner {
   ): ParticipleType {
     return DEFAULT_DECLINED
   }
-  getReflexive(
-    _principalParts: PrincipalPartsType,
-  ): ParticipleType {
-    throw ''
-  }
 
   getPronominal(
     _principalParts: PrincipalPartsType,
@@ -90,6 +85,18 @@ describe('ParticipleDecliner', () => {
         expect(result.feminine.sgNom).toStrictEqual(`pe\u0301rgyvenanti`)
         myStub.restore()
       })
+    })
+    it(`calls default method for reflexive`, () => {
+      const myStub = stub(
+        conjugator,
+        'getDefault',
+        returnsNext([DEFAULT_ACCENTED]),
+      )
+      const result = conjugator.getReflexive(GYVENA)
+      expect(result.feminine.sgNom).toStrictEqual(
+        `- (besi${DEFAULT_ACCENTED.feminine.sgNom})`,
+      )
+      myStub.restore()
     })
   })
   describe('pronominal', () => {
@@ -126,7 +133,7 @@ describe('ParticipleDecliner', () => {
         expect(result.feminine.sgNom).toStrictEqual(`pe\u0301rsigyvenančioji`)
         myStub.restore()
       })
-      it(`calls default method for be+si+gyve\u0303na`, () => {
+      it(`calls default method for reflexive`, () => {
         const myStub = stub(
           conjugator,
           'getPronominal',
@@ -134,7 +141,7 @@ describe('ParticipleDecliner', () => {
         )
         const result = conjugator.getReflexivePronominal(GYVENA)
         expect(result.feminine.sgNom).toStrictEqual(
-          `(besi${PRONOMINAL_ACCENTED.feminine.sgNom})`,
+          `- (besi${PRONOMINAL_ACCENTED.feminine.sgNom})`,
         )
         myStub.restore()
       })

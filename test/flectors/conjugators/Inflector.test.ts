@@ -1,6 +1,6 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
-import Inflector from '~src/flectors/conjugators/Inflector.ts'
+import Inflector from '~conjugators/Inflector.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import { makeConjugatedFromArray } from '~test/testHelpers.ts'

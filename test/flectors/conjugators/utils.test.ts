@@ -2,7 +2,6 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import {
   decorateConjugatedReflexive,
-  isRootMonosyllabic,
   metatonise3rdFuture,
 } from '~conjugators/utils.ts'
 import type { ConjugationType } from '~src/types.ts'
@@ -27,23 +26,6 @@ describe('flector utils', () => {
         pl3: 'gsi gs',
       }
       expect(decorateConjugatedReflexive(conjugated)).toMatchObject(expected)
-    })
-  })
-  describe('isRootMonosyllabic', () => {
-    const data: [string, boolean][] = [
-      ['duod', true],
-      ['duo', true],
-      ['uod', true],
-      ['liuod', true],
-      ['liuo', true],
-      ['pažy', false],
-      ['pažys', false],
-      ['ažys', false],
-    ]
-    data.forEach(([root, isMonosyllabic]) => {
-      describe(`checks if ${root} is monosyllabic`, () => {
-        expect(isRootMonosyllabic(root)).toStrictEqual(isMonosyllabic)
-      })
     })
   })
   describe('metatonise3rdFuture', () => {

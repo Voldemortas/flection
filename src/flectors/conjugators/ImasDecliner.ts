@@ -4,9 +4,9 @@ import {
   getInfinitiveRoot,
   getPastRoot,
   hasAnyAccent,
+  isRootMonosyllabic,
   stripAllAccents,
 } from '~src/utils.ts'
-import { isRootMonosyllabic } from './utils.ts'
 import AsDeclinator from '~decliners/AsDeclinator.ts'
 
 export default class ImasDecliner extends Inflector<NounType> {
