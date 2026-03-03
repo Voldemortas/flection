@@ -34,7 +34,7 @@ export type NounType = {
   plVoc: string
 }
 
-export type AdjectiveType = {
+export type GenderfulAdjectiveType = {
   gender: 'masculine' | 'feminine'
   sgNom: string
   sgGen: string
@@ -51,7 +51,9 @@ export type AdjectiveType = {
   plLoc: string
   plVoc: string
   neuter: never
-} & {
+}
+
+export type NeuterAdjectiveType = {
   gender: 'neuter'
   neuter: string
   sgNom: never
@@ -69,5 +71,6 @@ export type AdjectiveType = {
   plLoc: never
   plVoc: never
 }
+export type AdjectiveType = GenderfulAdjectiveType & NeuterAdjectiveType
 
 export type DeclinedType = NounType | AdjectiveType

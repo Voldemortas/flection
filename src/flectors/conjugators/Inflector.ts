@@ -6,9 +6,10 @@ import {
 } from '~src/utils.ts'
 import type { PrincipalPartsType } from '~src/types.ts'
 
-const ACUTE_PREFIXES: string[] = [`pe\u0301r`]
+export const REFLEXIVE_PREFIX = 'si'
+export const ACUTE_PREFIXES: string[] = [`pe\u0301r`]
 const EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
-const PREFIX_EXCLUSION_KEYS = ['gender']
+export const PREFIX_EXCLUSION_KEYS = ['gender']
 
 export default abstract class Inflector<
   T extends Record<string, string | Record<string, string>>,
@@ -26,6 +27,14 @@ export default abstract class Inflector<
     principalParts: PrincipalPartsType,
     prefix: string,
   ): T => {
+    return this.getPrefixedForInflected(principalParts, prefix, this.getDefault)
+  }
+
+  protected getPrefixedForInflected(
+    principalParts: PrincipalPartsType,
+    prefix: string,
+    getBasicInflected: (principalParts: PrincipalPartsType) => T,
+  ): T {
     const joinedPrincipalParts = principalParts.join('-')
     if (
       stripAllAccents(prefix) === 'ne' &&
@@ -34,7 +43,7 @@ export default abstract class Inflector<
         EITI_JOINED,
       )
     ) {
-      return this.getDefault(
+      return getBasicInflected(
         principalParts.map((part) => `n${part}`) as PrincipalPartsType,
       )
     }
@@ -42,10 +51,10 @@ export default abstract class Inflector<
       ACUTE_PREFIXES.map(stripAllAccents).includes(prefix) ||
       hasAcuteAccent(prefix)
     if (isPrefixAcute) {
-      const inflected = this.getDefault(principalParts)
+      const inflected = getBasicInflected(principalParts)
       const deepestInflected = (typeof Object.values(inflected)[0] === 'string'
         ? inflected
-        : Object.entries(inflected)[0]) as Record<string, string>
+        : Object.values(inflected)[0]) as Record<string, string>
       const hasValuesAnyAccented = Object.values(deepestInflected).some(
         hasAnyAccent,
       )
@@ -63,7 +72,7 @@ export default abstract class Inflector<
         inflected,
       )
     }
-    return this.getBasicPrefixed(principalParts, prefix)
+    return this.getBasicPrefixed(principalParts, prefix, getBasicInflected)
   }
 
   /**
@@ -81,12 +90,13 @@ export default abstract class Inflector<
   ): T => {
     const prefixToUse =
       ACUTE_PREFIXES.filter((pr) => stripAllAccents(pr) === prefix)[0] ?? prefix
-    return this.getPrefixed(principalParts, prefixToUse + 'si')
+    return this.getPrefixed(principalParts, prefixToUse + REFLEXIVE_PREFIX)
   }
 
   protected abstract getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
+    getBasicInflected?: (principalParts: PrincipalPartsType) => T,
   ): T
 
   /**
@@ -142,8 +152,10 @@ export default abstract class Inflector<
   protected readonly getBasicImmobilePrefixed = (
     prefix: string,
     principalParts: PrincipalPartsType,
+    getBasicInflected: (principalParts: PrincipalPartsType) => T =
+      this.getDefault,
   ): T => {
-    const basicInflected = this.getDefault(principalParts)
+    const basicInflected = getBasicInflected(principalParts)
     return Inflector.applyPrefixToParadigm(
       stripAllAccents(prefix),
       basicInflected,
