@@ -11,6 +11,7 @@ const VAZIUOTI: PrincipalPartsType = [
   `važiu\u0301oja`,
   `važia\u0303vo`,
 ]
+const EITI: PrincipalPartsType = [`eiti`, `eina`, `ėjo`]
 
 const EXPECTED_BEGTI: PusdalyvisType = {
   sgMasc: `bė\u0301gdamas`,
@@ -48,6 +49,12 @@ const EXPECTED_VAZIUOTI: PusdalyvisType = {
   plMasc: `važiu\u0301odami`,
   plFem: `važiu\u0301odamos`,
 }
+const EXPECTED_NEITI: PusdalyvisType = {
+  sgMasc: `neidamas`,
+  sgFem: `neidama`,
+  plMasc: `neidami`,
+  plFem: `neidamos`,
+}
 
 describe('PusdalyvisDecliner', () => {
   const conjugator = new PusdalyvisDecliner()
@@ -72,5 +79,9 @@ describe('PusdalyvisDecliner', () => {
   it('conjugates nebėgti', () => {
     expect(conjugator.getPrefixed(BEGTI, 'ne'))
       .toMatchObject(EXPECTED_NEBEGTI)
+  })
+  it('conjugates neiti', () => {
+    expect(conjugator.getPrefixed(EITI, 'ne'))
+      .toMatchObject(EXPECTED_NEITI)
   })
 })

@@ -4,29 +4,10 @@ import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import Verb from '~src/Verb.ts'
 import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
 import type Inflector from '~conjugators/Inflector.ts'
-import ADeclinator from '~decliners/ADeclinator.ts'
-import type { DeclinedType } from '~src/types.ts'
 import type ParticipleDecliner from '~conjugators/ParticipleDecliner.ts'
 import type { ParticipleType } from '~conjugators/ParticipleDecliner.ts'
 
 describe('Verb', () => {
-  describe('deverbial nouns', () => {
-    it('makes -sena noun from the infinitive root with the 1st -as accentuation', () => {
-      const mockedNoun = { sgNom: 'sena' } as unknown as DeclinedType
-      const principalParts = [`dary\u0303t`, `daro`, `darė`]
-      const declinerStub = stub(
-        ADeclinator,
-        'declineI',
-        returnsNext([mockedNoun]),
-      )
-      const result = new Verb(principalParts).declineSenaNoun()
-      expect(result).toMatchObject(mockedNoun)
-      assertSpyCall(declinerStub, 0, {
-        args: [`dary\u0303sen`],
-        returned: mockedNoun,
-      })
-    })
-  })
   describe('conjugations', () => {
     assertTense(
       Verb.pastFrequentativeIndicative,

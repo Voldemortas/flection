@@ -85,5 +85,9 @@ describe('ImasDecliner', () => {
       expect(decliner.getPrefixed(principalParts, 'ne'))
         .toMatchObject(AsDeclinator.declineAsNounI(`ne${expectedRoot}`))
     })
+    it('declines negated eiti', () => {
+      expect(decliner.getPrefixed(['eiti', 'eina', 'ėjo'], 'ne').sgNom)
+        .toStrictEqual('nėjimas')
+    })
   })
 })

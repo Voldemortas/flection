@@ -1,5 +1,9 @@
 import Verbal from './Verbal.ts'
-import type { ConjugationType, DeclinedType } from './types.ts'
+import type {
+  ConjugationType,
+  DeclinedType,
+  PrincipalPartsType,
+} from './types.ts'
 import type Inflector from '~conjugators/Inflector.ts'
 import type ParticipleDecliner from '~conjugators/ParticipleDecliner.ts'
 import type { ParticipleType } from '~conjugators/ParticipleDecliner.ts'
@@ -13,13 +17,17 @@ import InfinitiveConjugator, {
   type InfinitiveType,
 } from '~conjugators/InfinitiveConjugator.ts'
 import ImasDecliner from '~conjugators/ImasDecliner.ts'
-import ADeclinator from '~decliners/ADeclinator.ts'
-import { getInfinitiveRoot } from './utils.ts'
 import PusdalyvisDecliner, {
   type PusdalyvisType,
 } from '~conjugators/PusdalyvisDecliner.ts'
 import PastPassiveParticipleDecliner from '~conjugators/PastPassiveParticipleDecliner.ts'
 
+/**
+ * @description Class which lets you derive various forms such as various moods, -imas action deverbal and various
+ * participle forms, presents *constructor* where you can pass certain options such as prefix or reflexivity if you want
+ * all the inflected forms to contain them. The derivation methods are also exposed *statically*.
+ * **Respects accentuation and metatony.**
+ */
 export default class Verb extends Verbal {
   public static readonly pastFrequentativeIndicative: Inflector<
     ConjugationType
@@ -42,67 +50,141 @@ export default class Verb extends Verbal {
   public static readonly pastPassiveParticiple: ParticipleDecliner =
     new PastPassiveParticipleDecliner()
 
+  /**
+   * @description Wrapper to call all the static methods with the same options
+   * @param {[string, string, string] | string} roots - single string with principal parts separated with a dash or array of 3 principal part strings
+   * @param {{reflexive?: boolean; prefix?: string}={}} options - options with optional prefix and optional reflexiveness
+   */
   public constructor(
-    roots: string | string[],
+    roots: string | PrincipalPartsType,
     options: { reflexive?: boolean; prefix?: string | undefined } = {},
   ) {
     super(roots, options)
   }
 
+  /**
+   * @description conjugates past frequentative tense based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePastFrequentativeIndicative()
+   * ```
+   */
   public conjugatePastFrequentativeIndicative(): ConjugationType {
     return this.#inflectBasedOnOptions(
       Verb.pastFrequentativeIndicative,
     )
   }
+  /**
+   * @description conjugates future tense based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateFutureIndicative()
+   * ```
+   */
   public conjugateFutureIndicative(): ConjugationType {
     return this.#inflectBasedOnOptions(
       Verb.futureIndicative,
     )
   }
+  /**
+   * @description conjugates past simple tense based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePastSimpleIndicative()
+   * ```
+   */
   public conjugatePastSimpleIndicative(): ConjugationType {
     return this.#inflectBasedOnOptions(
       Verb.pastSimpleIndicative,
     )
   }
+  /**
+   * @description conjugates present tense based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePresentIndicative()
+   * ```
+   */
   public conjugatePresentIndicative(): ConjugationType {
     return this.#inflectBasedOnOptions(
       Verb.presentIndicative,
     )
   }
+  /**
+   * @description conjugates conditional based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateConditional()
+   * ```
+   */
   public conjugateConditional(): ConjugationType {
     return this.#inflectBasedOnOptions(
       Verb.conditional,
     )
   }
+  /**
+   * @description conjugates imperative based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateImperative()
+   * ```
+   */
   public conjugateImperative(): ConjugationType {
     return this.#inflectBasedOnOptions(
       Verb.imperative,
     )
   }
+  /**
+   * @description "conjugates" infinitive based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateInfinitive()
+   * ```
+   */
   public conjugateInfinitive(): InfinitiveType {
     return this.#inflectBasedOnOptions(
       Verb.infinitive,
     )
   }
+  /**
+   * @description declines -imas action deverbial based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedDeverbial = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declineImas()
+   * ```
+   */
   public declineImas(): DeclinedType {
     return this.#inflectBasedOnOptions(
       Verb.imasNoun,
     )
   }
+  /**
+   * @description declines pusdalyvis based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedPusdalyvis = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declinePusdalyvis()
+   * ```
+   */
   public declinePusdalyvis(): PusdalyvisType {
     return this.#inflectBasedOnOptions(
       Verb.pusdalyvis,
     )
   }
-  public declinePastPassiveParticiple(isPronominal: boolean): ParticipleType {
+  /**
+   * @description declines past passive participle based on the data passed to the verb's constructor
+   * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
+   * @example
+   * ```
+   * const prefixedPronominalParticiple = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declinePastPassiveParticiple(true)
+   * ```
+   */
+  public declinePastPassiveParticiple(
+    isPronominal: boolean = false,
+  ): ParticipleType {
     return this.#inflectBasedOnOptions(
       Verb.pastPassiveParticiple,
       isPronominal,
     )
-  }
-  public declineSenaNoun(): DeclinedType {
-    const { root } = getInfinitiveRoot(this.principalParts)
-    return ADeclinator.declineI(`${root}sen`)
   }
 
   #inflectBasedOnOptions<

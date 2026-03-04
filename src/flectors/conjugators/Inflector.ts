@@ -19,7 +19,7 @@ export default abstract class Inflector<
    * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @example
    * ```ts
-   * const inflectedVerb = inflector.getPrefixed('iš', ['būti', 'būna', 'buvo'])
+   * const prefixed = inflector.getPrefixed('iš', ['būti', 'būna', 'buvo'])
    * ```
    */
   public readonly getPrefixed = (
@@ -80,7 +80,7 @@ export default abstract class Inflector<
    * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @example
    * ```ts
-   * const inflectedVerb = conjugator.getPrefixedReflexive('iš', ['būti', 'būna', 'buvo'])
+   * const prefixedReflexive = inflector.getPrefixedReflexive('iš', ['būti', 'būna', 'buvo'])
    * ```
    */
   public readonly getPrefixedReflexive = (
@@ -103,7 +103,7 @@ export default abstract class Inflector<
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts
-   * const inflectedVerb = conjugator.getDefault(['būti', 'būna', 'buvo'])
+   * const inflected = inflector.getDefault(['būti', 'būna', 'buvo'])
    * ```
    */
   public abstract getDefault(principalParts: PrincipalPartsType): T
@@ -113,7 +113,7 @@ export default abstract class Inflector<
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts
-   * const inflectedVerb = conjugator.getReflexive(['būti', 'būna', 'buvo'])
+   * const reflexive = inflector.getReflexive(['būti', 'būna', 'buvo'])
    * ```
    */
   public abstract getReflexive(
@@ -129,7 +129,6 @@ export default abstract class Inflector<
     prefix: string,
     inflected: T,
   ): T {
-    // if (typeof Object.values(inflected)[0] === 'string') {
     return Object.fromEntries(
       Object.entries(inflected).map((
         [key, value],
@@ -140,12 +139,6 @@ export default abstract class Inflector<
           : this.applyPrefixToParadigm(prefix, value),
       ]),
     ) as T
-    // }
-    // return Object.fromEntries(
-    //   Object.entries(inflected).map((
-    //     [key, value],
-    //   ) => [key, this.applyPrefixToParadigm(prefix, value)]),
-    // ) as T
   }
 
   protected readonly getBasicImmobilePrefixed = (

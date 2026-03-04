@@ -25,7 +25,7 @@ export default abstract class ParticipleDecliner
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts
-   * const pronominalParticiples = conjugator.getPronominal(['būti', 'būna', 'buvo'])
+   * const pronominal = conjugator.getPronominal(['būti', 'būna', 'buvo'])
    * ```
    */
   abstract getPronominal(
@@ -38,7 +38,7 @@ export default abstract class ParticipleDecliner
    * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @example
    * ```ts
-   * const prefixedPronominalParticiples = inflector.getPrefixedPronominal(['būti', 'būna', 'buvo'], 'iš')
+   * const prefixedPronominal = inflector.getPrefixedPronominal(['būti', 'būna', 'buvo'], 'iš')
    * ```
    */
   getPrefixedPronominal(
@@ -59,7 +59,7 @@ export default abstract class ParticipleDecliner
    * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
    * @example
    * ```ts
-   * const prefixedReflexivePronominalParticiples = inflector.getPrefixedReflexivePronominal(['būti', 'būna', 'buvo'], 'iš')
+   * const prefixedReflexivePronominal = inflector.getPrefixedReflexivePronominal(['būti', 'būna', 'buvo'], 'iš')
    * ```
    */
   getPrefixedReflexivePronominal(
@@ -79,7 +79,7 @@ export default abstract class ParticipleDecliner
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts
-   * const pronominalReflexiveParticiples = inflector.getReflexivePronominal(['būti', 'būna', 'buvo'])
+   * const pronominalReflexive = inflector.getReflexivePronominal(['būti', 'būna', 'buvo'])
    * ```
    */
   getReflexivePronominal(
@@ -90,6 +90,14 @@ export default abstract class ParticipleDecliner
     )
   }
 
+  /**
+   * inflects verb by adding the reflexive particle and applying metatony if applicable
+   * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
+   * @example
+   * ```ts
+   * const reflexive = inflector.getReflexive(['būti', 'būna', 'buvo'])
+   * ```
+   */
   override getReflexive(principalParts: PrincipalPartsType): ParticipleType {
     return ParticipleDecliner.#applyBracesWithDashToParticiples(
       this.getPrefixedReflexive(principalParts, BE_PREFIX),

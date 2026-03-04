@@ -38,18 +38,13 @@ export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
   }
 
   getDefault(principalParts: PrincipalPartsType): ParticipleType {
-    const parsedRoot = getInfinitiveRoot(principalParts).root + 't'
-    const prefix = parsedRoot.replace(/^(([^=]+)=.+|.+)$/, '$2')
-    const root = parsedRoot.replace(/^(.+=)/, '')
-    const prefixedRoot = prefix !== ''
-      ? putAccentOnPrefix(prefix) + stripAllAccents(root)
-      : root
-    const { hasAccentedSyllable, syllable, type } = countAccentedSyllable(
-      prefixedRoot + 'as',
-    )
     let masculine: DeclinedType
     let feminine: DeclinedType
-    if (!isRootMonosyllabic(root) || !hasAccentedSyllable) {
+    const { isStemImmobile, prefixedRoot, isAcute, syllable } =
+      PastPassiveParticipleDecliner
+        .#getRootAndPrefix(principalParts)
+
+    if (isStemImmobile) {
       masculine = AsDeclinator.declineAsAdjectivalI(
         prefixedRoot,
       ) as DeclinedType
@@ -66,8 +61,8 @@ export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
       } else {
         masculine = AsDeclinator.declineAsAdjectivalIII(prefixedRoot)
         feminine = ADeclinator.declineAdjectivalIII(prefixedRoot, {
-          syllable,
-          isAcute: type === 'acute',
+          syllable: syllable!,
+          isAcute,
         })
       }
     }
@@ -81,19 +76,13 @@ export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
   getPronominal(
     principalParts: PrincipalPartsType,
   ): ComplementingParticipleType {
-    const parsedRoot = getInfinitiveRoot(principalParts).root + 't'
-    const prefix = parsedRoot.replace(/^(([^=]+)=.+|.+)$/, '$2')
-    const root = parsedRoot.replace(/^(.+=)/, '')
-    const prefixedRoot = prefix !== ''
-      ? putAccentOnPrefix(prefix) + stripAllAccents(root)
-      : root
-    const { hasAccentedSyllable, syllable, type } = countAccentedSyllable(
-      prefixedRoot + 'as',
-    )
     let masculine: DeclinedType
     let feminine: DeclinedType
+    const { isStemImmobile, prefixedRoot, isAcute, syllable } =
+      PastPassiveParticipleDecliner
+        .#getRootAndPrefix(principalParts)
 
-    if (!isRootMonosyllabic(root) || !hasAccentedSyllable) {
+    if (isStemImmobile) {
       masculine = AsDeclinator.declineAsPronominalImmobile(
         prefixedRoot,
       )
@@ -103,8 +92,8 @@ export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
       feminine = ADeclinator.declinePronominalMobile(
         stripAllAccents(prefixedRoot),
         {
-          syllable,
-          isAcute: type === 'acute',
+          syllable: syllable!,
+          isAcute,
         },
       )
     }
@@ -114,7 +103,9 @@ export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
     } as ParticipleType
   }
 
-  override getReflexive(principalParts: PrincipalPartsType): ParticipleType {
+  public override getReflexive(
+    principalParts: PrincipalPartsType,
+  ): ParticipleType {
     return {
       masculine: declinedEmpty,
       feminine: declinedEmpty,
@@ -127,5 +118,25 @@ export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
   ): ComplementingParticipleType {
     const { masculine, feminine } = this.getReflexive(principalParts)
     return { masculine, feminine }
+  }
+
+  static #getRootAndPrefix(principalParts: PrincipalPartsType) {
+    const parsedRoot = getInfinitiveRoot(principalParts).root + 't'
+    const prefix = parsedRoot.replace(/^(([^=]+)=.+|.+)$/, '$2')
+    const root = parsedRoot.replace(/^(.+=)/, '')
+    const prefixedRoot = prefix !== ''
+      ? putAccentOnPrefix(prefix) + stripAllAccents(root)
+      : root
+    const { hasAccentedSyllable, syllable, type } = countAccentedSyllable(
+      prefixedRoot + 'as',
+    )
+    const isStemImmobile = !isRootMonosyllabic(root) || !hasAccentedSyllable
+    return {
+      isStemImmobile,
+      prefixedRoot,
+      type,
+      isAcute: type === 'acute',
+      syllable,
+    }
   }
 }
