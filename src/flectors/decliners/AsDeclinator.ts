@@ -64,49 +64,49 @@ export default class AsDeclinator {
   static declineBisyllabicJasNounI(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
-      ...AsDeclinator.#bisyllabic(stem),
+      ...getBisyllabic(stem),
     }
   }
   static declineBisyllabicJasNounII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounII(stem),
-      ...AsDeclinator.#bisyllabic(stem),
+      ...getBisyllabic(stem),
     }
   }
   static declineBisyllabicJasNounIII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIII(stem),
-      ...AsDeclinator.#bisyllabic(stem),
+      ...getBisyllabic(stem),
     }
   }
   static declineBisyllabicJasNounIV(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIV(stem),
-      ...AsDeclinator.#bisyllabic(stem),
+      ...getBisyllabic(stem),
     }
   }
   static declinePolysyllabicJasNounI(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
-      ...AsDeclinator.#polysyllabic(stem),
+      ...getPolysyllabic(stem),
     }
   }
   static declinePolysyllabicJasNounII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounII(stem),
-      ...AsDeclinator.#polysyllabic(stem),
+      ...getPolysyllabic(stem),
     }
   }
   static declinePolysyllabicJasNounIII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIII(stem),
-      ...AsDeclinator.#polysyllabic(stem),
+      ...getPolysyllabic(stem),
     }
   }
   static declinePolysyllabicJasNounIV(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIV(stem),
-      ...AsDeclinator.#polysyllabic(stem),
+      ...getPolysyllabic(stem),
     }
   }
   static declineIasNounI(stem: string): DeclinedType {
@@ -149,7 +149,7 @@ export default class AsDeclinator {
   static declineAsAdjectivalI(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
-      ...this.#adjectivalAs(stem),
+      ...getAdjectivalAs(stem),
     }
   }
   /**
@@ -169,7 +169,7 @@ export default class AsDeclinator {
     const accentlessRoot = stripAllAccents(stem)
     return {
       ...AsDeclinator.declineAsNounIV(stem),
-      ...this.#adjectivalAs(stem),
+      ...getAdjectivalAs(stem),
       sgDat: `${accentlessRoot}a\u0301m`,
       sgLoc: `${accentlessRoot}ame\u0300`,
       plNom: `${accentlessRoot}i\u0300`,
@@ -180,7 +180,7 @@ export default class AsDeclinator {
   static declineIasAdjectivalI(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsAdjectivalI(stem),
-      ...AsDeclinator.#adjectivalIasStem(stem),
+      ...getAdjectivalIasStem(stem),
     }
   }
   /**
@@ -192,13 +192,13 @@ export default class AsDeclinator {
   static declineIasAdjectivalIII(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsAdjectivalIII(stem),
-      ...AsDeclinator.#adjectivalIasFlection(stem),
+      ...getAdjectivalIasFlection(stem),
     }
   }
   static declineIasAdjectivalIV(stem: string): DeclinedType {
     return {
       ...AsDeclinator.declineAsAdjectivalIV(stem),
-      ...AsDeclinator.#adjectivalIasFlection(stem),
+      ...getAdjectivalIasFlection(stem),
     }
   }
 
@@ -271,61 +271,65 @@ export default class AsDeclinator {
       plVoc: `${depalatalisedAccentlessStem}i\u0301eji`,
     }
   }
+}
 
-  static #bisyllabic(stem: string): { sgLoc: string; sgVoc: string } {
-    return {
-      sgLoc: `${stem}yje ${stem}uje`,
-      sgVoc: `${stem}au`,
-    }
+function getBisyllabic(stem: string): { sgLoc: string; sgVoc: string } {
+  return {
+    sgLoc: `${stem}yje ${stem}uje`,
+    sgVoc: `${stem}au`,
   }
-  static #polysyllabic(stem: string): { sgLoc: string; sgVoc: string } {
-    return {
-      sgLoc: `${stem}uje`,
-      sgVoc: `${stem}au`,
-    }
+}
+
+function getPolysyllabic(stem: string): { sgLoc: string; sgVoc: string } {
+  return {
+    sgLoc: `${stem}uje`,
+    sgVoc: `${stem}au`,
   }
-  static #adjectivalAs(
-    stem: string,
-  ): {
-    sgDat: string
-    sgLoc: string
-    sgVoc: string
-    plNom: string
-    plDat: string
-    plVoc: string
-  } {
-    return {
-      sgDat: `${stem}am`,
-      sgLoc: `${stem}ame`,
-      sgVoc: `${stem}as`,
-      plNom: `${stem}i`,
-      plDat: `${stem}iems`,
-      plVoc: `${stem}i`,
-    }
+}
+
+function getAdjectivalAs(
+  stem: string,
+): {
+  sgDat: string
+  sgLoc: string
+  sgVoc: string
+  plNom: string
+  plDat: string
+  plVoc: string
+} {
+  return {
+    sgDat: `${stem}am`,
+    sgLoc: `${stem}ame`,
+    sgVoc: `${stem}as`,
+    plNom: `${stem}i`,
+    plDat: `${stem}iems`,
+    plVoc: `${stem}i`,
   }
-  static #adjectivalIasStem(stem: string): {
-    plNom: string
-    plDat: string
-    plVoc: string
-  } {
-    const depalatalisedStem = getUnpalatalizedRoot(stem)
-    return {
-      plNom: `${depalatalisedStem}i`,
-      plDat: `${depalatalisedStem}iems`,
-      plVoc: `${depalatalisedStem}i`,
-    }
+}
+
+function getAdjectivalIasStem(stem: string): {
+  plNom: string
+  plDat: string
+  plVoc: string
+} {
+  const depalatalisedStem = getUnpalatalizedRoot(stem)
+  return {
+    plNom: `${depalatalisedStem}i`,
+    plDat: `${depalatalisedStem}iems`,
+    plVoc: `${depalatalisedStem}i`,
   }
-  static #adjectivalIasFlection(stem: string): {
-    plNom: string
-    plDat: string
-    plVoc: string
-  } {
-    const depalatalisedStem = getUnpalatalizedRoot(stem)
-    const depalatalisedUnaccentedStem = stripAllAccents(depalatalisedStem)
-    return {
-      plNom: `${depalatalisedUnaccentedStem}i\u0300`,
-      plDat: `${depalatalisedUnaccentedStem}i\u0301ems`,
-      plVoc: `${depalatalisedUnaccentedStem}i\u0300`,
-    }
+}
+
+function getAdjectivalIasFlection(stem: string): {
+  plNom: string
+  plDat: string
+  plVoc: string
+} {
+  const depalatalisedStem = getUnpalatalizedRoot(stem)
+  const depalatalisedUnaccentedStem = stripAllAccents(depalatalisedStem)
+  return {
+    plNom: `${depalatalisedUnaccentedStem}i\u0300`,
+    plDat: `${depalatalisedUnaccentedStem}i\u0301ems`,
+    plVoc: `${depalatalisedUnaccentedStem}i\u0300`,
   }
 }

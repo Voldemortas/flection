@@ -41,8 +41,7 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
     let masculine: DeclinedType
     let feminine: DeclinedType
     const { isStemImmobile, prefixedRoot, isAcute, syllable } =
-      PassivePastParticipleDecliner
-        .#getRootAndPrefix(principalParts)
+      getRootAndPrefix(principalParts)
 
     if (isStemImmobile) {
       masculine = AsDeclinator.declineAsAdjectivalI(
@@ -79,8 +78,7 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
     let masculine: DeclinedType
     let feminine: DeclinedType
     const { isStemImmobile, prefixedRoot, isAcute, syllable } =
-      PassivePastParticipleDecliner
-        .#getRootAndPrefix(principalParts)
+      getRootAndPrefix(principalParts)
 
     if (isStemImmobile) {
       masculine = AsDeclinator.declineAsPronominalImmobile(
@@ -119,24 +117,24 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
     const { masculine, feminine } = this.getReflexive(principalParts)
     return { masculine, feminine }
   }
+}
 
-  static #getRootAndPrefix(principalParts: PrincipalPartsType) {
-    const parsedRoot = getInfinitiveRoot(principalParts).root + 't'
-    const prefix = parsedRoot.replace(/^(([^=]+)=.+|.+)$/, '$2')
-    const root = parsedRoot.replace(/^(.+=)/, '')
-    const prefixedRoot = prefix !== ''
-      ? putAccentOnPrefix(prefix) + stripAllAccents(root)
-      : root
-    const { hasAccentedSyllable, syllable, type } = countAccentedSyllable(
-      prefixedRoot + 'as',
-    )
-    const isStemImmobile = !isRootMonosyllabic(root) || !hasAccentedSyllable
-    return {
-      isStemImmobile,
-      prefixedRoot,
-      type,
-      isAcute: type === 'acute',
-      syllable,
-    }
+function getRootAndPrefix(principalParts: PrincipalPartsType) {
+  const parsedRoot = getInfinitiveRoot(principalParts).root + 't'
+  const prefix = parsedRoot.replace(/^(([^=]+)=.+|.+)$/, '$2')
+  const root = parsedRoot.replace(/^(.+=)/, '')
+  const prefixedRoot = prefix !== ''
+    ? putAccentOnPrefix(prefix) + stripAllAccents(root)
+    : root
+  const { hasAccentedSyllable, syllable, type } = countAccentedSyllable(
+    prefixedRoot + 'as',
+  )
+  const isStemImmobile = !isRootMonosyllabic(root) || !hasAccentedSyllable
+  return {
+    isStemImmobile,
+    prefixedRoot,
+    type,
+    isAcute: type === 'acute',
+    syllable,
   }
 }

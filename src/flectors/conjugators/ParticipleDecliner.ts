@@ -81,7 +81,7 @@ export default abstract class ParticipleDecliner
   getReflexivePronominal(
     principalParts: PrincipalPartsType,
   ): ComplementingParticipleType {
-    return ParticipleDecliner.#applyBracesWithDashToParticiples(
+    return applyBracesWithDashToParticiples(
       this.getPrefixedReflexivePronominal(principalParts, BE_PREFIX),
     )
   }
@@ -95,34 +95,35 @@ export default abstract class ParticipleDecliner
    * ```
    */
   override getReflexive(principalParts: PrincipalPartsType): ParticipleType {
-    return ParticipleDecliner.#applyBracesWithDashToParticiples(
+    return applyBracesWithDashToParticiples(
       this.getPrefixedReflexive(principalParts, BE_PREFIX),
     )
   }
+}
 
-  static #applyBracesWithDashToParticiples<
-    T extends ComplementingParticipleType | ParticipleType,
-  >(
-    paradigm: T,
-  ): T {
-    return Object.fromEntries(
-      Object.entries(paradigm).map((
-        [key, value],
-      ) => [
-        key,
-        //@ts-ignore all good
-        this.#applyBracesWithDashToParticiple(value),
-      ]),
-    ) as unknown as T
-  }
-  static #applyBracesWithDashToParticiple(ptcp: DeclinedType): DeclinedType {
-    return Object.fromEntries(
-      Object.entries(ptcp).map((
-        [key, value],
-      ) => [
-        key,
-        `- (${value})`,
-      ]),
-    ) as DeclinedType
-  }
+function applyBracesWithDashToParticiples<
+  T extends ComplementingParticipleType | ParticipleType,
+>(
+  paradigm: T,
+): T {
+  return Object.fromEntries(
+    Object.entries(paradigm).map((
+      [key, value],
+    ) => [
+      key,
+      //@ts-ignore all good
+      applyBracesWithDashToParticiple(value),
+    ]),
+  ) as unknown as T
+}
+
+function applyBracesWithDashToParticiple(ptcp: DeclinedType): DeclinedType {
+  return Object.fromEntries(
+    Object.entries(ptcp).map((
+      [key, value],
+    ) => [
+      key,
+      `- (${value})`,
+    ]),
+  ) as DeclinedType
 }

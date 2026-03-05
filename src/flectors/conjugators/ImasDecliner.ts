@@ -13,7 +13,7 @@ export default class ImasDecliner extends Inflector<DeclinedType> {
   override getDefault(
     principalParts: PrincipalPartsType,
   ): DeclinedType {
-    const stem = ImasDecliner.#makeStem(principalParts)
+    const stem = makeStem(principalParts)
     return (/ym$/.test(stem) || !hasAnyAccent(stem))
       ? AsDeclinator.declineAsNounI(stem)
       : AsDeclinator.declineAsNounII(stem)
@@ -21,7 +21,7 @@ export default class ImasDecliner extends Inflector<DeclinedType> {
   override getReflexive(
     principalParts: PrincipalPartsType,
   ): DeclinedType {
-    const stem = ImasDecliner.#makeStem(principalParts)
+    const stem = makeStem(principalParts)
     return AsDeclinator.declineAsReflexiveNoun(stem)
   }
 
@@ -31,18 +31,18 @@ export default class ImasDecliner extends Inflector<DeclinedType> {
   ): DeclinedType {
     return this.getBasicImmobilePrefixed(prefix, principalParts)
   }
+}
 
-  static #makeStem(principalParts: PrincipalPartsType): string {
-    const infinitiveRoot = getInfinitiveRoot(principalParts).root
-    const pastRoot = getPastRoot(principalParts).root
-    if (
-      isRootMonosyllabic(pastRoot) && !isRootMonosyllabic(infinitiveRoot) &&
-      /y\u0301?$/.test(infinitiveRoot)
-    ) {
-      return `${pastRoot}ym`
-    }
-    return `${stripAllAccents(pastRoot)}i${
-      hasAnyAccent(pastRoot) ? `\u0300` : ``
-    }m`
+function makeStem(principalParts: PrincipalPartsType): string {
+  const infinitiveRoot = getInfinitiveRoot(principalParts).root
+  const pastRoot = getPastRoot(principalParts).root
+  if (
+    isRootMonosyllabic(pastRoot) && !isRootMonosyllabic(infinitiveRoot) &&
+    /y\u0301?$/.test(infinitiveRoot)
+  ) {
+    return `${pastRoot}ym`
   }
+  return `${stripAllAccents(pastRoot)}i${
+    hasAnyAccent(pastRoot) ? `\u0300` : ``
+  }m`
 }

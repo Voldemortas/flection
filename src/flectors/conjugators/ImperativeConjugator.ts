@@ -15,7 +15,7 @@ export default class ImperativeConjugator extends ImmobileConjugator {
       sg2: `${suffixedRoot} ${suffixedRoot}i`,
       pl1: `${suffixedRoot}im ${suffixedRoot}ime`,
       pl2: `${suffixedRoot}it ${suffixedRoot}ite`,
-      ...ImperativeConjugator.#emptyPersons,
+      ...emptyPersons,
     }
   }
   override getReflexive(
@@ -30,7 +30,7 @@ export default class ImperativeConjugator extends ImmobileConjugator {
       sg2: `${suffixedRoot}is`,
       pl1: `${suffixedRoot}imės`,
       pl2: `${suffixedRoot}itės`,
-      ...ImperativeConjugator.#emptyPersons,
+      ...emptyPersons,
     }
   }
   protected override getBasicPrefixed(
@@ -39,13 +39,13 @@ export default class ImperativeConjugator extends ImmobileConjugator {
   ): ConjugationType {
     return {
       ...super.getBasicPrefixed(principalParts, prefix),
-      ...ImperativeConjugator.#emptyPersons,
+      ...emptyPersons,
     }
   }
+}
 
-  static #emptyPersons = {
-    sg1: '-',
-    sg3: '-',
-    pl3: '-',
-  }
+const emptyPersons = {
+  sg1: '-',
+  sg3: '-',
+  pl3: '-',
 }

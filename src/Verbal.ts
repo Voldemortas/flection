@@ -16,13 +16,6 @@ export default class Verbal {
   public readonly prefix: string | undefined
   public readonly isReflexive: boolean
 
-  static #trimReflexiveFromPrefix(prefix: string | undefined) {
-    if (!prefix) {
-      return prefix
-    }
-    return prefix.replace(/si$/, '')
-  }
-
   public constructor(
     roots: string | string[],
     options: { reflexive?: boolean; prefix?: string | undefined } = {},
@@ -47,7 +40,7 @@ export default class Verbal {
       // deno-coverage-ignore-stop
       const groups = regexMatches.groups
       return [
-        Verbal.#trimReflexiveFromPrefix(groups['prefix'] ?? options.prefix),
+        trimReflexiveFromPrefix(groups['prefix'] ?? options.prefix),
         groups['root']!,
         !!options.reflexive || !!groups['reflexive'] ||
         /si$/.test(groups['prefix'] ?? options.prefix ?? ''),
@@ -68,4 +61,11 @@ export default class Verbal {
     }
     this.isReflexive = regexMagicGroup[0][2]
   }
+}
+
+function trimReflexiveFromPrefix(prefix: string | undefined) {
+  if (!prefix) {
+    return prefix
+  }
+  return prefix.replace(/si$/, '')
 }

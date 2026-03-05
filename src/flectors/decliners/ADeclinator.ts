@@ -82,13 +82,13 @@ export default class ADeclinator {
   ) {
     return {
       ...ADeclinator.declineNounIII(stem, type),
-      ...ADeclinator.#adjectival(stem),
+      ...getAdjectival(stem),
     }
   }
   static declineAdjectivalIV(stem: string) {
     return {
       ...ADeclinator.declineNounIV(stem),
-      ...ADeclinator.#adjectival(stem),
+      ...getAdjectival(stem),
     }
   }
   static declinePronominalImmobile(stem: string): DeclinedType {
@@ -139,8 +139,9 @@ export default class ADeclinator {
       plVoc: `${accentedStem}osios`,
     }
   }
-  static #adjectival(stem: string): { sgVoc: string } {
-    const accentlessStem = stripAllAccents(stem)
-    return { sgVoc: `${accentlessStem}a\u0300` }
-  }
+}
+
+function getAdjectival(stem: string): { sgVoc: string } {
+  const accentlessStem = stripAllAccents(stem)
+  return { sgVoc: `${accentlessStem}a\u0300` }
 }

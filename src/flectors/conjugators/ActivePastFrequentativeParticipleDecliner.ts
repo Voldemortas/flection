@@ -22,8 +22,7 @@ export default class ActivePastFrequentativeParticipleDecliner
   }
 
   getDefault(principalParts: PrincipalPartsType): ParticipleType {
-    const { root, stem } = ActivePastFrequentativeParticipleDecliner
-      .#getStem(principalParts)
+    const { root, stem } = getStem(principalParts)
     const masculine = IsDeclinator.declineMasculineIsAdjectiveI(stem)
     const feminine = IsDeclinator.declineFeminineIAdjective(stem)
     return {
@@ -46,8 +45,7 @@ export default class ActivePastFrequentativeParticipleDecliner
   getPronominal(
     principalParts: PrincipalPartsType,
   ): ComplementingParticipleType {
-    const { stem } = ActivePastFrequentativeParticipleDecliner
-      .#getStem(principalParts)
+    const { stem } = getStem(principalParts)
     const masculine = IsDeclinator.declineMasculinePronominalImmobile(stem)
     const feminine = IsDeclinator.declineFemininePronominalImmobile(stem)
     return {
@@ -55,9 +53,9 @@ export default class ActivePastFrequentativeParticipleDecliner
       feminine,
     }
   }
+}
 
-  static #getStem(principalParts: PrincipalPartsType) {
-    const { root } = getInfinitiveRoot(principalParts)
-    return { root, stem: `${root}davus` }
-  }
+function getStem(principalParts: PrincipalPartsType) {
+  const { root } = getInfinitiveRoot(principalParts)
+  return { root, stem: `${root}davus` }
 }

@@ -97,7 +97,7 @@ export default class UsDeclinator {
   ): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounI(stem),
-      ...UsDeclinator.#getSingular(UsDeclinator.declineUsNounI(stem)),
+      ...makeSingular(UsDeclinator.declineUsNounI(stem)),
     }
   }
   static declineIusNounII(
@@ -105,7 +105,7 @@ export default class UsDeclinator {
   ): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounII(stem),
-      ...UsDeclinator.#getSingular(UsDeclinator.declineUsNounII(stem)),
+      ...makeSingular(UsDeclinator.declineUsNounII(stem)),
     }
   }
   static declineIusNounIII(
@@ -118,7 +118,7 @@ export default class UsDeclinator {
     )
     return {
       ...AsDeclinator.declineAsNounIII(accentedStem),
-      ...UsDeclinator.#getSingular(UsDeclinator.declineUsNounIII(stem, type)),
+      ...makeSingular(UsDeclinator.declineUsNounIII(stem, type)),
     }
   }
   static declineIusNounIV(
@@ -126,7 +126,7 @@ export default class UsDeclinator {
   ): DeclinedType {
     return {
       ...AsDeclinator.declineAsNounIV(stem),
-      ...UsDeclinator.#getSingular(UsDeclinator.declineUsNounIV(stem)),
+      ...makeSingular(UsDeclinator.declineUsNounIV(stem)),
     }
   }
   static declineUsAdjectivalI(stem: string): DeclinedType {
@@ -243,29 +243,30 @@ export default class UsDeclinator {
     }
   }
 
-  static #getSingular(
-    noun: DeclinedType,
-  ): {
-    sgNom: string
-    sgGen: string
-    sgDat: string
-    sgAcc: string
-    sgInst: string
-    sgLoc: string
-    sgVoc: string
-  } {
-    return {
-      sgNom: noun.sgNom,
-      sgGen: noun.sgGen,
-      sgDat: noun.sgDat,
-      sgAcc: noun.sgAcc,
-      sgInst: noun.sgInst,
-      sgLoc: noun.sgLoc,
-      sgVoc: noun.sgVoc,
-    }
-  }
   static ZMOGUS: DeclinedType = {
     ...EDeclinator.declineIII(`žmon`),
-    ...UsDeclinator.#getSingular(UsDeclinator.declineUsNounIV('žmog')),
+    ...makeSingular(UsDeclinator.declineUsNounIV('žmog')),
+  }
+}
+
+function makeSingular(
+  noun: DeclinedType,
+): {
+  sgNom: string
+  sgGen: string
+  sgDat: string
+  sgAcc: string
+  sgInst: string
+  sgLoc: string
+  sgVoc: string
+} {
+  return {
+    sgNom: noun.sgNom,
+    sgGen: noun.sgGen,
+    sgDat: noun.sgDat,
+    sgAcc: noun.sgAcc,
+    sgInst: noun.sgInst,
+    sgLoc: noun.sgLoc,
+    sgVoc: noun.sgVoc,
   }
 }
