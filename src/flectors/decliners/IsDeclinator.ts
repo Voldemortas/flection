@@ -218,6 +218,14 @@ export default class IsDeclinator {
       plAcc: `${palatalisedRoot}u\u0300s`,
     }
   }
+  static declineMasculineActiveParticiple(stem: string): DeclinedType {
+    return {
+      ...IsDeclinator.declineMasculineIsAdjectiveI(stem),
+      sgVoc: `${stem}is`,
+      plNom: `${stem}ys`,
+      plVoc: `${stem}ys`,
+    }
+  }
   static declineMasculineYsAdjectiveIII(
     stem: string,
     type: AccentuationType = SECOND_LAST_ACUTE,

@@ -214,6 +214,12 @@ const DESINYSIS_0 = makeDeclinedFromArray(
 dešinieji dešiniųjų dešiniesiems dešiniuosius dešiniaisiais dešiniuosiuose dešinieji`
     .split(/\s/),
 )
+const DARANTIS = makeDeclinedFromArray(
+  `dãrantis dãrančio dãrančiam dãrantį dãrančiu dãrančiame dãrantis
+dãrantys dãrančių dãrantiems dãrančius dãrančiais dãrančiuose dãrantys`.split(
+    /\s/,
+  ),
+)
 
 describe('IsDeclinator', () => {
   it('declines 1st accentuation -io noun', () => {
@@ -315,5 +321,9 @@ describe('IsDeclinator', () => {
   it('declines immobile masculine pronominal adjective', () => {
     expect(IsDeclinator.declineMasculinePronominalImmobile(`dešin`))
       .toMatchObject(DESINYSIS_0)
+  })
+  it('declines active participle', () => {
+    expect(IsDeclinator.declineMasculineActiveParticiple(`da\u0303rant`))
+      .toMatchObject(DARANTIS)
   })
 })

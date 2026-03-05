@@ -22,6 +22,7 @@ import PusdalyvisDecliner, {
 } from '~conjugators/PusdalyvisDecliner.ts'
 import PassivePastParticipleDecliner from '~conjugators/PassivePastParticipleDecliner.ts'
 import ActivePastFrequentativeParticipleDecliner from '~conjugators/ActivePastFrequentativeParticipleDecliner.ts'
+import ActiveFutureParticipleDecliner from '~conjugators/ActiveFutureParticipleDecliner.ts'
 
 /**
  * @description Class which lets you derive various forms such as various moods, -imas action deverbal and various
@@ -52,6 +53,8 @@ export default class Verb extends Verbal {
     new PassivePastParticipleDecliner()
   public static readonly activePastFrequentativeParticiple: ParticipleDecliner =
     new ActivePastFrequentativeParticipleDecliner()
+  public static readonly activeFutureParticiple: ParticipleDecliner =
+    new ActiveFutureParticipleDecliner()
 
   /**
    * @description Wrapper to call all the static methods with the same options
@@ -202,6 +205,22 @@ export default class Verb extends Verbal {
   ): ParticipleType {
     return this.#inflectBasedOnOptions(
       Verb.activePastFrequentativeParticiple,
+      isPronominal,
+    )
+  }
+  /**
+   * @description declines active future participle based on the data passed to the verb's constructor
+   * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
+   * @example
+   * ```
+   * const prefixedPronominalParticiple = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declineActiveFutureParticiple(true)
+   * ```
+   */
+  public declineActiveFutureParticiple(
+    isPronominal: boolean = false,
+  ): ParticipleType {
+    return this.#inflectBasedOnOptions(
+      Verb.activeFutureParticiple,
       isPronominal,
     )
   }

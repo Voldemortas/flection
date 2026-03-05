@@ -41,12 +41,6 @@ export default class FutureIndicativeConjugator extends ImmobileConjugator {
       )
       : root
 
-    const appendFutureSuffix = (r: string) =>
-      appendSuffixWithAssimilation(r, 's', [
-        [/[sz]s$/, 's'],
-        [/[šž]s$/, 'š'],
-      ])
-
     const non3rd = appendFutureSuffix(root)
 
     const third = metatonise3rdFuture(appendFutureSuffix(thirdRoot))
@@ -69,4 +63,11 @@ export default class FutureIndicativeConjugator extends ImmobileConjugator {
       pl3: defaultConjugated.pl3.replace(/^(.+)si \1s$/, '$1is'),
     }
   }
+}
+
+export function appendFutureSuffix(r: string) {
+  return appendSuffixWithAssimilation(r, 's', [
+    [/[sz]s$/, 's'],
+    [/[šž]s$/, 'š'],
+  ])
 }
