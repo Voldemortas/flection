@@ -3,7 +3,7 @@ import { describe, it } from '@std/testing/bdd'
 import Inflector from '~conjugators/Inflector.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
-import { makeConjugatedFromArray } from '~test/testHelpers.ts'
+import { EITI, makeConjugatedFromArray } from '~test/testHelpers.ts'
 
 const DEFAULT_CONJUGATED = {
   sg3: 'default',
@@ -45,7 +45,7 @@ describe('Inflector', () => {
         'getDefault',
         returnsNext([mockedValue]),
       )
-      const result = conjugator.getPrefixed(['eiti', 'eina', 'ėjo'], 'ne')
+      const result = conjugator.getPrefixed(EITI, 'ne')
       expect(result).toStrictEqual(mockedValue)
       assertSpyCall(myStub, 0, {
         args: [['neiti', 'neina', 'nėjo']],

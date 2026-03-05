@@ -3,6 +3,7 @@ import { describe, it } from '@std/testing/bdd'
 import type { PrincipalPartsType } from '~src/types.ts'
 import ImasDecliner from '~conjugators/ImasDecliner.ts'
 import AsDeclinator from '~decliners/AsDeclinator.ts'
+import { EITI } from '~test/testHelpers.ts'
 
 describe('ImasDecliner', () => {
   const decliner = new ImasDecliner()
@@ -86,7 +87,7 @@ describe('ImasDecliner', () => {
         .toMatchObject(AsDeclinator.declineAsNounI(`ne${expectedRoot}`))
     })
     it('declines negated eiti', () => {
-      expect(decliner.getPrefixed(['eiti', 'eina', 'ėjo'], 'ne').sgNom)
+      expect(decliner.getPrefixed(EITI, 'ne').sgNom)
         .toStrictEqual('nėjimas')
     })
   })

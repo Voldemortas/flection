@@ -2,17 +2,13 @@ import Inflector, {
   ACUTE_PREFIXES,
   REFLEXIVE_PREFIX,
 } from '~conjugators/Inflector.ts'
-import type {
-  DeclinedType,
-  NeuterDeclinedType,
-  PrincipalPartsType,
-} from '~src/types.ts'
+import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import { stripAllAccents } from '~src/utils.ts'
 
 export type ParticipleType = {
   masculine: DeclinedType
   feminine: DeclinedType
-  neuter: NeuterDeclinedType
+  neuter: string
 }
 export type ComplementingParticipleType = Omit<ParticipleType, 'neuter'>
 

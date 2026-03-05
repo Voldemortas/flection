@@ -114,7 +114,7 @@ const VINIS = makeDeclinedFromArray([
 const APYNAUJIS = makeDeclinedFromArray([
   [`apy\u0301naujis`, `apy\u0301naujai`],
   [`apy\u0301naujo`, `apy\u0301naujų`],
-  [`apy\u0301naujam`, `apy\u0301naujams`],
+  [`apy\u0301naujam`, `apy\u0301naujiems`],
   [`apy\u0301naujį`, `apy\u0301naujus`],
   [`apy\u0301nauju`, `apy\u0301naujais`],
   [`apy\u0301naujame`, `apy\u0301naujuose`],

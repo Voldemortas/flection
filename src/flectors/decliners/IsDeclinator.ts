@@ -3,7 +3,6 @@ import {
   getPalatalizedRoot,
   hasAnyAccent,
   stripAllAccents,
-  stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
 import {
   type AccentuationType,
@@ -167,6 +166,7 @@ export default class IsDeclinator {
       ...IsDeclinator.declineIoNounI(stem),
       sgDat: `${palatalisedRoot}am`,
       sgLoc: `${palatalisedRoot}ame`,
+      plDat: `${stem}iems`,
     }
   }
   static declineMasculineIsAdjectiveII(stem: string): DeclinedType {
@@ -272,9 +272,23 @@ export default class IsDeclinator {
     }
   }
   static declineFeminineIAdjective(stem: string): DeclinedType {
-    return stripAllAccentsFromParadigm<DeclinedType>(
-      IsDeclinator.declineFeminineIAdjectiveIV(stem),
-    )
+    const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
+    return {
+      sgNom: `${stem}i`,
+      sgGen: `${palatalisedRoot}os`,
+      sgDat: `${palatalisedRoot}ai`,
+      sgAcc: `${palatalisedRoot}ą`,
+      sgInst: `${palatalisedRoot}a`,
+      sgLoc: `${palatalisedRoot}oje`,
+      sgVoc: `${stem}i`,
+      plNom: `${palatalisedRoot}os`,
+      plGen: `${palatalisedRoot}ų`,
+      plDat: `${palatalisedRoot}oms`,
+      plAcc: `${palatalisedRoot}as`,
+      plInst: `${palatalisedRoot}omis`,
+      plLoc: `${palatalisedRoot}ose`,
+      plVoc: `${palatalisedRoot}os`,
+    }
   }
   static declineMasculinePronominalImmobile(stem: string): DeclinedType {
     const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')

@@ -1,8 +1,8 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import type { PrincipalPartsType } from '~src/types.ts'
-import PastPassiveParticipleDecliner from '~conjugators/PastPassiveParticipleDecliner.ts'
-import { makeDeclinedFromArray } from '~test/testHelpers.ts'
+import PassivePastParticipleDecliner from '~conjugators/PassivePastParticipleDecliner.ts'
+import { EITI, makeDeclinedFromArray } from '~test/testHelpers.ts'
 import { declinedEmpty } from '~src/utils.ts'
 
 const RINKTI: PrincipalPartsType = [
@@ -131,8 +131,8 @@ nedainúotosios nedainúotųjų nedainúotosioms nedainúotąsias nedainúo
     .split(/\s/),
 )
 
-describe('PastPassiveParticipleDecliner', () => {
-  const decliner = new PastPassiveParticipleDecliner()
+describe('PassivePastParticipleDecliner', () => {
+  const decliner = new PassivePastParticipleDecliner()
   describe('rinkti', () => {
     it('conjugates default', () => {
       expect(decliner.getDefault(RINKTI)).toMatchObject({
@@ -263,6 +263,17 @@ describe('PastPassiveParticipleDecliner', () => {
           masculine: NEDAINUOTASIS,
           feminine: NEDAINUOTOJI,
         })
+    })
+  })
+  describe('neiti', () => {
+    it('conjugates default', () => {
+      expect(decliner.getPrefixed(EITI, 'ne').masculine.sgNom).toStrictEqual(
+        'neitas',
+      )
+    })
+    it('conjugates pronominal', () => {
+      expect(decliner.getPrefixedPronominal(EITI, 'ne').masculine.sgNom)
+        .toStrictEqual('neitasis')
     })
   })
 })

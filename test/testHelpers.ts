@@ -3,6 +3,7 @@ import type {
   DeclinedType,
   PrincipalPartsType,
 } from '~src/types.ts'
+export const EITI: PrincipalPartsType = ['eiti', 'eina', 'ėjo']
 export const SOKTI = [`šo\u0300kti`, `šo\u0301kti`, `šo\u0303kti`, `šokti`]
 export const YTI = [`y\u0301ti`, `yti`, `y\u0301ti`, `yti`]
 export const OME = [`o\u0300mė`, `o\u0301mė`, `o\u0303mė`, `omė`]

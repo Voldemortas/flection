@@ -16,7 +16,7 @@ import ParticipleDecliner, {
 import AsDeclinator from '~decliners/AsDeclinator.ts'
 import ADeclinator from '~decliners/ADeclinator.ts'
 
-export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
+export default class PassivePastParticipleDecliner extends ParticipleDecliner {
   protected getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
@@ -41,7 +41,7 @@ export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
     let masculine: DeclinedType
     let feminine: DeclinedType
     const { isStemImmobile, prefixedRoot, isAcute, syllable } =
-      PastPassiveParticipleDecliner
+      PassivePastParticipleDecliner
         .#getRootAndPrefix(principalParts)
 
     if (isStemImmobile) {
@@ -79,7 +79,7 @@ export default class PastPassiveParticipleDecliner extends ParticipleDecliner {
     let masculine: DeclinedType
     let feminine: DeclinedType
     const { isStemImmobile, prefixedRoot, isAcute, syllable } =
-      PastPassiveParticipleDecliner
+      PassivePastParticipleDecliner
         .#getRootAndPrefix(principalParts)
 
     if (isStemImmobile) {

@@ -55,14 +55,24 @@ describe('Verb', () => {
       'pusdalyvis',
     )
     assertTense(
-      Verb.pastPassiveParticiple,
-      'declinePastPassiveParticiple',
+      Verb.passivePastParticiple,
+      'declinePassivePastParticiple',
       'pastPassiveParticiple',
     )
     assertPronominal(
-      Verb.pastPassiveParticiple,
-      'declinePastPassiveParticiple',
+      Verb.passivePastParticiple,
+      'declinePassivePastParticiple',
       'pastPassiveParticiple',
+    )
+    assertTense(
+      Verb.activePastFrequentativeParticiple,
+      'declineActivePastFrequentativeParticiple',
+      'pastFrequentativeActiveParticiple',
+    )
+    assertPronominal(
+      Verb.activePastFrequentativeParticiple,
+      'declineActivePastFrequentativeParticiple',
+      'pastFrequentativeActiveParticiple',
     )
 
     function assertTense<

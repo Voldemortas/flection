@@ -20,7 +20,8 @@ import ImasDecliner from '~conjugators/ImasDecliner.ts'
 import PusdalyvisDecliner, {
   type PusdalyvisType,
 } from '~conjugators/PusdalyvisDecliner.ts'
-import PastPassiveParticipleDecliner from '~conjugators/PastPassiveParticipleDecliner.ts'
+import PassivePastParticipleDecliner from '~conjugators/PassivePastParticipleDecliner.ts'
+import ActivePastFrequentativeParticipleDecliner from '~conjugators/ActivePastFrequentativeParticipleDecliner.ts'
 
 /**
  * @description Class which lets you derive various forms such as various moods, -imas action deverbal and various
@@ -47,8 +48,10 @@ export default class Verb extends Verbal {
   public static readonly imasNoun: Inflector<DeclinedType> = new ImasDecliner()
   public static readonly pusdalyvis: Inflector<PusdalyvisType> =
     new PusdalyvisDecliner()
-  public static readonly pastPassiveParticiple: ParticipleDecliner =
-    new PastPassiveParticipleDecliner()
+  public static readonly passivePastParticiple: ParticipleDecliner =
+    new PassivePastParticipleDecliner()
+  public static readonly activePastFrequentativeParticiple: ParticipleDecliner =
+    new ActivePastFrequentativeParticipleDecliner()
 
   /**
    * @description Wrapper to call all the static methods with the same options
@@ -175,14 +178,30 @@ export default class Verb extends Verbal {
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
-   * const prefixedPronominalParticiple = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declinePastPassiveParticiple(true)
+   * const prefixedPronominalParticiple = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declinePassivePastParticiple(true)
    * ```
    */
-  public declinePastPassiveParticiple(
+  public declinePassivePastParticiple(
     isPronominal: boolean = false,
   ): ParticipleType {
     return this.#inflectBasedOnOptions(
-      Verb.pastPassiveParticiple,
+      Verb.passivePastParticiple,
+      isPronominal,
+    )
+  }
+  /**
+   * @description declines active past frequentative participle based on the data passed to the verb's constructor
+   * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
+   * @example
+   * ```
+   * const prefixedPronominalParticiple = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declineActivePastFrequentativeParticiple(true)
+   * ```
+   */
+  public declineActivePastFrequentativeParticiple(
+    isPronominal: boolean = false,
+  ): ParticipleType {
+    return this.#inflectBasedOnOptions(
+      Verb.activePastFrequentativeParticiple,
       isPronominal,
     )
   }

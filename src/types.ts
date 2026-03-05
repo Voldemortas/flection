@@ -32,7 +32,3 @@ export type DeclinedType = {
   plLoc: string
   plVoc: string
 }
-
-export type NeuterDeclinedType = {
-  neuter: string
-}
