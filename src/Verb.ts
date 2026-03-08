@@ -22,6 +22,7 @@ import PusdalyvisDecliner, {
 } from '~conjugators/PusdalyvisDecliner.ts'
 import PassivePastParticipleDecliner from '~conjugators/PassivePastParticipleDecliner.ts'
 import ActivePastFrequentativeParticipleDecliner from '~conjugators/ActivePastFrequentativeParticipleDecliner.ts'
+import ActivePastSimpleParticipleDecliner from '~conjugators/ActivePastSimpleParticipleDecliner.ts'
 import ActiveFutureParticipleDecliner from '~conjugators/ActiveFutureParticipleDecliner.ts'
 import ActivePresentParticipleDecliner from '~conjugators/ActivePresentParticipleDecliner.ts'
 
@@ -52,6 +53,8 @@ export default class Verb extends Verbal {
     new PusdalyvisDecliner()
   public static readonly passivePastParticiple: ParticipleDecliner =
     new PassivePastParticipleDecliner()
+  public static readonly activePastSimpleParticiple: ParticipleDecliner =
+    new ActivePastSimpleParticipleDecliner()
   public static readonly activePastFrequentativeParticiple: ParticipleDecliner =
     new ActivePastFrequentativeParticipleDecliner()
   public static readonly activeFutureParticiple: ParticipleDecliner =
@@ -208,6 +211,22 @@ export default class Verb extends Verbal {
   ): ParticipleType {
     return this.#inflectBasedOnOptions(
       Verb.activePastFrequentativeParticiple,
+      isPronominal,
+    )
+  }
+  /**
+   * @description declines active past simple participle based on the data passed to the verb's constructor
+   * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
+   * @example
+   * ```
+   * const prefixedPronominalParticiple = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declineActivePastSimpleParticiple(true)
+   * ```
+   */
+  public declineActivePastSimpleParticiple(
+    isPronominal: boolean = false,
+  ): ParticipleType {
+    return this.#inflectBasedOnOptions(
+      Verb.activePastSimpleParticiple,
       isPronominal,
     )
   }
