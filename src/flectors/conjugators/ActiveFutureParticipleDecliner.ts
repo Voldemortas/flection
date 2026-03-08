@@ -10,18 +10,6 @@ import { appendFutureSuffix } from './FutureIndicativeConjugator.ts'
 
 export default class ActiveFutureParticipleDecliner
   extends ActiveParticipleDecliner {
-  protected getBasicPrefixed(
-    principalParts: PrincipalPartsType,
-    prefix: string,
-    getBasicInflected: (principalParts: PrincipalPartsType) => ParticipleType,
-  ): ParticipleType {
-    return this.getBasicImmobilePrefixed(
-      prefix,
-      principalParts,
-      getBasicInflected,
-    )
-  }
-
   getDefault(principalParts: PrincipalPartsType): ParticipleType {
     const { root, stem } = getStem(principalParts)
     const masculine = IsDeclinator.declineMasculineActiveParticiple(stem)

@@ -1,7 +1,9 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import { makeConjugatedFromArray } from '~test/testHelpers.ts'
-import PresentIndicativeConjugator from '~conjugators/PresentIndicativeConjugator.ts'
+import PresentIndicativeConjugator, {
+  hasMobilePrefix,
+} from '~conjugators/PresentIndicativeConjugator.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { stripAllAccents, stripAllAccentsFromParadigm } from '~src/utils.ts'
 import { assertPrefixedReflexive, assertReflexive } from './commons.ts'
@@ -453,4 +455,36 @@ describe('PresentIndicativeConjugator', () => {
   })
   assertReflexive(conjugator)
   assertPrefixedReflexive(conjugator)
+  describe('hasMobilePrefix', () => {
+    it('returns false for turėti', () => {
+      expect(hasMobilePrefix(TURETI_PARTS)).toBeFalsy()
+    })
+    it('returns false for turėti', () => {
+      expect(hasMobilePrefix(GALETI_PARTS)).toBeFalsy()
+    })
+    it('returns false for acute present', () => {
+      expect(hasMobilePrefix(GIMTI)).toBeFalsy()
+    })
+    it('returns false for -o present', () => {
+      expect(hasMobilePrefix(DARYTI)).toBeFalsy()
+    })
+    it('returns true for originally short stem', () => {
+      expect(hasMobilePrefix(LASETI)).toBeTruthy()
+    })
+    it('returns true for circumlex iR~eR alternation', () => {
+      expect(hasMobilePrefix(BRISTI)).toBeTruthy()
+    })
+    it('returns true when circumflex ar in present has -ė- in other forms', () => {
+      expect(hasMobilePrefix(KALBETI)).toBeTruthy()
+    })
+    it('returns false for polysyllabic roots', () => {
+      expect(hasMobilePrefix(GALVOTI_PARTS)).toBeFalsy()
+    })
+    it('returns false for unaccented', () => {
+      expect(
+        hasMobilePrefix(KALBETI.map(stripAllAccents) as PrincipalPartsType),
+      )
+        .toBeFalsy()
+    })
+  })
 })

@@ -227,7 +227,7 @@ describe('ActiveFutureParticipleDecliner', () => {
       expect(decliner.getReflexive(RINKTI)).toMatchObject({
         masculine: RINKSIASIS,
         feminine: RINKSIANTIS,
-        neuter: `-`,
+        neuter: `- (besirin\u0303ksią)`,
       })
     })
     it('conjugates reflexive pronominal', () => {

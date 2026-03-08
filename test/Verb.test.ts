@@ -84,6 +84,16 @@ describe('Verb', () => {
       'declineActiveFutureParticiple',
       'activeFutureParticiple',
     )
+    assertTense(
+      Verb.activePresentParticiple,
+      'declineActivePresentParticiple',
+      'activePresentParticiple',
+    )
+    assertPronominal(
+      Verb.activePresentParticiple,
+      'declineActivePresentParticiple',
+      'activePresentParticiple',
+    )
 
     function assertTense<
       T extends Record<string, string | Record<string, string>>,

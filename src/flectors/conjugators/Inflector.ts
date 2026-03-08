@@ -1,6 +1,7 @@
 import {
   hasAcuteAccent,
   hasAnyAccent,
+  isInflectedTheSame,
   stripAllAccents,
   stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
@@ -37,7 +38,7 @@ export default abstract class Inflector<
     const joinedPrincipalParts = principalParts.join('-')
     if (
       stripAllAccents(prefix) === 'ne' &&
-      Inflector.isInflectedTheSame(
+      isInflectedTheSame(
         joinedPrincipalParts,
         EITI_JOINED,
       )
@@ -152,14 +153,5 @@ export default abstract class Inflector<
       stripAllAccents(prefix),
       basicInflected,
     )
-  }
-
-  protected static isInflectedTheSame(
-    joinedPrincipalPartsA: string,
-    joinedPrincipalPartsB: string,
-  ): boolean {
-    return stripAllAccents(joinedPrincipalPartsB) ===
-        stripAllAccents(joinedPrincipalPartsA) ||
-      joinedPrincipalPartsB === joinedPrincipalPartsA
   }
 }

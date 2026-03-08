@@ -1,4 +1,5 @@
 import {
+  cannotParseSyllableError,
   infinitiveRootError,
   pastRootError,
   prefixMustContainVowelsError,
@@ -15,7 +16,7 @@ export const resonants = 'lmnriuoe'
 export const vowels = 'aąeęėiįyouųū'
 
 const SYLLABLE_REGEX =
-  /(.{0}|.+?)((?:[^lmnraąeęėiįyouųū\u0300\u0301\u0303]?[bcčdfghjklmnprsštvzž])?(i?(?:u\u0301?o|uo\u0303?)|(?:i\u0301?e|ie\u0303?)|i?ū[\u0301\u0303]?|[ėęyį][\u0301\u0303]?|[aeo]\u0303|i?(?:a[\u0301\u0300]?|o\u0300?)(?:[uilmnr]\u0303?)?|i?(?:u\u0300?[ilmnr]?\u0303?|)|(?:e[\u0301\u0300]?|i\u0300?)(?:[uilmnr]\u0303?)?)[bcčdfghjklmnprsštvzž]*)$/
+  /(.{0}|.+?)((?:[^lmnraąeęėiįyouųū\u0300\u0301\u0303]?[bcčdfghjklmnprsštvzž])?(i?(?:u\u0301?o|uo\u0303?)|(?:i\u0301?e|ie\u0303?)|i?ū[\u0301\u0303]?|[ėęyį][\u0301\u0303]?|i?[ąų][\u0301\u0303]?|[aeo]\u0303|i?(?:a[\u0301\u0300]?|o\u0300?)(?:[uilmnr]\u0303?)?|i?(?:u\u0300?[ilmnr]?\u0303?|)|(?:e[\u0301\u0300]?|i\u0300?)(?:[uilmnr]\u0303?)?)[bcčdfghjklmnprsštvzž]*)$/
 
 const acuteIULMNR = new RegExp(`[iu]\u0300[lmnr]([bcčdfghjklmnprsštvzž]|$)`)
 
@@ -134,6 +135,10 @@ export function putAccentOnString(
   do {
     currentSyllable++
     let thisSyllable = wordToUse.replace(SYLLABLE_REGEX, '$2')
+    const nextWordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
+    if (nextWordToUse === wordToUse) {
+      throw cannotParseSyllableError
+    }
     wordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
     if (currentSyllable === syllableFromEnd) {
       if (isAcute) {
@@ -223,6 +228,24 @@ export function countAccentedSyllable(
 
 export function isRootMonosyllabic(root: string) {
   return [...SYLLABLE_REGEX.exec(root)!][1] === ''
+}
+
+export function isInflectedTheSame(
+  joinedPrincipalPartsA: string,
+  joinedPrincipalPartsB: string,
+): boolean {
+  return joinedPrincipalPartsB === joinedPrincipalPartsA ||
+    stripAllAccents(joinedPrincipalPartsB) === joinedPrincipalPartsA ||
+    stripAllAccents(joinedPrincipalPartsA) === joinedPrincipalPartsB
+}
+
+/**
+ * returns element counting from the end (1 = last) or the first element if the length is too large
+ * @param arr {any[]} - array of anything
+ * @param id {number} - index from the end starting with 1
+ */
+export function getNthLast<T>(arr: T[], id: number) {
+  return arr.at(-id) ?? arr[0]
 }
 
 export const declinedEmpty: Omit<DeclinedType, 'gender' | 'neuter'> = {

@@ -52,7 +52,7 @@ nesiriñkdavusiosios nesiriñkdavusiųjų nesiriñkdavusiosioms nesiriñkdav
     .split(/\s/),
 )
 
-const BRINKDAVESIS = {
+const RINKDAVESIS = {
   sgNom: `rin\u0303kdavęsis (besirin\u0303kdavęs)`,
   sgGen: `- (besirin\u0303kdavusio)`,
   sgDat: `- (besirin\u0303kdavusiam)`,
@@ -135,9 +135,9 @@ describe('ActivePastFrequentativeParticipleDecliner', () => {
     })
     it('conjugates reflexive', () => {
       expect(decliner.getReflexive(RINKTI)).toMatchObject({
-        masculine: BRINKDAVESIS,
+        masculine: RINKDAVESIS,
         feminine: RINKDAVUSIS,
-        neuter: `-`,
+        neuter: `- (besirin\u0303kdavę)`,
       })
     })
     it('conjugates reflexive pronominal', () => {

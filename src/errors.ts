@@ -46,3 +46,5 @@ export const syllableCannotCarryAcuteError = new Error(
 export const notAttestedInLanguageError = new Error(
   'Such use is not attested and thus is not implemented',
 )
+
+export const cannotParseSyllableError = new Error('Cannot parse syllable')

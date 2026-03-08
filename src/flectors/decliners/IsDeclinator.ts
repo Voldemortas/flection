@@ -331,9 +331,10 @@ export default class IsDeclinator {
       /u$/,
       '',
     )
+    const palatalisedAccentedRoot = getPalatalizedRoot(accentedStem) + 'i'
     return {
       sgNom: `${stem}y\u0303sis`,
-      sgGen: `${accentedStem}iojo`,
+      sgGen: `${palatalisedAccentedRoot}ojo`,
       sgDat: `${palatalisedRoot}a\u0301jam`,
       sgAcc: `${accentedStem}įjį`,
       sgInst: `${palatalisedRoot}u\u0301oju`,

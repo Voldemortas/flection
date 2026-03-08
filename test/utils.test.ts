@@ -4,6 +4,7 @@ import {
   appendSuffixWithAssimilation,
   countAccentedSyllable,
   getInfinitiveRoot,
+  getNthLast,
   getPalatalizedRoot,
   getPastRoot,
   getPresentRoot,
@@ -12,6 +13,7 @@ import {
   hasAnyAccent,
   hasCircumflexOrShortAccent,
   isEverythingEqual,
+  isInflectedTheSame,
   isRootMonosyllabic,
   putAccentOnPrefix,
   putAccentOnString,
@@ -19,6 +21,7 @@ import {
   stripAllAccentsFromParadigm,
 } from '~src/utils.ts'
 import {
+  cannotParseSyllableError,
   infinitiveRootError,
   pastRootError,
   prefixMustContainVowelsError,
@@ -417,6 +420,11 @@ describe('utils', () => {
         `i\u0300šneperperoivilkiuoliegėpiams`,
       )
     })
+    it('throws when loop get stuck', () => {
+      expect(() => putAccentOnString(`pažы\u0303ti`, 2, false)).toThrow(
+        cannotParseSyllableError,
+      )
+    })
   })
   describe('countAccentedSyllable', () => {
     it(`finds if there's no accented syllable`, () => {
@@ -512,6 +520,40 @@ describe('utils', () => {
       describe(`checks if ${root} is monosyllabic`, () => {
         expect(isRootMonosyllabic(root)).toStrictEqual(isMonosyllabic)
       })
+    })
+  })
+  describe('getNthLast', () => {
+    it('gets the last element', () => {
+      expect(getNthLast(['a', 'b', 'c'], 1)).toStrictEqual('c')
+    })
+    it('gets the chosen element', () => {
+      expect(getNthLast(['a', 'b', 'c'], 2)).toStrictEqual('b')
+    })
+    it('gets the first element if index exceeds length', () => {
+      expect(getNthLast(['a', 'b', 'c'], 4)).toStrictEqual('a')
+    })
+  })
+  describe('isInflectedTheSame', () => {
+    it('works fine for unstressed inflection', () => {
+      expect(isInflectedTheSame('eiti-eina-ėjo', 'eiti-eina-ėjo')).toBeTruthy()
+    })
+    it('when first is unstressed', () => {
+      expect(
+        isInflectedTheSame(`ei\u0303ti-ei\u0303na-ė\u0303jo`, 'eiti-eina-ėjo'),
+      ).toBeTruthy()
+    })
+    it('when second is unstressed', () => {
+      expect(
+        isInflectedTheSame('eiti-eina-ėjo', `e\u0301iti-e\u0301ina-ė\u0301jo`),
+      ).toBeTruthy()
+    })
+    it('returns false when both words are stressed differently', () => {
+      expect(
+        isInflectedTheSame(
+          `ei\u0303ti-ei\u0303na-ė\u0303jo`,
+          `e\u0301iti-e\u0301ina-ė\u0301jo`,
+        ),
+      ).toBeFalsy()
     })
   })
 })

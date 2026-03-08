@@ -1,0 +1,219 @@
+import ActiveParticipleDecliner from './ActiveParticipleDecliner.ts'
+import type {
+  ComplementingParticipleType,
+  ParticipleType,
+} from './ParticipleDecliner.ts'
+import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
+import {
+  getPresentRoot,
+  hasAnyAccent,
+  isRootMonosyllabic,
+  putAccentOnPrefix,
+  stripAllAccents,
+} from '~src/utils.ts'
+import IsDeclinator from '~decliners/IsDeclinator.ts'
+import {
+  getNegatedCopula,
+  getPositiveCopula,
+  hasMobilePrefix,
+} from './PresentIndicativeConjugator.ts'
+
+export default class ActivePresentParticipleDecliner
+  extends ActiveParticipleDecliner {
+  protected override getBasicPrefixed(
+    principalParts: PrincipalPartsType,
+    prefix: string,
+    getBasicInflected: (principalParts: PrincipalPartsType) => ParticipleType,
+  ): ParticipleType {
+    const negatedCopula = getNegatedCopula(principalParts, prefix)
+    if (negatedCopula.isCopula) {
+      return getBasicInflected(negatedCopula.nesa!)
+    }
+    const basicPrefixed = this.getBasicImmobilePrefixed(
+      prefix,
+      principalParts,
+      getBasicInflected,
+    )
+    if (hasMobilePrefix(principalParts)) {
+      const stressedOnPrefix = ActivePresentParticipleDecliner
+        .applyPrefixToParadigm(
+          putAccentOnPrefix(prefix),
+          getBasicInflected(
+            principalParts.map(stripAllAccents) as PrincipalPartsType,
+          ),
+        )
+      if (getBasicInflected === this.getPronominal) {
+        //@ts-ignore complementing type is intended
+        return {
+          masculine: joinDeclinedTypes(
+            stressedOnPrefix.masculine,
+            unjoinDeclined(basicPrefixed.masculine),
+          ),
+          feminine: joinDeclinedTypes(
+            stressedOnPrefix.feminine,
+            unjoinDeclined(basicPrefixed.feminine),
+          ),
+        }
+      } else {
+        const masculine = stressedOnPrefix.masculine
+        const feminine = stressedOnPrefix.feminine
+        const short =
+          this.getDefault(principalParts).masculine.plNom.split(' ')[0]
+        return {
+          masculine: {
+            ...masculine,
+            sgNom: masculine.sgNom.replace(/^\S+/, `${prefix}${short}s`),
+            sgVoc: masculine.sgVoc.replace(/^\S+/, `${prefix}${short}s`),
+            plNom: masculine.plNom.replace(/^\S+/, `${prefix}${short}`),
+            plVoc: masculine.plVoc.replace(/^\S+/, `${prefix}${short}`),
+          },
+          feminine: {
+            ...feminine,
+            plNom: feminine.plNom.replace(/\S+$/, `${prefix}${short}`),
+            plVoc: feminine.plVoc.replace(/\S+$/, `${prefix}${short}`),
+          },
+          neuter: stressedOnPrefix.neuter,
+        }
+      }
+    }
+    return basicPrefixed
+  }
+
+  getDefault(principalParts: PrincipalPartsType): ParticipleType {
+    const positiveCopula = getPositiveCopula(principalParts)
+    if (positiveCopula.isCopula) {
+      return this.getDefault(positiveCopula.esa!)
+    }
+    const { stem, shortStemStressed } = getStem(principalParts)
+    const short = getShort(principalParts)
+    const masculine = IsDeclinator.declineMasculineActiveParticiple(stem)
+    const feminine = IsDeclinator.declineFeminineIAdjective(stem)
+    return {
+      masculine: {
+        ...masculine,
+        sgNom: `${
+          short.split(' ').map((s) => s + 's').join(' ')
+        } ${masculine.sgNom}`,
+        sgVoc: `${
+          short.split(' ').map((s) => s + 's').join(' ')
+        } ${masculine.sgVoc}`,
+        plNom: `${short} ${masculine.plNom}`,
+        plVoc: `${short} ${masculine.plVoc}`,
+      },
+      feminine: {
+        ...feminine,
+        plNom: `${feminine.plNom} ${short}`,
+        plVoc: `${feminine.plVoc} ${short}`,
+      },
+      neuter: shortStemStressed,
+    }
+  }
+
+  getPronominal(
+    principalParts: PrincipalPartsType,
+  ): ComplementingParticipleType {
+    const positiveCopula = getPositiveCopula(principalParts)
+    if (positiveCopula.isCopula) {
+      return this.getPronominal(positiveCopula.esa!)
+    }
+    const { stem } = getStem(principalParts)
+    let masculine: DeclinedType
+    let feminine: DeclinedType
+    const masculineImmobile = IsDeclinator.declineMasculinePronominalImmobile(
+      stem,
+    )
+    const feminineImmobile = IsDeclinator.declineFemininePronominalImmobile(
+      stem,
+    )
+    if (hasMobilePrefix(principalParts)) {
+      const masculineMobile = IsDeclinator.declineMasculinePronominalMobile(
+        stripAllAccents(stem),
+        'b',
+      )
+      const feminineMobile = IsDeclinator.declineFemininePronominalMobile(
+        stripAllAccents(stem),
+        '2b',
+      )
+      masculine = joinDeclinedTypes(masculineImmobile, masculineMobile)
+      feminine = joinDeclinedTypes(feminineImmobile, feminineMobile)
+    } else {
+      masculine = masculineImmobile
+      feminine = feminineImmobile
+    }
+    return {
+      masculine,
+      feminine,
+    }
+  }
+
+  override getReflexive(principalParts: PrincipalPartsType): ParticipleType {
+    const { masculine, feminine, neuter } = super.getReflexive(principalParts)
+    const { shortStemStressed } = getStem(principalParts)
+    const sgMasc = masculine.sgNom.replace(/^\S+/, `${shortStemStressed}sis`)
+    const plMasc = masculine.plNom.replace(/^\S+/, `${shortStemStressed}si`)
+    return {
+      masculine: {
+        ...masculine,
+        sgNom: sgMasc,
+        sgVoc: sgMasc,
+        plNom: plMasc,
+        plVoc: plMasc,
+      },
+      feminine,
+      neuter,
+    }
+  }
+}
+
+function getStem(principalParts: PrincipalPartsType) {
+  const { root, pattern } = getPresentRoot(principalParts)
+  const shortStemStressed = root + (pattern === 'i' ? `į` : `ą`)
+  return {
+    shortStemStressed,
+    stem: root + (pattern === 'i' ? `i` : `a`) + 'nt',
+    root,
+  }
+}
+
+function getShort(principalParts: PrincipalPartsType) {
+  const mobileSuffixes = [/e\u0303na$/, /i\u0300na$/, /i\u0300ja$/]
+  const { shortStemStressed, root } = getStem(principalParts)
+  if (!hasAnyAccent(root)) {
+    return shortStemStressed
+  }
+  if (hasMobilePrefix(principalParts)) {
+    return `${stripAllAccents(shortStemStressed)}\u0303`
+  }
+  if (
+    isRootMonosyllabic(root) ||
+    mobileSuffixes.some((suffix) => suffix.test(principalParts[1]))
+  ) {
+    return `${shortStemStressed} ${stripAllAccents(shortStemStressed)}\u0303`
+  }
+  return shortStemStressed
+}
+
+function joinDeclinedTypes(
+  a: DeclinedType,
+  b: DeclinedType,
+): DeclinedType {
+  return Object.fromEntries(
+    Object.entries(a).map(([key, value]) => {
+      const joined = new Set([
+        ...value.split(' '),
+        ...b[key as keyof DeclinedType].split(' '),
+      ])
+      return [key, [...joined.values()].join(' ')]
+    }) as [keyof DeclinedType, string][],
+  ) as DeclinedType
+}
+
+function unjoinDeclined(
+  declined: DeclinedType,
+): DeclinedType {
+  return Object.fromEntries(
+    Object.entries(declined).map((
+      [key, value],
+    ) => [key, value.split(' ').at(-1)]) as [keyof DeclinedType, string][],
+  ) as DeclinedType
+}

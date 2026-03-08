@@ -111,13 +111,17 @@ function applyBracesWithDashToParticiples<
       [key, value],
     ) => [
       key,
-      //@ts-ignore all good
       applyBracesWithDashToParticiple(value),
     ]),
   ) as unknown as T
 }
 
-function applyBracesWithDashToParticiple(ptcp: DeclinedType): DeclinedType {
+function applyBracesWithDashToParticiple(
+  ptcp: DeclinedType | string,
+): DeclinedType | string {
+  if (typeof ptcp === 'string') {
+    return `- (${ptcp})`
+  }
   return Object.fromEntries(
     Object.entries(ptcp).map((
       [key, value],
