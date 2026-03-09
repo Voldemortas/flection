@@ -21,6 +21,7 @@ import PusdalyvisDecliner, {
   type PusdalyvisType,
 } from '~conjugators/PusdalyvisDecliner.ts'
 import PassivePastParticipleDecliner from '~conjugators/PassivePastParticipleDecliner.ts'
+import PassiveFutureParticipleDecliner from '~conjugators/PassiveFutureParticipleDecliner.ts'
 import ActivePastFrequentativeParticipleDecliner from '~conjugators/ActivePastFrequentativeParticipleDecliner.ts'
 import ActivePastSimpleParticipleDecliner from '~conjugators/ActivePastSimpleParticipleDecliner.ts'
 import ActiveFutureParticipleDecliner from '~conjugators/ActiveFutureParticipleDecliner.ts'
@@ -53,6 +54,8 @@ export default class Verb extends Verbal {
     new PusdalyvisDecliner()
   public static readonly passivePastParticiple: ParticipleDecliner =
     new PassivePastParticipleDecliner()
+  public static readonly passiveFutureParticple: ParticipleDecliner =
+    new PassiveFutureParticipleDecliner()
   public static readonly activePastSimpleParticiple: ParticipleDecliner =
     new ActivePastSimpleParticipleDecliner()
   public static readonly activePastFrequentativeParticiple: ParticipleDecliner =
@@ -183,7 +186,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines past passive participle based on the data passed to the verb's constructor
+   * @description declines passive past participle based on the data passed to the verb's constructor
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
@@ -195,6 +198,22 @@ export default class Verb extends Verbal {
   ): ParticipleType {
     return this.#inflectBasedOnOptions(
       Verb.passivePastParticiple,
+      isPronominal,
+    )
+  }
+  /**
+   * @description declines passive future participle based on the data passed to the verb's constructor
+   * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
+   * @example
+   * ```
+   * const prefixedPronominalParticiple = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declinePassiveFutureParticiple(true)
+   * ```
+   */
+  public declinePassiveFutureParticiple(
+    isPronominal: boolean = false,
+  ): ParticipleType {
+    return this.#inflectBasedOnOptions(
+      Verb.passiveFutureParticple,
       isPronominal,
     )
   }

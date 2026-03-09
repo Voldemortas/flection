@@ -65,6 +65,16 @@ describe('Verb', () => {
       'pastPassiveParticiple',
     )
     assertTense(
+      Verb.passiveFutureParticple,
+      'declinePassiveFutureParticiple',
+      'passiveFutureParticple',
+    )
+    assertPronominal(
+      Verb.passiveFutureParticple,
+      'declinePassiveFutureParticiple',
+      'passiveFutureParticple',
+    )
+    assertTense(
       Verb.activePastFrequentativeParticiple,
       'declineActivePastFrequentativeParticiple',
       'activePastFrequentativeParticiple',
