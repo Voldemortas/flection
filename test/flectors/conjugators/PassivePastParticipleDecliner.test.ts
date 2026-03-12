@@ -3,7 +3,8 @@ import { describe, it } from '@std/testing/bdd'
 import type { PrincipalPartsType } from '~src/types.ts'
 import PassivePastParticipleDecliner from '~conjugators/PassivePastParticipleDecliner.ts'
 import { EITI, makeDeclinedFromArray } from '~test/testHelpers.ts'
-import { declinedEmpty } from '~src/utils.ts'
+
+import { declinedEmpty } from '~src/commons.ts'
 
 const RINKTI: PrincipalPartsType = [
   `rin\u0303kti`,

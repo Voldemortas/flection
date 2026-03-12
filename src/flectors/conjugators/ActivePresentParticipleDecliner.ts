@@ -22,8 +22,10 @@ import {
   getPositiveCopula,
   hasMobilePrefix,
 } from './PresentIndicativeConjugator.ts'
-
-const ACCENTUATION_SEPARATOR = '|'
+import {
+  ACCENTUATION_SEPARATOR,
+  SECONDARY_FORM_SEPARATOR,
+} from '~src/commons.ts'
 
 export default class ActivePresentParticipleDecliner
   extends ActiveParticipleDecliner {
@@ -64,8 +66,9 @@ export default class ActivePresentParticipleDecliner
       } else {
         const masculine = stressedOnPrefix.masculine
         const feminine = stressedOnPrefix.feminine
-        const short =
-          this.getDefault(principalParts).masculine.plNom.split(' ')[0]
+        const short = this.getDefault(principalParts).masculine.plNom.split(
+          SECONDARY_FORM_SEPARATOR,
+        )[0]
         return {
           masculine: {
             ...masculine,
@@ -108,13 +111,13 @@ export default class ActivePresentParticipleDecliner
             ACCENTUATION_SEPARATOR,
           )
         } ${masculine.sgVoc}`,
-        plNom: `${short} ${masculine.plNom}`,
-        plVoc: `${short} ${masculine.plVoc}`,
+        plNom: `${short}${SECONDARY_FORM_SEPARATOR}${masculine.plNom}`,
+        plVoc: `${short}${SECONDARY_FORM_SEPARATOR}${masculine.plVoc}`,
       },
       feminine: {
         ...feminine,
-        plNom: `${feminine.plNom} ${short}`,
-        plVoc: `${feminine.plVoc} ${short}`,
+        plNom: `${feminine.plNom}${SECONDARY_FORM_SEPARATOR}${short}`,
+        plVoc: `${feminine.plVoc}${SECONDARY_FORM_SEPARATOR}${short}`,
       },
       neuter: shortStemStressed,
     }
@@ -213,8 +216,8 @@ function joinDeclinedTypes(
   return Object.fromEntries(
     Object.entries(a).map(([key, value]) => {
       const joined = [...new Set([
-        ...value.split(' '),
-        ...b[key as keyof DeclinedType].split(' '),
+        ...value.split(SECONDARY_FORM_SEPARATOR),
+        ...b[key as keyof DeclinedType].split(SECONDARY_FORM_SEPARATOR),
       ]).values()]
       const joinedUnique: string[] = [
         ...new Set(joined.map(stripAllAccents)).values(),
@@ -226,7 +229,7 @@ function joinDeclinedTypes(
           joined.filter((join) => unique === stripAllAccents(join)).join(
             ACCENTUATION_SEPARATOR,
           )
-        ).join(' '),
+        ).join(SECONDARY_FORM_SEPARATOR),
       ]
     }) as [keyof DeclinedType, string][],
   ) as DeclinedType
@@ -240,9 +243,9 @@ function getLastStressed(
       [key, values],
     ) => [
       key,
-      values.split(' ').map((value) =>
+      values.split(SECONDARY_FORM_SEPARATOR).map((value) =>
         value.split(ACCENTUATION_SEPARATOR).at(-1)
-      ).join(' '),
+      ).join(SECONDARY_FORM_SEPARATOR),
     ]) as [keyof DeclinedType, string][],
   ) as DeclinedType
 }

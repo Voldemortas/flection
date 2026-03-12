@@ -3,6 +3,7 @@ import ParticipleDecliner, {
   type ParticipleType,
 } from './ParticipleDecliner.ts'
 import { getNthLast } from '~src/utils.ts'
+import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 export default abstract class ActiveParticipleDecliner
   extends ParticipleDecliner {
@@ -20,10 +21,16 @@ export default abstract class ActiveParticipleDecliner
   override getReflexive(principalParts: PrincipalPartsType): ParticipleType {
     const beReflexive = super.getReflexive(principalParts)
     const { masculine, feminine } = this.getDefault(principalParts)
-    const masculineSg = getNthLast(masculine.sgNom.split(' '), 2)
-    const masculinePl = getNthLast(masculine.plNom.split(' '), 2)
-    const feminineSg = feminine.sgNom.split(' ')[0]
-    const femininePl = feminine.plNom.split(' ')[0]
+    const masculineSg = getNthLast(
+      masculine.sgNom.split(SECONDARY_FORM_SEPARATOR),
+      2,
+    )
+    const masculinePl = getNthLast(
+      masculine.plNom.split(SECONDARY_FORM_SEPARATOR),
+      2,
+    )
+    const feminineSg = feminine.sgNom.split(SECONDARY_FORM_SEPARATOR)[0]
+    const femininePl = feminine.plNom.split(SECONDARY_FORM_SEPARATOR)[0]
     return {
       masculine: {
         ...beReflexive.masculine,

@@ -1,7 +1,6 @@
 import FiniteConjugator from './FiniteConjugator.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import {
-  consonants,
   getInfinitiveRoot,
   getPastRoot,
   getPresentRoot,
@@ -14,7 +13,6 @@ import {
   isRootMonosyllabic,
   putAccentOnPrefix,
   stripAllAccents,
-  vowels,
 } from '~src/utils.ts'
 import {
   conjugateImmobileA,
@@ -24,6 +22,7 @@ import {
   conjugateMobileI,
   conjugateMobileO,
 } from './utils.ts'
+import { consonants, vowels } from '~src/commons.ts'
 
 const JOINED_COPULAS = [
   `bū\u0301ti-yra\u0300-bu\u0300vo`,

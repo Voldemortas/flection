@@ -1,13 +1,11 @@
 import FiniteConjugator from './FiniteConjugator.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import {
-  consonants,
   getInfinitiveRoot,
   getPastRoot,
   hasCircumflexOrShortAccent,
   putAccentOnPrefix,
   stripAllAccentsFromParadigm,
-  vowels,
 } from '~src/utils.ts'
 import {
   conjugateImmobileE,
@@ -15,6 +13,12 @@ import {
   conjugateMobileE,
   conjugateMobileO,
 } from './utils.ts'
+import { consonants, vowels } from '~src/commons.ts'
+
+const polysyllabicEndsInYRegex = new RegExp(
+  `[${vowels}]+[${consonants}]+y\\u0301?$`,
+  'i',
+)
 
 export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
   override getDefault(
@@ -45,7 +49,7 @@ export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
     const infinitiveRoot = getInfinitiveRoot(principalParts).root
     const isPrefixMobile = pattern === 'ė' &&
       hasCircumflexOrShortAccent(principalParts[2]) &&
-      !PastSimpleIndicativeConjugator.#polysyllabicEndsInYRegex.test(
+      !polysyllabicEndsInYRegex.test(
         infinitiveRoot,
       )
     if (isPrefixMobile) {
@@ -56,9 +60,4 @@ export default class PastSimpleIndicativeConjugator extends FiniteConjugator {
     }
     return this.getBasicImmobilePrefixed(prefix, principalParts)
   }
-
-  static readonly #polysyllabicEndsInYRegex = new RegExp(
-    `[${vowels}]+[${consonants}]+y\\u0301?$`,
-    'i',
-  )
 }

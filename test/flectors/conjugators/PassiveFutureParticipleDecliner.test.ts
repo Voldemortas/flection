@@ -2,7 +2,7 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import type { PrincipalPartsType } from '~src/types.ts'
 import PassiveFutureParticipleDecliner from '~conjugators/PassiveFutureParticipleDecliner.ts'
-import { declinedEmpty } from '~src/utils.ts'
+import { declinedEmpty } from '~src/commons.ts'
 
 const BEGTI: PrincipalPartsType = [
   `bė\u0301gti`,

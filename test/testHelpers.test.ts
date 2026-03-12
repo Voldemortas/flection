@@ -62,6 +62,17 @@ describe('testHelpers', () => {
     })
   })
   describe('makeDeclinedFromArray', () => {
+    const a = '0123456'.split('')
+    const b = 'abcdefg'.split('')
+    const abc = '0123456abcdefg'.split('')
+    it('makes from 2x7 array', () => {
+      expect(makeDeclinedFromArray([a, b]))
+        .toMatchObject(makeDeclinedFromArray(abc))
+    })
+    it('makes from 7x2 array', () => {
+      expect(makeDeclinedFromArray(a.map((v, i) => [v, b[i]])))
+        .toMatchObject(makeDeclinedFromArray(abc))
+    })
     it('throws when array count is not 14', () => {
       expect(() => makeDeclinedFromArray([['a', 'b'], ['e', 'f']]))
         .toThrow()

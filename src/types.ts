@@ -39,3 +39,5 @@ export type AccentuatedDeclinedType = Record<
   keyof DeclinedType,
   AccentedValueType
 >
+
+export type RootPatternType<T extends string> = { root: string; pattern: T }

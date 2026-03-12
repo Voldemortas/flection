@@ -16,6 +16,7 @@ import {
   IsMasculineAdjectiveDecliner,
   IsMasculinePronominalDecliner,
 } from '~decliners/commons.ts'
+import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 const FLECTION = 'ę'
 
@@ -35,8 +36,8 @@ export default class ActivePastSimpleParticipleDecliner
       },
       feminine: {
         ...feminine,
-        plNom: `${feminine.plNom} ${root}${FLECTION}`,
-        plVoc: `${feminine.plVoc} ${root}${FLECTION}`,
+        plNom: `${feminine.plNom}${SECONDARY_FORM_SEPARATOR}${root}${FLECTION}`,
+        plVoc: `${feminine.plVoc}${SECONDARY_FORM_SEPARATOR}${root}${FLECTION}`,
       },
       neuter: `${root}${FLECTION}`,
     }

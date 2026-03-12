@@ -1,6 +1,7 @@
 import ImmobileConjugator from './ImmobileConjugator.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { appendSuffixWithAssimilation, getInfinitiveRoot } from '~src/utils.ts'
+import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 export default class ImperativeConjugator extends ImmobileConjugator {
   override getDefault(
@@ -12,9 +13,9 @@ export default class ImperativeConjugator extends ImmobileConjugator {
       'k',
     ]])
     return {
-      sg2: `${suffixedRoot} ${suffixedRoot}i`,
-      pl1: `${suffixedRoot}im ${suffixedRoot}ime`,
-      pl2: `${suffixedRoot}it ${suffixedRoot}ite`,
+      sg2: `${suffixedRoot}${SECONDARY_FORM_SEPARATOR}${suffixedRoot}i`,
+      pl1: `${suffixedRoot}im${SECONDARY_FORM_SEPARATOR}${suffixedRoot}ime`,
+      pl2: `${suffixedRoot}it${SECONDARY_FORM_SEPARATOR}${suffixedRoot}ite`,
       ...emptyPersons,
     }
   }

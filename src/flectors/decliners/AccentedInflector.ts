@@ -14,6 +14,7 @@ import {
   notAttestedInLanguageError,
   stresslessDynamicAccentuationError,
 } from '~src/errors.ts'
+import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 const TEMPORARY_VOWEL = 'a'
 
@@ -144,7 +145,7 @@ function inflect<K extends keyof any>(
             accentedRoot,
             stripAllAccents(valArray[0]),
           )
-        }).join(' '),
+        }).join(SECONDARY_FORM_SEPARATOR),
       ],
     ),
   ) as Record<K, string>

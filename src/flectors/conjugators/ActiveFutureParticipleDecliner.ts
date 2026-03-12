@@ -12,6 +12,7 @@ import {
   IsMasculinePronominalDecliner,
 } from '~decliners/commons.ts'
 import { appendFutureSuffix } from './FutureIndicativeConjugator.ts'
+import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 export default class ActiveFutureParticipleDecliner
   extends ActiveParticipleDecliner {
@@ -29,8 +30,8 @@ export default class ActiveFutureParticipleDecliner
       },
       feminine: {
         ...feminine,
-        plNom: `${feminine.plNom} ${root}ią`,
-        plVoc: `${feminine.plVoc} ${root}ią`,
+        plNom: `${feminine.plNom}${SECONDARY_FORM_SEPARATOR}${root}ią`,
+        plVoc: `${feminine.plVoc}${SECONDARY_FORM_SEPARATOR}${root}ią`,
       },
       neuter: `${root}ią`,
     }

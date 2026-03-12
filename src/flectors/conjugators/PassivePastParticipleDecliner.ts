@@ -1,7 +1,6 @@
 import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import {
   countAccentedSyllable,
-  declinedEmpty,
   getInfinitiveRoot,
   hasAnyAccent,
   hasCircumflexOrShortAccent,
@@ -19,6 +18,7 @@ import {
   AsAdjectiveDecliner,
   AsPronominalDecliner,
 } from '~decliners/commons.ts'
+import { declinedEmpty } from '~src/commons.ts'
 
 export default class PassivePastParticipleDecliner extends ParticipleDecliner {
   protected getBasicPrefixed(

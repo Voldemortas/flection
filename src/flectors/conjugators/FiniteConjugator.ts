@@ -2,6 +2,7 @@ import Inflector from './Inflector.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { decorateConjugatedReflexive } from './utils.ts'
 import { appendSuffixWithAssimilation } from '~src/utils.ts'
+import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 export default abstract class FiniteConjugator
   extends Inflector<ConjugationType> {
@@ -19,8 +20,8 @@ export default abstract class FiniteConjugator
         [/([^a])i\u0300s$/, `$1i\u0301es`],
       ]),
       sg3: conjugated.sg3 + 's',
-      pl1: `${conjugated.pl1.split(' ')[1]}ės`,
-      pl2: `${conjugated.pl2.split(' ')[1]}ės`,
+      pl1: `${conjugated.pl1.split(SECONDARY_FORM_SEPARATOR)[1]}ės`,
+      pl2: `${conjugated.pl2.split(SECONDARY_FORM_SEPARATOR)[1]}ės`,
       pl3: conjugated.pl3 + 's',
     })
   }

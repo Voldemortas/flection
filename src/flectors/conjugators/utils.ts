@@ -1,13 +1,16 @@
 import type { ConjugationType } from '~src/types.ts'
 import {
-  consonants,
   getPalatalizedRoot,
   getUnpalatalizedRoot,
-  longVowels,
-  resonants,
-  shortVowels,
   stripAllAccents,
 } from '~src/utils.ts'
+import {
+  consonants,
+  longVowels,
+  resonants,
+  SECONDARY_FORM_SEPARATOR,
+  shortVowels,
+} from '~src/commons.ts'
 
 export function conjugateThematicThirdAndPlural(
   root: string,
@@ -25,8 +28,8 @@ function conjugateThematicPlural(
   theme: string,
 ): Pick<ConjugationType, 'pl1' | 'pl2'> {
   return {
-    pl1: `${root}${theme}me ${root}${theme}m`,
-    pl2: `${root}${theme}te ${root}${theme}t`,
+    pl1: `${root}${theme}me${SECONDARY_FORM_SEPARATOR}${root}${theme}m`,
+    pl2: `${root}${theme}te${SECONDARY_FORM_SEPARATOR}${root}${theme}t`,
   }
 }
 

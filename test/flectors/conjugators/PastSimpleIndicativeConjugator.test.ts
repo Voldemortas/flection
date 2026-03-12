@@ -4,6 +4,7 @@ import PastSimpleIndicativeConjugator from '~conjugators/PastSimpleIndicativeCon
 import { OME, OMO, YTI } from '~test/testHelpers.ts'
 import type { ConjugationType, PrincipalPartsType } from '~src/types.ts'
 import { assertPrefixedReflexive, assertReflexive } from './commons.ts'
+import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 const DATA_OMO = Array.from({ length: 4 }).map((
   _,
@@ -145,7 +146,12 @@ describe('PastSimpleIndicativeConjugator', () => {
           Object.fromEntries(
             Object.entries(EXPECTED_OMO[i]).map((
               [key, value],
-            ) => [key, value.split(' ').map((v) => `ne${v}`).join(' ')]),
+            ) => [
+              key,
+              value.split(SECONDARY_FORM_SEPARATOR).map((v) => `ne${v}`).join(
+                SECONDARY_FORM_SEPARATOR,
+              ),
+            ]),
           ),
         )
       })
@@ -163,7 +169,12 @@ describe('PastSimpleIndicativeConjugator', () => {
           Object.fromEntries(
             Object.entries(EXPECTED_OME[i]).map((
               [key, value],
-            ) => [key, value.split(' ').map((v) => `ne${v}`).join(' ')]),
+            ) => [
+              key,
+              value.split(SECONDARY_FORM_SEPARATOR).map((v) => `ne${v}`).join(
+                SECONDARY_FORM_SEPARATOR,
+              ),
+            ]),
           ),
         )
       })

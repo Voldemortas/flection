@@ -1,6 +1,5 @@
 import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import {
-  declinedEmpty,
   getInfinitiveRoot,
   hasAcuteAccent,
   hasAnyAccent,
@@ -17,6 +16,7 @@ import {
   AsAdjectiveDecliner,
   AsPronominalDecliner,
 } from '~decliners/commons.ts'
+import { declinedEmpty } from '~src/commons.ts'
 
 const PASSIVE_FUTURE_SUFFIX = 'sim'
 

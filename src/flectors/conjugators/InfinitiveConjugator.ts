@@ -1,6 +1,7 @@
 import Inflector from './Inflector.ts'
 import { getInfinitiveRoot } from '~src/utils.ts'
 import type { PrincipalPartsType } from '~src/types.ts'
+import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 export type InfinitiveType = { infinitive: string }
 
@@ -9,7 +10,7 @@ export default class InfinitiveConjugator extends Inflector<InfinitiveType> {
     principalParts: PrincipalPartsType,
   ): InfinitiveType {
     const { root } = getInfinitiveRoot(principalParts)
-    return { infinitive: `${root}ti ${root}t` }
+    return { infinitive: `${root}ti${SECONDARY_FORM_SEPARATOR}${root}t` }
   }
   override getReflexive(
     principalParts: PrincipalPartsType,

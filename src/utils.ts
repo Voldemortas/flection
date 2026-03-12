@@ -7,20 +7,8 @@ import {
   syllableCannotCarryAcuteError,
   tooFewSyllablesError,
 } from './errors.ts'
-import type { DeclinedType, PrincipalPartsType } from './types.ts'
-
-export const consonants = 'bcčdfghjklmnprsštvzž'
-export const longVowels = 'ąęįųėoyū'
-export const shortVowels = 'aeiuo'
-export const resonants = 'lmnriuoe'
-export const vowels = 'aąeęėiįyouųū'
-
-const SYLLABLE_REGEX =
-  /(.{0}|.+?)((?:[^lmnraąeęėiįyouųū\u0300\u0301\u0303]?[bcčdfghjklmnprsštvzž])?(i?(?:u\u0301?o|uo\u0303?)|(?:i\u0301?e|ie\u0303?)|i?ū[\u0301\u0303]?|[ėęyį][\u0301\u0303]?|i?[ąų][\u0301\u0303]?|[aeo]\u0303|i?(?:[ao][\u0301\u0300]?)(?:[uilmnr]\u0303?)?|i?(?:u\u0300?[ilmnr]?\u0303?|)|(?:e[\u0301\u0300]?|i\u0300?)(?:[uilmnr]\u0303?)?)[bcčdfghjklmnprsštvzž]*)$/
-
-const acuteIULMNR = new RegExp(`[iu]\u0300[lmnr]([bcčdfghjklmnprsštvzž]|$)`)
-
-type RootPatternType<T extends string> = { root: string; pattern: T }
+import type { PrincipalPartsType, RootPatternType } from './types.ts'
+import { acuteIULMNR, consonants, SYLLABLE_REGEX, vowels } from './commons.ts'
 
 export function stripAllAccents(word: string) {
   return word.replaceAll(/[\u0303\u0300\u0301]/g, '')
@@ -240,21 +228,4 @@ export function isInflectedTheSame(
  */
 export function getNthLast<T>(arr: T[], id: number) {
   return arr.at(-id) ?? arr[0]
-}
-
-export const declinedEmpty: Omit<DeclinedType, 'gender' | 'neuter'> = {
-  sgNom: '-',
-  sgGen: '-',
-  sgDat: '-',
-  sgAcc: '-',
-  sgInst: '-',
-  sgLoc: '-',
-  sgVoc: '-',
-  plNom: '-',
-  plGen: '-',
-  plDat: '-',
-  plAcc: '-',
-  plInst: '-',
-  plLoc: '-',
-  plVoc: '-',
 }
