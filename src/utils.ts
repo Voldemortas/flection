@@ -16,7 +16,7 @@ export const resonants = 'lmnriuoe'
 export const vowels = 'aąeęėiįyouųū'
 
 const SYLLABLE_REGEX =
-  /(.{0}|.+?)((?:[^lmnraąeęėiįyouųū\u0300\u0301\u0303]?[bcčdfghjklmnprsštvzž])?(i?(?:u\u0301?o|uo\u0303?)|(?:i\u0301?e|ie\u0303?)|i?ū[\u0301\u0303]?|[ėęyį][\u0301\u0303]?|i?[ąų][\u0301\u0303]?|[aeo]\u0303|i?(?:a[\u0301\u0300]?|o\u0300?)(?:[uilmnr]\u0303?)?|i?(?:u\u0300?[ilmnr]?\u0303?|)|(?:e[\u0301\u0300]?|i\u0300?)(?:[uilmnr]\u0303?)?)[bcčdfghjklmnprsštvzž]*)$/
+  /(.{0}|.+?)((?:[^lmnraąeęėiįyouųū\u0300\u0301\u0303]?[bcčdfghjklmnprsštvzž])?(i?(?:u\u0301?o|uo\u0303?)|(?:i\u0301?e|ie\u0303?)|i?ū[\u0301\u0303]?|[ėęyį][\u0301\u0303]?|i?[ąų][\u0301\u0303]?|[aeo]\u0303|i?(?:[ao][\u0301\u0300]?)(?:[uilmnr]\u0303?)?|i?(?:u\u0300?[ilmnr]?\u0303?|)|(?:e[\u0301\u0300]?|i\u0300?)(?:[uilmnr]\u0303?)?)[bcčdfghjklmnprsštvzž]*)$/
 
 const acuteIULMNR = new RegExp(`[iu]\u0300[lmnr]([bcčdfghjklmnprsštvzž]|$)`)
 
@@ -87,22 +87,12 @@ export function appendSuffixWithAssimilation(
   )
 }
 
-export function stripAllAccentsFromParadigm<
-  T extends Record<string, string | Record<string, string>>,
->(
+// deno-lint-ignore no-explicit-any
+export function stripAllAccentsFromParadigm<T extends Record<string, any>>(
   paradigm: T,
 ): T {
-  if (typeof Object.values(paradigm)[0] === 'string') {
-    return Object.fromEntries(
-      Object.keys(paradigm).map((
-        key,
-      ) => [key, stripAllAccents(paradigm[key] as string)]),
-    ) as T
-  }
-  return Object.fromEntries(
-    Object.entries(paradigm).map((
-      [key, value],
-    ) => [key, stripAllAccentsFromParadigm(value as Record<string, string>)]),
+  return JSON.parse(
+    JSON.stringify(paradigm).replaceAll(/[\u0300\u0301\u0303]/g, ''),
   ) as T
 }
 
@@ -120,6 +110,10 @@ export function isEverythingEqual<T>(array: T[]): boolean {
   return array.every((v) => v === array[0])
 }
 
+export function getLastSyllable(text: string): string {
+  return text.replace(SYLLABLE_REGEX, '$2')
+}
+
 export function putAccentOnString(
   string: string,
   syllableFromEnd: number,
@@ -134,7 +128,7 @@ export function putAccentOnString(
   let currentSyllable = 0
   do {
     currentSyllable++
-    let thisSyllable = wordToUse.replace(SYLLABLE_REGEX, '$2')
+    let thisSyllable = getLastSyllable(wordToUse)
     const nextWordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
     if (nextWordToUse === wordToUse) {
       throw cannotParseSyllableError

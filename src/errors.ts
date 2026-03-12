@@ -48,3 +48,11 @@ export const notAttestedInLanguageError = new Error(
 )
 
 export const cannotParseSyllableError = new Error('Cannot parse syllable')
+
+export const stresslessDynamicAccentuationError = new Error(
+  'Root must be accented via the string or by the type parameter',
+)
+
+export const inflectorCannotBeUndefined = new Error(
+  'Both inflector patterns cannot be undefined',
+)

@@ -171,12 +171,10 @@ export default class IsDeclinator {
   }
   static declineMasculineIsAdjectiveII(stem: string): DeclinedType {
     const palatalisedRoot = `${getPalatalizedRoot(stem)}i`.replace(/ji$/, 'j')
-    const palatalisedUnstressedRoot = stripAllAccents(palatalisedRoot)
     return {
       ...IsDeclinator.declineIoNounII(stem),
       sgDat: `${palatalisedRoot}am`,
       sgLoc: `${palatalisedRoot}ame`,
-      plAcc: `${palatalisedUnstressedRoot}u\u0300s`,
     }
   }
   static declineMasculineIsAdjectiveIII(

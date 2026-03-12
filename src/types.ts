@@ -32,3 +32,10 @@ export type DeclinedType = {
   plLoc: string
   plVoc: string
 }
+
+export type AccentedValueType = (string | [string] | [string, string])[]
+
+export type AccentuatedDeclinedType = Record<
+  keyof DeclinedType,
+  AccentedValueType
+>
