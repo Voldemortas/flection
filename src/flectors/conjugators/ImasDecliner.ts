@@ -7,22 +7,20 @@ import {
   isRootMonosyllabic,
   stripAllAccents,
 } from '~src/utils.ts'
-import AsDeclinator from '~decliners/AsDeclinator.ts'
+import { AsNounDecliner, AsReflexiveDecliner } from '~decliners/commons.ts'
 
 export default class ImasDecliner extends Inflector<DeclinedType> {
   override getDefault(
     principalParts: PrincipalPartsType,
   ): DeclinedType {
     const stem = makeStem(principalParts)
-    return (/ym$/.test(stem) || !hasAnyAccent(stem))
-      ? AsDeclinator.declineAsNounI(stem)
-      : AsDeclinator.declineAsNounII(stem)
+    return AsNounDecliner.inflectStatic(stem)
   }
   override getReflexive(
     principalParts: PrincipalPartsType,
   ): DeclinedType {
     const stem = makeStem(principalParts)
-    return AsDeclinator.declineAsReflexiveNoun(stem)
+    return AsReflexiveDecliner.inflectStatic(stem)
   }
 
   protected getBasicPrefixed(

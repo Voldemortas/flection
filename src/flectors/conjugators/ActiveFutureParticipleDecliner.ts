@@ -5,15 +5,20 @@ import type {
 } from './ParticipleDecliner.ts'
 import type { PrincipalPartsType } from '~src/types.ts'
 import { getInfinitiveRoot } from '~src/utils.ts'
-import IsDeclinator from '~decliners/IsDeclinator.ts'
+import {
+  IsFeminineAdjectiveDecliner,
+  IsFemininePronominalDecliner,
+  IsMasculineParticipleDecliner,
+  IsMasculinePronominalDecliner,
+} from '~decliners/commons.ts'
 import { appendFutureSuffix } from './FutureIndicativeConjugator.ts'
 
 export default class ActiveFutureParticipleDecliner
   extends ActiveParticipleDecliner {
   getDefault(principalParts: PrincipalPartsType): ParticipleType {
     const { root, stem } = getStem(principalParts)
-    const masculine = IsDeclinator.declineMasculineActiveParticiple(stem)
-    const feminine = IsDeclinator.declineFeminineIAdjective(stem)
+    const masculine = IsMasculineParticipleDecliner.inflectStatic(stem)
+    const feminine = IsFeminineAdjectiveDecliner.inflectStatic(stem)
     return {
       masculine: {
         ...masculine,
@@ -35,8 +40,8 @@ export default class ActiveFutureParticipleDecliner
     principalParts: PrincipalPartsType,
   ): ComplementingParticipleType {
     const { stem } = getStem(principalParts)
-    const masculine = IsDeclinator.declineMasculinePronominalImmobile(stem)
-    const feminine = IsDeclinator.declineFemininePronominalImmobile(stem)
+    const masculine = IsMasculinePronominalDecliner.inflectStatic(stem)
+    const feminine = IsFemininePronominalDecliner.inflectStatic(stem)
     return {
       masculine,
       feminine,

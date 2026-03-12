@@ -414,7 +414,7 @@ export const AsNounDecliner = new AccentedInflector<keyof DeclinedType>(
 
 export const AsReflexiveDecliner = new AccentedInflector<keyof DeclinedType>(
   asReflexiveStatic,
-  asReflexiveStatic,
+  undefined,
 )
 
 export const JasBisyllabicNounDecliner = new AccentedInflector<

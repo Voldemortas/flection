@@ -2,8 +2,8 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import type { PrincipalPartsType } from '~src/types.ts'
 import ImasDecliner from '~conjugators/ImasDecliner.ts'
-import AsDeclinator from '~decliners/AsDeclinator.ts'
 import { EITI } from '~test/testHelpers.ts'
+import { AsNounDecliner, AsReflexiveDecliner } from '~decliners/commons.ts'
 
 describe('ImasDecliner', () => {
   const decliner = new ImasDecliner()
@@ -16,23 +16,23 @@ describe('ImasDecliner', () => {
     const expectedRoot = `bėgi\u0300m`
     it('declines default', () => {
       expect(decliner.getDefault(principalParts))
-        .toMatchObject(AsDeclinator.declineAsNounII(expectedRoot))
+        .toMatchObject(AsNounDecliner.inflectStatic(expectedRoot))
     })
     it('declines reflexive', () => {
       expect(decliner.getReflexive(principalParts))
-        .toMatchObject(AsDeclinator.declineAsReflexiveNoun(expectedRoot))
+        .toMatchObject(AsReflexiveDecliner.inflectStatic(expectedRoot))
     })
     it('declines negated reflexive', () => {
       expect(decliner.getPrefixedReflexive(principalParts, 'ne'))
-        .toMatchObject(AsDeclinator.declineAsNounII(`nesi${expectedRoot}`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`nesi${expectedRoot}`))
     })
     it('declines prefix per', () => {
       expect(decliner.getPrefixed(principalParts, 'per'))
-        .toMatchObject(AsDeclinator.declineAsNounI(`pe\u0301rbėgim`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`pe\u0301rbėgim`))
     })
     it('declines negated', () => {
       expect(decliner.getPrefixed(principalParts, 'ne'))
-        .toMatchObject(AsDeclinator.declineAsNounII(`ne${expectedRoot}`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`ne${expectedRoot}`))
     })
   })
   describe(`dėti`, () => {
@@ -40,23 +40,23 @@ describe('ImasDecliner', () => {
     const expectedRoot = `dėjim`
     it('declines default', () => {
       expect(decliner.getDefault(principalParts))
-        .toMatchObject(AsDeclinator.declineAsNounI(expectedRoot))
+        .toMatchObject(AsNounDecliner.inflectStatic(expectedRoot))
     })
     it('declines reflexive', () => {
       expect(decliner.getReflexive(principalParts))
-        .toMatchObject(AsDeclinator.declineAsReflexiveNoun(expectedRoot))
+        .toMatchObject(AsReflexiveDecliner.inflectStatic(expectedRoot))
     })
     it('declines negated reflexive', () => {
       expect(decliner.getPrefixedReflexive(principalParts, 'ne'))
-        .toMatchObject(AsDeclinator.declineAsNounI(`nesi${expectedRoot}`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`nesi${expectedRoot}`))
     })
     it('declines prefix per', () => {
       expect(decliner.getPrefixed(principalParts, 'per'))
-        .toMatchObject(AsDeclinator.declineAsNounI(`per${expectedRoot}`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`per${expectedRoot}`))
     })
     it('declines negated', () => {
       expect(decliner.getPrefixed(principalParts, 'ne'))
-        .toMatchObject(AsDeclinator.declineAsNounI(`ne${expectedRoot}`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`ne${expectedRoot}`))
     })
   })
   describe(`saky\u0301ti`, () => {
@@ -68,23 +68,23 @@ describe('ImasDecliner', () => {
     const expectedRoot = `sa\u0303kym`
     it('declines default', () => {
       expect(decliner.getDefault(principalParts))
-        .toMatchObject(AsDeclinator.declineAsNounI(expectedRoot))
+        .toMatchObject(AsNounDecliner.inflectStatic(expectedRoot))
     })
     it('declines reflexive', () => {
       expect(decliner.getReflexive(principalParts))
-        .toMatchObject(AsDeclinator.declineAsReflexiveNoun(expectedRoot))
+        .toMatchObject(AsReflexiveDecliner.inflectStatic(expectedRoot))
     })
     it('declines negated reflexive', () => {
       expect(decliner.getPrefixedReflexive(principalParts, 'ne'))
-        .toMatchObject(AsDeclinator.declineAsNounI(`nesi${expectedRoot}`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`nesi${expectedRoot}`))
     })
     it('declines prefix per', () => {
       expect(decliner.getPrefixed(principalParts, 'per'))
-        .toMatchObject(AsDeclinator.declineAsNounI(`pe\u0301rsakym`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`pe\u0301rsakym`))
     })
     it('declines negated', () => {
       expect(decliner.getPrefixed(principalParts, 'ne'))
-        .toMatchObject(AsDeclinator.declineAsNounI(`ne${expectedRoot}`))
+        .toMatchObject(AsNounDecliner.inflectStatic(`ne${expectedRoot}`))
     })
     it('declines negated eiti', () => {
       expect(decliner.getPrefixed(EITI, 'ne').sgNom)

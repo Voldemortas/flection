@@ -1,11 +1,10 @@
 import { describe, it } from '@std/testing/bdd'
 import { expect } from '@std/expect'
 import * as decliners from '~decliners/commons.ts'
-// import type { DeclinedType } from '~src/types.ts'
 import { makeDeclinedFromArray } from '~test/testHelpers.ts'
 import checkUsedExports from '~test/coverage.ts'
-import { stripAllAccentsFromParadigm } from '../../../src/utils.ts'
-import { notAttestedInLanguageError } from '../../../src/errors.ts'
+import { stripAllAccentsFromParadigm } from '~src/utils.ts'
+import { notAttestedInLanguageError } from '~src/errors.ts'
 
 const SUNUS_I = makeDeclinedFromArray([
   [`sū\u0301nus`, `sū\u0301nūs`],
@@ -870,8 +869,10 @@ describe('Decliners', () => {
     it('declines reflexive noun', () => {
       expect(decliners.AsReflexiveDecliner.inflectStatic(`kreipi\u0300m`))
         .toMatchObject(KREIPIMASIS)
-      expect(decliners.AsReflexiveDecliner.inflectDynamic(`kreipi\u0300m`))
-        .toMatchObject(KREIPIMASIS)
+      expect(() =>
+        decliners.AsReflexiveDecliner.inflectDynamic(`kreipi\u0300m`)
+      )
+        .toThrow(notAttestedInLanguageError)
     })
     it('declines 1st accentuation noun', () => {
       expect(decliners.AsNounDecliner.inflectStatic(`vy\u0301r`))

@@ -11,7 +11,12 @@ import {
   putAccentOnPrefix,
   stripAllAccents,
 } from '~src/utils.ts'
-import IsDeclinator from '~decliners/IsDeclinator.ts'
+import {
+  IsFeminineAdjectiveDecliner,
+  IsFemininePronominalDecliner,
+  IsMasculineParticipleDecliner,
+  IsMasculinePronominalDecliner,
+} from '~decliners/commons.ts'
 import {
   getNegatedCopula,
   getPositiveCopula,
@@ -86,8 +91,8 @@ export default class ActivePresentParticipleDecliner
     }
     const { stem, shortStemStressed } = getStem(principalParts)
     const short = getShort(principalParts)
-    const masculine = IsDeclinator.declineMasculineActiveParticiple(stem)
-    const feminine = IsDeclinator.declineFeminineIAdjective(stem)
+    const masculine = IsMasculineParticipleDecliner.inflectStatic(stem)
+    const feminine = IsFeminineAdjectiveDecliner.inflectStatic(stem)
     return {
       masculine: {
         ...masculine,
@@ -119,18 +124,18 @@ export default class ActivePresentParticipleDecliner
     const { stem } = getStem(principalParts)
     let masculine: DeclinedType
     let feminine: DeclinedType
-    const masculineImmobile = IsDeclinator.declineMasculinePronominalImmobile(
+    const masculineImmobile = IsMasculinePronominalDecliner.inflectStatic(
       stem,
     )
-    const feminineImmobile = IsDeclinator.declineFemininePronominalImmobile(
+    const feminineImmobile = IsFemininePronominalDecliner.inflectStatic(
       stem,
     )
     if (hasMobilePrefix(principalParts)) {
-      const masculineMobile = IsDeclinator.declineMasculinePronominalMobile(
+      const masculineMobile = IsMasculinePronominalDecliner.inflectDynamic(
         stripAllAccents(stem),
         'b',
       )
-      const feminineMobile = IsDeclinator.declineFemininePronominalMobile(
+      const feminineMobile = IsFemininePronominalDecliner.inflectDynamic(
         stripAllAccents(stem),
         '2b',
       )

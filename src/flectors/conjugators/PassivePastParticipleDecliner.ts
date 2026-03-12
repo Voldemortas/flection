@@ -13,8 +13,12 @@ import ParticipleDecliner, {
   type ComplementingParticipleType,
   type ParticipleType,
 } from './ParticipleDecliner.ts'
-import AsDeclinator from '~decliners/AsDeclinator.ts'
-import ADeclinator from '~decliners/ADeclinator.ts'
+import {
+  AAdjectiveDecliner,
+  APronominalDecliner,
+  AsAdjectiveDecliner,
+  AsPronominalDecliner,
+} from '~decliners/commons.ts'
 
 export default class PassivePastParticipleDecliner extends ParticipleDecliner {
   protected getBasicPrefixed(
@@ -44,25 +48,29 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
       getRootAndPrefix(principalParts)
 
     if (isStemImmobile) {
-      masculine = AsDeclinator.declineAsAdjectivalI(
+      masculine = AsAdjectiveDecliner.inflectStatic(
         prefixedRoot,
-      ) as DeclinedType
-      feminine = ADeclinator.declineI(prefixedRoot) as DeclinedType
+      )
+      feminine = AAdjectiveDecliner.inflectStatic(prefixedRoot)
     } else {
       if (
         isRootMonosyllabic(prefixedRoot) &&
         hasCircumflexOrShortAccent(prefixedRoot)
       ) {
-        masculine = AsDeclinator.declineAsAdjectivalIV(prefixedRoot)
-        feminine = ADeclinator.declineAdjectivalIV(
+        masculine = AsAdjectiveDecliner.inflectDynamic(prefixedRoot)
+        feminine = AAdjectiveDecliner.inflectDynamic(
           stripAllAccents(prefixedRoot),
+          '4',
         )
       } else {
-        masculine = AsDeclinator.declineAsAdjectivalIII(prefixedRoot)
-        feminine = ADeclinator.declineAdjectivalIII(prefixedRoot, {
-          syllable: syllable!,
-          isAcute,
-        })
+        masculine = AsAdjectiveDecliner.inflectDynamic(prefixedRoot)
+        feminine = AAdjectiveDecliner.inflectDynamic(
+          stripAllAccents(prefixedRoot),
+          {
+            syllable: syllable!,
+            isAcute,
+          },
+        )
       }
     }
     return {
@@ -81,13 +89,13 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
       getRootAndPrefix(principalParts)
 
     if (isStemImmobile) {
-      masculine = AsDeclinator.declineAsPronominalImmobile(
+      masculine = AsPronominalDecliner.inflectStatic(
         prefixedRoot,
       )
-      feminine = ADeclinator.declinePronominalImmobile(prefixedRoot)
+      feminine = APronominalDecliner.inflectStatic(prefixedRoot)
     } else {
-      masculine = AsDeclinator.declineAsPronominalMobile(prefixedRoot)
-      feminine = ADeclinator.declinePronominalMobile(
+      masculine = AsPronominalDecliner.inflectDynamic(prefixedRoot)
+      feminine = APronominalDecliner.inflectDynamic(
         stripAllAccents(prefixedRoot),
         {
           syllable: syllable!,

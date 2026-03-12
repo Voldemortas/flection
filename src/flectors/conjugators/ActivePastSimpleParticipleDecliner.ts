@@ -10,7 +10,12 @@ import type {
   ComplementingParticipleType,
   ParticipleType,
 } from './ParticipleDecliner.ts'
-import IsDeclinator from '~decliners/IsDeclinator.ts'
+import {
+  IsFeminineAdjectiveDecliner,
+  IsFemininePronominalDecliner,
+  IsMasculineAdjectiveDecliner,
+  IsMasculinePronominalDecliner,
+} from '~decliners/commons.ts'
 
 const FLECTION = 'ę'
 
@@ -18,8 +23,8 @@ export default class ActivePastSimpleParticipleDecliner
   extends ActiveParticipleDecliner {
   getDefault(principalParts: PrincipalPartsType): ParticipleType {
     const { root, stem } = getStem(principalParts)
-    const masculine = IsDeclinator.declineMasculineIsAdjectiveI(stem)
-    const feminine = IsDeclinator.declineFeminineIAdjective(stem)
+    const masculine = IsMasculineAdjectiveDecliner.inflectStatic(stem)
+    const feminine = IsFeminineAdjectiveDecliner.inflectStatic(stem)
     return {
       masculine: {
         ...masculine,
@@ -41,8 +46,8 @@ export default class ActivePastSimpleParticipleDecliner
     principalParts: PrincipalPartsType,
   ): ComplementingParticipleType {
     const { stem } = getStem(principalParts)
-    const masculine = IsDeclinator.declineMasculinePronominalImmobile(stem)
-    const feminine = IsDeclinator.declineFemininePronominalImmobile(stem)
+    const masculine = IsMasculinePronominalDecliner.inflectStatic(stem)
+    const feminine = IsFemininePronominalDecliner.inflectStatic(stem)
     return {
       masculine,
       feminine,

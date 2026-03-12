@@ -11,8 +11,12 @@ import ParticipleDecliner, {
   type ComplementingParticipleType,
   type ParticipleType,
 } from './ParticipleDecliner.ts'
-import AsDeclinator from '~decliners/AsDeclinator.ts'
-import ADeclinator from '~decliners/ADeclinator.ts'
+import {
+  AAdjectiveDecliner,
+  APronominalDecliner,
+  AsAdjectiveDecliner,
+  AsPronominalDecliner,
+} from '~decliners/commons.ts'
 
 const PASSIVE_FUTURE_SUFFIX = 'sim'
 
@@ -46,11 +50,11 @@ export default class PassiveFutureParticipleDecliner
     const { root } = getInfinitiveRoot(principalParts)
     const stem = root + PASSIVE_FUTURE_SUFFIX
     if (isRootStatic(root)) {
-      masculine = AsDeclinator.declineAsAdjectivalI(stem)
-      feminine = ADeclinator.declineI(stem)
+      masculine = AsAdjectiveDecliner.inflectStatic(stem)
+      feminine = AAdjectiveDecliner.inflectStatic(stem)
     } else {
-      masculine = AsDeclinator.declineAsAdjectivalIII(stem)
-      feminine = ADeclinator.declineAdjectivalIII(stem, {
+      masculine = AsAdjectiveDecliner.inflectDynamic(stem)
+      feminine = AAdjectiveDecliner.inflectDynamic(stem, {
         syllable: 3,
         isAcute: hasAcuteAccent(root),
       })
@@ -70,11 +74,11 @@ export default class PassiveFutureParticipleDecliner
     const { root } = getInfinitiveRoot(principalParts)
     const stem = root + PASSIVE_FUTURE_SUFFIX
     if (isRootStatic(root)) {
-      masculine = AsDeclinator.declineAsPronominalImmobile(stem)
-      feminine = ADeclinator.declinePronominalImmobile(stem)
+      masculine = AsPronominalDecliner.inflectStatic(stem)
+      feminine = APronominalDecliner.inflectStatic(stem)
     } else {
-      masculine = AsDeclinator.declineAsPronominalMobile(stem)
-      feminine = ADeclinator.declinePronominalMobile(stripAllAccents(stem), {
+      masculine = AsPronominalDecliner.inflectDynamic(stem)
+      feminine = APronominalDecliner.inflectDynamic(stripAllAccents(stem), {
         syllable: 3,
         isAcute: hasAcuteAccent(stem),
       })
