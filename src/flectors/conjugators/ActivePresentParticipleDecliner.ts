@@ -23,6 +23,8 @@ import {
   hasMobilePrefix,
 } from './PresentIndicativeConjugator.ts'
 
+const ACCENTUATION_SEPARATOR = '|'
+
 export default class ActivePresentParticipleDecliner
   extends ActiveParticipleDecliner {
   protected override getBasicPrefixed(
@@ -52,11 +54,11 @@ export default class ActivePresentParticipleDecliner
         return {
           masculine: joinDeclinedTypes(
             stressedOnPrefix.masculine,
-            unjoinDeclined(basicPrefixed.masculine),
+            getLastStressed(basicPrefixed.masculine),
           ),
           feminine: joinDeclinedTypes(
             stressedOnPrefix.feminine,
-            unjoinDeclined(basicPrefixed.feminine),
+            getLastStressed(basicPrefixed.feminine),
           ),
         }
       } else {
@@ -97,10 +99,14 @@ export default class ActivePresentParticipleDecliner
       masculine: {
         ...masculine,
         sgNom: `${
-          short.split(' ').map((s) => s + 's').join(' ')
+          short.split(ACCENTUATION_SEPARATOR).map((s) => s + 's').join(
+            ACCENTUATION_SEPARATOR,
+          )
         } ${masculine.sgNom}`,
         sgVoc: `${
-          short.split(' ').map((s) => s + 's').join(' ')
+          short.split(ACCENTUATION_SEPARATOR).map((s) => s + 's').join(
+            ACCENTUATION_SEPARATOR,
+          )
         } ${masculine.sgVoc}`,
         plNom: `${short} ${masculine.plNom}`,
         plVoc: `${short} ${masculine.plVoc}`,
@@ -137,7 +143,7 @@ export default class ActivePresentParticipleDecliner
       )
       const feminineMobile = IsFemininePronominalDecliner.inflectDynamic(
         stripAllAccents(stem),
-        '2b',
+        '3b',
       )
       masculine = joinDeclinedTypes(masculineImmobile, masculineMobile)
       feminine = joinDeclinedTypes(feminineImmobile, feminineMobile)
@@ -193,7 +199,9 @@ function getShort(principalParts: PrincipalPartsType) {
     isRootMonosyllabic(root) ||
     mobileSuffixes.some((suffix) => suffix.test(principalParts[1]))
   ) {
-    return `${shortStemStressed} ${stripAllAccents(shortStemStressed)}\u0303`
+    return `${shortStemStressed}${ACCENTUATION_SEPARATOR}${
+      stripAllAccents(shortStemStressed)
+    }\u0303`
   }
   return shortStemStressed
 }
@@ -204,21 +212,37 @@ function joinDeclinedTypes(
 ): DeclinedType {
   return Object.fromEntries(
     Object.entries(a).map(([key, value]) => {
-      const joined = new Set([
+      const joined = [...new Set([
         ...value.split(' '),
         ...b[key as keyof DeclinedType].split(' '),
-      ])
-      return [key, [...joined.values()].join(' ')]
+      ]).values()]
+      const joinedUnique: string[] = [
+        ...new Set(joined.map(stripAllAccents)).values(),
+      ]
+
+      return [
+        key,
+        joinedUnique.map((unique) =>
+          joined.filter((join) => unique === stripAllAccents(join)).join(
+            ACCENTUATION_SEPARATOR,
+          )
+        ).join(' '),
+      ]
     }) as [keyof DeclinedType, string][],
   ) as DeclinedType
 }
 
-function unjoinDeclined(
+function getLastStressed(
   declined: DeclinedType,
 ): DeclinedType {
   return Object.fromEntries(
     Object.entries(declined).map((
-      [key, value],
-    ) => [key, value.split(' ').at(-1)]) as [keyof DeclinedType, string][],
+      [key, values],
+    ) => [
+      key,
+      values.split(' ').map((value) =>
+        value.split(ACCENTUATION_SEPARATOR).at(-1)
+      ).join(' '),
+    ]) as [keyof DeclinedType, string][],
   ) as DeclinedType
 }

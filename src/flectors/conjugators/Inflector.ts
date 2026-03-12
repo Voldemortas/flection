@@ -122,8 +122,7 @@ export default abstract class Inflector<
   ): T
 
   protected static applyPrefixToForm(prefix: string, word: string): string {
-    return word.split(' ').map((value) => value === '-' ? '-' : prefix + value)
-      .join(' ')
+    return word.replaceAll(/([^\s|\-]+)/g, `${prefix}$1`)
   }
 
   protected static applyPrefixToParadigm<T extends object>(
