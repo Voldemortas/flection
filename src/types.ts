@@ -41,3 +41,8 @@ export type AccentuatedDeclinedType = Record<
 >
 
 export type RootPatternType<T extends string> = { root: string; pattern: T }
+
+// deno-lint-ignore no-explicit-any
+export type AnyKeyType = keyof any
+
+export type InflectionType<K extends AnyKeyType> = Record<K, string>

@@ -10,7 +10,7 @@ export const SYLLABLE_REGEX =
 export const acuteIULMNR = new RegExp(
   `[iu]\u0300[lmnr]([bcčdfghjklmnprsštvzž]|$)`,
 )
-export const declinedEmpty: Omit<DeclinedType, 'gender' | 'neuter'> = {
+export const NOMINAL_EMPTY: DeclinedType = {
   sgNom: '-',
   sgGen: '-',
   sgDat: '-',
@@ -28,3 +28,4 @@ export const declinedEmpty: Omit<DeclinedType, 'gender' | 'neuter'> = {
 }
 export const ACCENTUATION_SEPARATOR = '|'
 export const SECONDARY_FORM_SEPARATOR = ' '
+export const PREFIX_SEPARATOR = '='

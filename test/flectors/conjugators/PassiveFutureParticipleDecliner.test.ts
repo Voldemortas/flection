@@ -2,7 +2,7 @@ import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
 import type { PrincipalPartsType } from '~src/types.ts'
 import PassiveFutureParticipleDecliner from '~conjugators/PassiveFutureParticipleDecliner.ts'
-import { declinedEmpty } from '~src/commons.ts'
+import { NOMINAL_EMPTY } from '~src/commons.ts'
 
 const BEGTI: PrincipalPartsType = [
   `bė\u0301gti`,
@@ -290,15 +290,15 @@ describe('PassiveFutureParticipleDecliner', () => {
     })
     it('conjugates reflexive', () => {
       expect(decliner.getReflexive(BEGTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
         neuter: `bė\u0301gsimasi`,
       })
     })
     it('conjugates reflexive pronominal', () => {
       expect(decliner.getReflexivePronominal(BEGTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
       })
     })
   })
@@ -334,15 +334,15 @@ describe('PassiveFutureParticipleDecliner', () => {
     })
     it('conjugates reflexive', () => {
       expect(decliner.getReflexive(DAINUOTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
         neuter: `dainu\u0301osimasi`,
       })
     })
     it('conjugates reflexive pronominal', () => {
       expect(decliner.getReflexivePronominal(DAINUOTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
       })
     })
   })

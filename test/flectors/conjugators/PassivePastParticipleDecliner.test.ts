@@ -4,7 +4,7 @@ import type { PrincipalPartsType } from '~src/types.ts'
 import PassivePastParticipleDecliner from '~conjugators/PassivePastParticipleDecliner.ts'
 import { EITI, makeDeclinedFromArray } from '~test/testHelpers.ts'
 
-import { declinedEmpty } from '~src/commons.ts'
+import { NOMINAL_EMPTY } from '~src/commons.ts'
 
 const RINKTI: PrincipalPartsType = [
   `rin\u0303kti`,
@@ -150,15 +150,15 @@ describe('PassivePastParticipleDecliner', () => {
     })
     it('conjugates reflexive', () => {
       expect(decliner.getReflexive(RINKTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
         neuter: `rin\u0303ktasi`,
       })
     })
     it('conjugates reflexive pronominal', () => {
       expect(decliner.getReflexivePronominal(RINKTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
       })
     })
   })
@@ -178,15 +178,15 @@ describe('PassivePastParticipleDecliner', () => {
     })
     it('conjugates reflexive', () => {
       expect(decliner.getReflexive(DAZYTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
         neuter: `dažy\u0301tasi`,
       })
     })
     it('conjugates reflexive pronominal', () => {
       expect(decliner.getReflexivePronominal(DAZYTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
       })
     })
   })
@@ -206,15 +206,15 @@ describe('PassivePastParticipleDecliner', () => {
     })
     it('conjugates reflexive', () => {
       expect(decliner.getReflexive(BEGTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
         neuter: `bė\u0301gtasi`,
       })
     })
     it('conjugates reflexive pronominal', () => {
       expect(decliner.getReflexivePronominal(BEGTI)).toMatchObject({
-        masculine: declinedEmpty,
-        feminine: declinedEmpty,
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
       })
     })
   })

@@ -1,4 +1,4 @@
-import type { AccentedValueType } from '~src/types.ts'
+import type { AccentedValueType, AnyKeyType } from '~src/types.ts'
 import { moveThirdAccentuation } from './utils.ts'
 import type { AccentuationType } from './utils.ts'
 import {
@@ -18,8 +18,7 @@ import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
 const TEMPORARY_VOWEL = 'a'
 
-// deno-lint-ignore no-explicit-any
-export default class AccentedInflector<K extends keyof any> {
+export default class AccentedInflector<K extends AnyKeyType> {
   readonly #staticPattern: Record<K, AccentedValueType> | undefined
   readonly #dynamicPattern: Record<K, AccentedValueType> | undefined
 
@@ -114,8 +113,7 @@ export default class AccentedInflector<K extends keyof any> {
   }
 }
 
-// deno-lint-ignore no-explicit-any
-function inflect<K extends keyof any>(
+function inflect<K extends AnyKeyType>(
   root: string,
   type: AccentuationType | undefined,
   paradigm: Record<K, AccentedValueType>,
@@ -162,8 +160,7 @@ function putAccent(root: string, ending: string): string {
   return realRoot + realEnding
 }
 
-// deno-lint-ignore no-explicit-any
-export function palataliseParadigm<K extends keyof any>(
+export function palataliseParadigm<K extends AnyKeyType>(
   paradigm: Record<K, AccentedValueType>,
 ): Record<K, AccentedValueType> {
   const isStartingWithBackVowel = (ending: string) => /^[auoąųū]/.test(ending)

@@ -7,8 +7,20 @@ import {
   syllableCannotCarryAcuteError,
   tooFewSyllablesError,
 } from './errors.ts'
-import type { PrincipalPartsType, RootPatternType } from './types.ts'
-import { acuteIULMNR, consonants, SYLLABLE_REGEX, vowels } from './commons.ts'
+import type {
+  AnyKeyType,
+  InflectionType,
+  PrincipalPartsType,
+  RootPatternType,
+} from './types.ts'
+import {
+  ACCENTUATION_SEPARATOR,
+  acuteIULMNR,
+  consonants,
+  SECONDARY_FORM_SEPARATOR,
+  SYLLABLE_REGEX,
+  vowels,
+} from './commons.ts'
 
 export function stripAllAccents(word: string) {
   return word.replaceAll(/[\u0303\u0300\u0301]/g, '')
@@ -75,8 +87,7 @@ export function appendSuffixWithAssimilation(
   )
 }
 
-// deno-lint-ignore no-explicit-any
-export function stripAllAccentsFromParadigm<T extends Record<string, any>>(
+export function stripAllAccentsFromParadigm<T extends object>(
   paradigm: T,
 ): T {
   return JSON.parse(
@@ -228,4 +239,47 @@ export function isInflectedTheSame(
  */
 export function getNthLast<T>(arr: T[], id: number) {
   return arr.at(-id) ?? arr[0]
+}
+
+export function joinInflections<T extends AnyKeyType>(
+  a: InflectionType<T>,
+  b: InflectionType<T>,
+): InflectionType<T> {
+  return Object.fromEntries(
+    Object.entries(a).map((entry) => {
+      const [key, value] = entry as unknown as [T, string]
+      const joined = [...new Set([
+        ...value.split(SECONDARY_FORM_SEPARATOR),
+        ...b[key].split(SECONDARY_FORM_SEPARATOR),
+      ]).values()]
+      const joinedUnique: string[] = [
+        ...new Set(joined.map(stripAllAccents)).values(),
+      ]
+
+      return [
+        key,
+        joinedUnique.map((unique) =>
+          joined.filter((join) => unique === stripAllAccents(join)).join(
+            ACCENTUATION_SEPARATOR,
+          )
+        ).join(SECONDARY_FORM_SEPARATOR),
+      ]
+    }),
+  ) as InflectionType<T>
+}
+
+export function getLastStressedInflection<T extends AnyKeyType>(
+  declined: InflectionType<T>,
+): InflectionType<T> {
+  return Object.fromEntries(
+    Object.entries(declined).map((entry) => {
+      const [key, values] = entry as unknown as [T, string]
+      return [
+        key,
+        values.split(SECONDARY_FORM_SEPARATOR).map((value) =>
+          value.split(ACCENTUATION_SEPARATOR).at(-1)
+        ).join(SECONDARY_FORM_SEPARATOR),
+      ]
+    }),
+  ) as InflectionType<T>
 }

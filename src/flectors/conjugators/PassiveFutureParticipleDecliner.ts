@@ -16,7 +16,7 @@ import {
   AsAdjectiveDecliner,
   AsPronominalDecliner,
 } from '~decliners/commons.ts'
-import { declinedEmpty } from '~src/commons.ts'
+import { NOMINAL_EMPTY } from '~src/commons.ts'
 
 const PASSIVE_FUTURE_SUFFIX = 'sim'
 
@@ -93,8 +93,8 @@ export default class PassiveFutureParticipleDecliner
     principalParts: PrincipalPartsType,
   ): ParticipleType {
     return {
-      masculine: declinedEmpty,
-      feminine: declinedEmpty,
+      masculine: NOMINAL_EMPTY,
+      feminine: NOMINAL_EMPTY,
       neuter: this.getDefault(principalParts).masculine.sgNom + 'i',
     } as unknown as ParticipleType
   }

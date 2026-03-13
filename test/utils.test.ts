@@ -4,6 +4,7 @@ import {
   appendSuffixWithAssimilation,
   countAccentedSyllable,
   getInfinitiveRoot,
+  getLastStressedInflection,
   getNthLast,
   getPalatalizedRoot,
   getPastRoot,
@@ -15,6 +16,7 @@ import {
   isEverythingEqual,
   isInflectedTheSame,
   isRootMonosyllabic,
+  joinInflections,
   putAccentOnPrefix,
   putAccentOnString,
   stripAllAccents,
@@ -554,6 +556,36 @@ describe('utils', () => {
           `e\u0301iti-e\u0301ina-ė\u0301jo`,
         ),
       ).toBeFalsy()
+    })
+  })
+  describe('inflectors', () => {
+    const inflectedA = {
+      a: `a\u0300`,
+      u: `u\u0300`,
+      i: `im\u0303 i\u0300`,
+      e: `em\u0303 e\u0300`,
+    }
+    const inflectedB = {
+      a: `a\u0300`,
+      u: `u`,
+      i: `im i`,
+      e: `em\u0303 e`,
+    }
+    const inflectedJoined = {
+      a: `a\u0300`,
+      u: `u\u0300|u`,
+      i: `im\u0303|im i\u0300|i`,
+      e: `em\u0303 e\u0300|e`,
+    }
+    it('joins 2 inflections', () => {
+      expect(joinInflections(inflectedA, inflectedB)).toMatchObject(
+        inflectedJoined,
+      )
+    })
+    it('gets the last joined inflection', () => {
+      expect(getLastStressedInflection(inflectedJoined)).toMatchObject(
+        inflectedB,
+      )
     })
   })
 })

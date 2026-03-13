@@ -5,9 +5,11 @@ import type {
 } from './ParticipleDecliner.ts'
 import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import {
+  getLastStressedInflection,
   getPresentRoot,
   hasAnyAccent,
   isRootMonosyllabic,
+  joinInflections,
   putAccentOnPrefix,
   stripAllAccents,
 } from '~src/utils.ts'
@@ -54,13 +56,13 @@ export default class ActivePresentParticipleDecliner
       if (getBasicInflected === this.getPronominal) {
         //@ts-ignore complementing type is intended
         return {
-          masculine: joinDeclinedTypes(
+          masculine: joinInflections(
             stressedOnPrefix.masculine,
-            getLastStressed(basicPrefixed.masculine),
+            getLastStressedInflection(basicPrefixed.masculine),
           ),
-          feminine: joinDeclinedTypes(
+          feminine: joinInflections(
             stressedOnPrefix.feminine,
-            getLastStressed(basicPrefixed.feminine),
+            getLastStressedInflection(basicPrefixed.feminine),
           ),
         }
       } else {
@@ -148,8 +150,8 @@ export default class ActivePresentParticipleDecliner
         stripAllAccents(stem),
         '3b',
       )
-      masculine = joinDeclinedTypes(masculineImmobile, masculineMobile)
-      feminine = joinDeclinedTypes(feminineImmobile, feminineMobile)
+      masculine = joinInflections(masculineImmobile, masculineMobile)
+      feminine = joinInflections(feminineImmobile, feminineMobile)
     } else {
       masculine = masculineImmobile
       feminine = feminineImmobile
@@ -207,45 +209,4 @@ function getShort(principalParts: PrincipalPartsType) {
     }\u0303`
   }
   return shortStemStressed
-}
-
-function joinDeclinedTypes(
-  a: DeclinedType,
-  b: DeclinedType,
-): DeclinedType {
-  return Object.fromEntries(
-    Object.entries(a).map(([key, value]) => {
-      const joined = [...new Set([
-        ...value.split(SECONDARY_FORM_SEPARATOR),
-        ...b[key as keyof DeclinedType].split(SECONDARY_FORM_SEPARATOR),
-      ]).values()]
-      const joinedUnique: string[] = [
-        ...new Set(joined.map(stripAllAccents)).values(),
-      ]
-
-      return [
-        key,
-        joinedUnique.map((unique) =>
-          joined.filter((join) => unique === stripAllAccents(join)).join(
-            ACCENTUATION_SEPARATOR,
-          )
-        ).join(SECONDARY_FORM_SEPARATOR),
-      ]
-    }) as [keyof DeclinedType, string][],
-  ) as DeclinedType
-}
-
-function getLastStressed(
-  declined: DeclinedType,
-): DeclinedType {
-  return Object.fromEntries(
-    Object.entries(declined).map((
-      [key, values],
-    ) => [
-      key,
-      values.split(SECONDARY_FORM_SEPARATOR).map((value) =>
-        value.split(ACCENTUATION_SEPARATOR).at(-1)
-      ).join(SECONDARY_FORM_SEPARATOR),
-    ]) as [keyof DeclinedType, string][],
-  ) as DeclinedType
 }

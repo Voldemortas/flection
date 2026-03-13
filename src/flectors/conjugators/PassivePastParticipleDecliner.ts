@@ -18,7 +18,13 @@ import {
   AsAdjectiveDecliner,
   AsPronominalDecliner,
 } from '~decliners/commons.ts'
-import { declinedEmpty } from '~src/commons.ts'
+import { NOMINAL_EMPTY, PREFIX_SEPARATOR } from '~src/commons.ts'
+
+const PASSIVE_PAST_SUFFIX = 't'
+const PREFIX_REGEX = new RegExp(
+  `^(([^${PREFIX_SEPARATOR}]+)${PREFIX_SEPARATOR}.+|.+)$`,
+)
+const ROOT_REGEX = new RegExp(`^(.+${PREFIX_SEPARATOR})`)
 
 export default class PassivePastParticipleDecliner extends ParticipleDecliner {
   protected getBasicPrefixed(
@@ -37,7 +43,9 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
     }
 
     return getBasicInflected(
-      principalParts.map((part) => `${prefix}=${part}`) as PrincipalPartsType,
+      principalParts.map((part) =>
+        `${prefix}${PREFIX_SEPARATOR}${part}`
+      ) as PrincipalPartsType,
     )
   }
 
@@ -113,8 +121,8 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
     principalParts: PrincipalPartsType,
   ): ParticipleType {
     return {
-      masculine: declinedEmpty,
-      feminine: declinedEmpty,
+      masculine: NOMINAL_EMPTY,
+      feminine: NOMINAL_EMPTY,
       neuter: this.getDefault(principalParts).masculine.sgNom + 'i',
     } as unknown as ParticipleType
   }
@@ -128,9 +136,10 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
 }
 
 function getRootAndPrefix(principalParts: PrincipalPartsType) {
-  const parsedRoot = getInfinitiveRoot(principalParts).root + 't'
-  const prefix = parsedRoot.replace(/^(([^=]+)=.+|.+)$/, '$2')
-  const root = parsedRoot.replace(/^(.+=)/, '')
+  const parsedRoot = getInfinitiveRoot(principalParts).root +
+    PASSIVE_PAST_SUFFIX
+  const prefix = parsedRoot.replace(PREFIX_REGEX, '$2')
+  const root = parsedRoot.replace(ROOT_REGEX, '')
   const prefixedRoot = prefix !== ''
     ? putAccentOnPrefix(prefix) + stripAllAccents(root)
     : root
