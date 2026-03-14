@@ -3,7 +3,7 @@ import { describe, it } from '@std/testing/bdd'
 import { assertSpyCall, returnsNext, stub } from '@std/testing/mock'
 import Verb from '~src/Verb.ts'
 import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
-import type Inflector from '~conjugators/Inflector.ts'
+import type { InflectorInterface } from '~conjugators/Inflector.ts'
 import type ParticipleDecliner from '~conjugators/ParticipleDecliner.ts'
 import type { ParticipleType } from '~conjugators/ParticipleDecliner.ts'
 
@@ -124,11 +124,31 @@ describe('Verb', () => {
       'declineActivePresentParticiple',
       'activePresentParticiple',
     )
+    assertTense(
+      Verb.presentPadalyvis,
+      'conjugatePresentPadalyvis',
+      'presentPadalyvis',
+    )
+    assertTense(
+      Verb.futurePadalyvis,
+      'conjugateFuturePadalyvis',
+      'futurePadalyvis',
+    )
+    assertTense(
+      Verb.pastSimplePadalyvis,
+      'conjugatePastSimplePadalyvis',
+      'pastSimplePadalyvis',
+    )
+    assertTense(
+      Verb.pastFrequentativePadalyvis,
+      'conjugatePastFrequentativePadalyvis',
+      'pastFrequentativePadalyvis',
+    )
 
     function assertTense<
       T extends Record<string, string | Record<string, string>>,
     >(
-      conjugator: Inflector<T>,
+      conjugator: InflectorInterface<T>,
       conjugateMethod: keyof Verb,
       conjugatorName: string,
     ) {
@@ -236,7 +256,7 @@ describe('Verb', () => {
     function assertCorrectConjugationWasCalled<
       T extends Record<string, string | Record<string, string>>,
     >(
-      conjugator: Inflector<T> | ParticipleDecliner,
+      conjugator: InflectorInterface<T> | ParticipleDecliner,
       method: keyof (ParticipleDecliner),
       action: () => T,
       args: [string[], string?],

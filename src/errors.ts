@@ -56,3 +56,5 @@ export const stresslessDynamicAccentuationError = new Error(
 export const inflectorCannotBeUndefined = new Error(
   'Both inflector patterns cannot be undefined',
 )
+
+export const codeNotReachableError = new Error('Code should not be reachable')

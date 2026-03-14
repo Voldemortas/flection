@@ -10,7 +10,7 @@ export const OME = [`o\u0300mė`, `o\u0301mė`, `o\u0303mė`, `omė`]
 export const OMO = [`o\u0300mo`, `o\u0301mo`, `o\u0303mo`, `omo`]
 export const OMI = [`o\u0300mi`, `o\u0301mi`, `o\u0303mi`, `omi`]
 export const OMA = [`o\u0300ma`, `o\u0301ma`, `o\u0303ma`, `oma`]
-export const EMPTY_PRINCIPAL_PARTS = ['_', '_', '_']
+export const EMPTY_PRINCIPAL_PARTS: PrincipalPartsType = ['_', '_', '_']
 export function makeInfinitiveRoots(root: string): PrincipalPartsType {
   return [root, '_', '_']
 }

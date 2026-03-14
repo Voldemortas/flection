@@ -11,9 +11,21 @@ export const REFLEXIVE_PREFIX = 'si'
 export const ACUTE_PREFIXES: string[] = [`pe\u0301r`]
 const EITI_JOINED = `ei\u0303ti-ei\u0303na-ė\u0303jo`
 
-export default abstract class Inflector<
+export interface InflectorInterface<
   T extends Record<string, string | Record<string, string>>,
 > {
+  getDefault: (principalParts: PrincipalPartsType) => T
+  getPrefixed: (principalParts: PrincipalPartsType, prefix: string) => T
+  getReflexive: (principalParts: PrincipalPartsType) => T
+  getPrefixedReflexive: (
+    principalParts: PrincipalPartsType,
+    prefix: string,
+  ) => T
+}
+
+export default abstract class Inflector<
+  T extends Record<string, string | Record<string, string>>,
+> implements InflectorInterface<T> {
   /**
    * inflects prefixed verb form by applying metatony if applicable
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form

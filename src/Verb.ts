@@ -5,6 +5,7 @@ import type {
   PrincipalPartsType,
 } from './types.ts'
 import type Inflector from '~conjugators/Inflector.ts'
+import type { InflectorInterface } from '~conjugators/Inflector.ts'
 import type ParticipleDecliner from '~conjugators/ParticipleDecliner.ts'
 import type { ParticipleType } from '~conjugators/ParticipleDecliner.ts'
 import PastFrequentativeIndicativeConjugator from '~conjugators/PastFrequentativeIndicativeConjugator.ts'
@@ -27,6 +28,8 @@ import ActivePastFrequentativeParticipleDecliner from '~conjugators/ActivePastFr
 import ActivePastSimpleParticipleDecliner from '~conjugators/ActivePastSimpleParticipleDecliner.ts'
 import ActiveFutureParticipleDecliner from '~conjugators/ActiveFutureParticipleDecliner.ts'
 import ActivePresentParticipleDecliner from '~conjugators/ActivePresentParticipleDecliner.ts'
+import PadalyvisInflector from './flectors/conjugators/PadalyvisInflector.ts'
+import type { PadalyvisType } from './flectors/conjugators/PadalyvisInflector.ts'
 
 /**
  * @description Class which lets you derive various forms such as various moods, -imas action deverbal and various
@@ -67,6 +70,16 @@ export default class Verb extends Verbal {
     new ActiveFutureParticipleDecliner()
   public static readonly activePresentParticiple: ParticipleDecliner =
     new ActivePresentParticipleDecliner()
+  public static readonly pastSimplePadalyvis: InflectorInterface<
+    PadalyvisType
+  > = new PadalyvisInflector(Verb.activePastSimpleParticiple)
+  public static readonly pastFrequentativePadalyvis: InflectorInterface<
+    PadalyvisType
+  > = new PadalyvisInflector(Verb.activePastFrequentativeParticiple)
+  public static readonly futurePadalyvis: InflectorInterface<PadalyvisType> =
+    new PadalyvisInflector(Verb.activeFutureParticiple)
+  public static readonly presentPadalyvis: InflectorInterface<PadalyvisType> =
+    new PadalyvisInflector(Verb.activePresentParticiple)
 
   /**
    * @description Wrapper to call all the static methods with the same options
@@ -300,11 +313,59 @@ export default class Verb extends Verbal {
       isPronominal,
     )
   }
+  /**
+   * @description conjugates past frequentative padalyvis based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePastFrequentativePadalyvis()
+   * ```
+   */
+  public conjugatePastFrequentativePadalyvis(): PadalyvisType {
+    return this.#inflectBasedOnOptions(
+      Verb.pastFrequentativePadalyvis,
+    )
+  }
+  /**
+   * @description conjugates future padalyvis based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateFuturePadalyvis()
+   * ```
+   */
+  public conjugateFuturePadalyvis(): PadalyvisType {
+    return this.#inflectBasedOnOptions(
+      Verb.futurePadalyvis,
+    )
+  }
+  /**
+   * @description conjugates past simple padalyvis based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePastSimplePadalyvis()
+   * ```
+   */
+  public conjugatePastSimplePadalyvis(): PadalyvisType {
+    return this.#inflectBasedOnOptions(
+      Verb.pastSimplePadalyvis,
+    )
+  }
+  /**
+   * @description conjugates present padalyvis based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePresentPadalyvis()
+   * ```
+   */
+  public conjugatePresentPadalyvis(): PadalyvisType {
+    return this.#inflectBasedOnOptions(
+      Verb.presentPadalyvis,
+    )
+  }
 
   #inflectBasedOnOptions<
     T extends Record<string, string | Record<string, string>>,
   >(
-    conjugator: Inflector<T>,
+    conjugator: InflectorInterface<T>,
     pronomial: boolean = false,
   ): T {
     if (!this.isReflexive && !this.prefix && !pronomial) {
