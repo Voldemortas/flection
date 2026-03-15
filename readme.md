@@ -1,5 +1,9 @@
 # flection
 
+[![Coverage Status](https://coveralls.io/repos/github/Voldemortas/flection/badge.svg)](https://coveralls.io/github/Voldemortas/flection)
+
+---
+
 My custom tool to make flectionally derived forms (and not only) with respect to
 stress mobility (compare nesakiaũ vs nèlakiau)! The tool doesn't use any
 external tool or library and derives everything by itself. You as the end user,
@@ -9,6 +13,31 @@ verbs.
 If you've found any mistakes/errors, make sure to
 [open an issue](https://github.com/Voldemortas/flection/issues). A working web
 endpoint shall be made public in the near future as well.
+
+---
+
+## Release notes
+
+There is version 0.0.1 release which features Verb conjugation that includes
+inflection of the following:
+
+- infinitive
+- all 4 indicative mood tenses
+- conditional and imperative moods (without permissive!)
+- all 4 active adjectival participles (with full declinations)
+- all 3 passive adjectival participles (with full declinations)
+- all 4 padalyvis (-ant, -us)
+- pusdalyvis (-dam-)
+- -imas deverbial noun
+- būdinys (-te)
+
+all of them can be inflected for reflexivness, carry prefixes; the adjectival
+participles can also be pronominal.
+
+> [!NOTE]\
+> As this is version 0.0.1 nothing is yet set in stone and things may change!
+
+---
 
 ## Installation
 
