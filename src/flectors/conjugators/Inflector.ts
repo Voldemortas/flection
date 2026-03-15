@@ -28,8 +28,8 @@ export default abstract class Inflector<
 > implements InflectorInterface<T> {
   /**
    * inflects prefixed verb form by applying metatony if applicable
-   * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
-   * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
+   * @param {PrincipalPartsType} principalParts - 3 principal forms in their full unprefixed&unreflexive form
+   * @param {string} prefix - prefix to add; ***Note**: `per` will always be acute if roots are accented*
    * @example
    * ```ts
    * const prefixed = inflector.getPrefixed('iš', ['būti', 'būna', 'buvo'])
@@ -89,8 +89,8 @@ export default abstract class Inflector<
 
   /**
    * inflects prefixed verb by adding the reflexive particle and applying metatony if applicable
-   * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
-   * @param {string} prefix - prefix to add; ***Note**: `per` will always be accute if roots are accented*
+   * @param {PrincipalPartsType} principalParts - 3 principal forms in their full unprefixed&unreflexive form
+   * @param {string} prefix - prefix to add; ***Note**: `per` will always be acute if roots are accented*
    * @example
    * ```ts
    * const prefixedReflexive = inflector.getPrefixedReflexive('iš', ['būti', 'būna', 'buvo'])
@@ -113,7 +113,7 @@ export default abstract class Inflector<
 
   /**
    * inflects verb by applying metatony if applicable
-   * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
+   * @param {PrincipalPartsType} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts
    * const inflected = inflector.getDefault(['būti', 'būna', 'buvo'])
@@ -123,7 +123,7 @@ export default abstract class Inflector<
 
   /**
    * inflects verb by adding the reflexive particle and applying metatony if applicable
-   * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
+   * @param {PrincipalPartsType} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts
    * const reflexive = inflector.getReflexive(['būti', 'būna', 'buvo'])
