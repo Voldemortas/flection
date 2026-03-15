@@ -4,9 +4,10 @@ import type {
   DeclinedType,
   PrincipalPartsType,
 } from './types.ts'
-import type { PadalyvisType } from './flectors/conjugators/PadalyvisInflector.ts'
-import type { PusdalyvisType } from './flectors/conjugators/PusdalyvisDecliner.ts'
-import type { BudinysType } from './flectors/conjugators/BudinysInflector.ts'
+import type { PadalyvisType } from '~conjugators/PadalyvisInflector.ts'
+import type { PusdalyvisType } from '~conjugators/PusdalyvisDecliner.ts'
+import type { BudinysType } from '~conjugators/BudinysInflector.ts'
+
 export { Verb }
 export type {
   BudinysType,

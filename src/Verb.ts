@@ -34,7 +34,7 @@ import BudinysInflector from '~conjugators/BudinysInflector.ts'
 import type { BudinysType } from '~conjugators/BudinysInflector.ts'
 
 /**
- * @description Class which lets you derive various forms such as various moods, -imas action deverbal and various
+ * Class which lets you derive various forms such as various moods, -imas action deverbal and various
  * participle forms, presents *constructor* where you can pass certain options such as prefix or reflexivity if you want
  * all the inflected forms to contain them. The derivation methods are also exposed *statically*.
  * **Respects accentuation and metatony.**
@@ -85,7 +85,7 @@ export default class Verb extends Verbal {
   public static readonly budinys: BudinysInflector = new BudinysInflector()
 
   /**
-   * @description Wrapper to call all the static methods with the same options
+   * Wrapper to call all the static methods with the same options
    * @param {[string, string, string] | string} roots - single string with principal parts separated with a dash or array of 3 principal part strings
    * @param {{reflexive?: boolean; prefix?: string}={}} options - options with optional prefix and optional reflexiveness
    */
@@ -97,7 +97,7 @@ export default class Verb extends Verbal {
   }
 
   /**
-   * @description conjugates past frequentative tense based on the data passed to the verb's constructor
+   * conjugates past frequentative tense based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePastFrequentativeIndicative()
@@ -109,7 +109,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates future tense based on the data passed to the verb's constructor
+   * conjugates future tense based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateFutureIndicative()
@@ -121,7 +121,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates past simple tense based on the data passed to the verb's constructor
+   * conjugates past simple tense based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePastSimpleIndicative()
@@ -133,7 +133,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates present tense based on the data passed to the verb's constructor
+   * conjugates present tense based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePresentIndicative()
@@ -145,7 +145,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates conditional based on the data passed to the verb's constructor
+   * conjugates conditional based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateConditional()
@@ -157,7 +157,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates imperative based on the data passed to the verb's constructor
+   * conjugates imperative based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateImperative()
@@ -169,7 +169,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description "conjugates" infinitive based on the data passed to the verb's constructor
+   * "conjugates" infinitive based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateInfinitive()
@@ -181,7 +181,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines -imas action deverbial based on the data passed to the verb's constructor
+   * declines -imas action deverbial based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedDeverbial = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declineImas()
@@ -193,7 +193,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines pusdalyvis based on the data passed to the verb's constructor
+   * declines pusdalyvis based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedPusdalyvis = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declinePusdalyvis()
@@ -205,7 +205,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines passive past participle based on the data passed to the verb's constructor
+   * declines passive past participle based on the data passed to the verb's constructor
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
@@ -221,7 +221,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines passive future participle based on the data passed to the verb's constructor
+   * declines passive future participle based on the data passed to the verb's constructor
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
@@ -237,7 +237,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines passive present participle based on the data passed to the verb's constructor
+   * declines passive present participle based on the data passed to the verb's constructor
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
@@ -253,7 +253,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines active past frequentative participle based on the data passed to the verb's constructor
+   * declines active past frequentative participle based on the data passed to the verb's constructor
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
@@ -269,7 +269,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines active past simple participle based on the data passed to the verb's constructor
+   * declines active past simple participle based on the data passed to the verb's constructor
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
@@ -285,7 +285,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines active future participle based on the data passed to the verb's constructor
+   * declines active future participle based on the data passed to the verb's constructor
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
@@ -301,7 +301,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description declines active future participle based on the data passed to the verb's constructor
+   * declines active future participle based on the data passed to the verb's constructor
    * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
    * @example
    * ```
@@ -317,7 +317,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates past frequentative padalyvis based on the data passed to the verb's constructor
+   * conjugates past frequentative padalyvis based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePastFrequentativePadalyvis()
@@ -329,7 +329,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates future padalyvis based on the data passed to the verb's constructor
+   * conjugates future padalyvis based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugateFuturePadalyvis()
@@ -341,7 +341,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates past simple padalyvis based on the data passed to the verb's constructor
+   * conjugates past simple padalyvis based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePastSimplePadalyvis()
@@ -353,7 +353,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates present padalyvis based on the data passed to the verb's constructor
+   * conjugates present padalyvis based on the data passed to the verb's constructor
    * @example
    * ```
    * const prefixedVerb = new Verb('eiti-eina-ėjo', {prefix: 'per'}).conjugatePresentPadalyvis()
@@ -365,7 +365,7 @@ export default class Verb extends Verbal {
     )
   }
   /**
-   * @description conjugates būdinys based on the data passed to the verb's constructor
+   * conjugates būdinys based on the data passed to the verb's constructor
    * @example
    * ```
    * const budinys = new Verb('eiti-eina-ėjo').conjugateBudinys()

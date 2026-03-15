@@ -34,7 +34,7 @@ export default class AccentedInflector<K extends AnyKeyType> {
   }
 
   /**
-   * @description declines the word for 1st and 2nd accentuation based on the stress found on the unpalatalisedRoot or the given type
+   * declines the word for 1st and 2nd accentuation based on the stress found on the unpalatalisedRoot or the given type
    * @param {string} unpalatalisedRoot - unpalatalisedRoot without ending; can carry stress
    * @param {AccentuationType=undefined} type - **optional** accentuation type if the unpalatalisedRoot lacks stress; if the unpalatalisedRoot is stressed this part is left ignored
    * @example
@@ -77,7 +77,7 @@ export default class AccentedInflector<K extends AnyKeyType> {
   }
 
   /**
-   * @description declines the word for 3rd and 4th accentuation based on the stress found on the root or the given type
+   * declines the word for 3rd and 4th accentuation based on the stress found on the root or the given type
    * @param {string} unpalatalisedRoot - root without ending; can carry stress
    * @param {AccentuationType=undefined} type - **mandatory** accentuation type if the root lacks stress; if the root is stressed this part is left ignored
    * @example
