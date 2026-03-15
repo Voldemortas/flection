@@ -5,3 +5,5 @@ dist
 coverage
 .idea
 docs
+cov
+cov.lcov
