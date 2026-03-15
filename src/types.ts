@@ -1,3 +1,11 @@
+/**
+ * array made from infinitive, present-3rd and past-3rd
+ * @example
+ * ```ts
+ * const accentedEiti: PrincipalPartsType = [`ei\u0303ti`, `ei\u0303na`, `ė\u0303jo`]
+ * const accentlessBėgti: PrincipalPartsType = [`bėgt`, `bėga`, `bėgo`]
+ * ```
+ */
 export type PrincipalPartsType = [string, string, string]
 
 export type ConjugationType = {
@@ -7,13 +15,6 @@ export type ConjugationType = {
   pl1: string
   pl2: string
   pl3: string
-}
-
-export enum Gender {
-  masculine = 'masculine',
-  feminine = 'feminine',
-  neuter = 'neuter',
-  common = 'common',
 }
 
 export type DeclinedType = {

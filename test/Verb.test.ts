@@ -6,6 +6,7 @@ import { EMPTY_PRINCIPAL_PARTS } from './testHelpers.ts'
 import type { InflectorInterface } from '~conjugators/Inflector.ts'
 import type ParticipleDecliner from '~conjugators/ParticipleDecliner.ts'
 import type { ParticipleType } from '~conjugators/ParticipleDecliner.ts'
+import type { BudinysType } from '~conjugators/BudinysInflector.ts'
 
 describe('Verb', () => {
   describe('conjugations', () => {
@@ -144,6 +145,16 @@ describe('Verb', () => {
       'conjugatePastFrequentativePadalyvis',
       'pastFrequentativePadalyvis',
     )
+    describe('būdinys', () => {
+      it('calls būdinys default', () => {
+        assertCorrectConjugationWasCalled(
+          Verb.budinys as unknown as InflectorInterface<BudinysType>,
+          'getDefault',
+          () => new Verb(EMPTY_PRINCIPAL_PARTS).conjugateBudinys(),
+          [EMPTY_PRINCIPAL_PARTS],
+        )
+      })
+    })
 
     function assertTense<
       T extends Record<string, string | Record<string, string>>,

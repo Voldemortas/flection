@@ -4,30 +4,26 @@ import ParticipleDecliner, {
   type ComplementingParticipleType,
   type ParticipleType,
 } from '~conjugators/ParticipleDecliner.ts'
-import { Gender, type PrincipalPartsType } from '~src/types.ts'
+import type { PrincipalPartsType } from '~src/types.ts'
 import { returnsNext, stub } from '@std/testing/mock'
 
 const DEFAULT_DECLINED = {
   'feminine': {
-    gender: Gender.feminine,
     sgNom: 'gyvenanti',
   },
 } as unknown as ParticipleType
 const PRONOMINAL_DECLINED = {
   'feminine': {
-    gender: Gender.feminine,
     sgNom: 'gyvenančioji',
   },
 } as unknown as ParticipleType
 const DEFAULT_ACCENTED = {
   'feminine': {
-    gender: Gender.feminine,
     sgNom: 'gyve\u0303nanti',
   },
 } as unknown as ParticipleType
 const PRONOMINAL_ACCENTED = {
   'feminine': {
-    gender: Gender.feminine,
     sgNom: 'gyvenančio\u0301ji',
   },
 } as unknown as ParticipleType

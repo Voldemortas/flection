@@ -28,8 +28,10 @@ import ActivePastFrequentativeParticipleDecliner from '~conjugators/ActivePastFr
 import ActivePastSimpleParticipleDecliner from '~conjugators/ActivePastSimpleParticipleDecliner.ts'
 import ActiveFutureParticipleDecliner from '~conjugators/ActiveFutureParticipleDecliner.ts'
 import ActivePresentParticipleDecliner from '~conjugators/ActivePresentParticipleDecliner.ts'
-import PadalyvisInflector from './flectors/conjugators/PadalyvisInflector.ts'
-import type { PadalyvisType } from './flectors/conjugators/PadalyvisInflector.ts'
+import PadalyvisInflector from '~conjugators/PadalyvisInflector.ts'
+import type { PadalyvisType } from '~conjugators/PadalyvisInflector.ts'
+import BudinysInflector from '~conjugators/BudinysInflector.ts'
+import type { BudinysType } from '~conjugators/BudinysInflector.ts'
 
 /**
  * @description Class which lets you derive various forms such as various moods, -imas action deverbal and various
@@ -80,6 +82,7 @@ export default class Verb extends Verbal {
     new PadalyvisInflector(Verb.activeFutureParticiple)
   public static readonly presentPadalyvis: InflectorInterface<PadalyvisType> =
     new PadalyvisInflector(Verb.activePresentParticiple)
+  public static readonly budinys: BudinysInflector = new BudinysInflector()
 
   /**
    * @description Wrapper to call all the static methods with the same options
@@ -360,6 +363,16 @@ export default class Verb extends Verbal {
     return this.#inflectBasedOnOptions(
       Verb.presentPadalyvis,
     )
+  }
+  /**
+   * @description conjugates būdinys based on the data passed to the verb's constructor
+   * @example
+   * ```
+   * const budinys = new Verb('eiti-eina-ėjo').conjugateBudinys()
+   * ```
+   */
+  public conjugateBudinys(): BudinysType {
+    return Verb.budinys.getDefault(this.principalParts)
   }
 
   #inflectBasedOnOptions<
