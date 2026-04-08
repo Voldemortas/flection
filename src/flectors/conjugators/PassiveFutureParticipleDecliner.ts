@@ -19,7 +19,8 @@ import {
 } from '~decliners/commons.ts'
 import { NOMINAL_EMPTY } from '~src/commons.ts'
 
-const PASSIVE_FUTURE_SUFFIX = 'sim'
+const FUTURE_SUFFIX = 's'
+const PASSIVE_FUTURE_SUFFIX = 'im'
 
 export default class PassiveFutureParticipleDecliner
   extends ParticipleDecliner {
@@ -49,10 +50,10 @@ export default class PassiveFutureParticipleDecliner
     let masculine: DeclinedType
     let feminine: DeclinedType
     const { root } = getInfinitiveRoot(principalParts)
-    const stem = appendSuffixWithAssimilation(root, PASSIVE_FUTURE_SUFFIX, [
+    const stem = appendSuffixWithAssimilation(root, FUTURE_SUFFIX, [
       [/[sz]s$/, 's'],
       [/[šž]s$/, 'š'],
-    ])
+    ]) + PASSIVE_FUTURE_SUFFIX
     if (isRootStatic(root)) {
       masculine = AsAdjectiveDecliner.inflectStatic(stem)
       feminine = AAdjectiveDecliner.inflectStatic(stem)
@@ -76,10 +77,10 @@ export default class PassiveFutureParticipleDecliner
     let masculine: DeclinedType
     let feminine: DeclinedType
     const { root } = getInfinitiveRoot(principalParts)
-    const stem = appendSuffixWithAssimilation(root, PASSIVE_FUTURE_SUFFIX, [
+    const stem = appendSuffixWithAssimilation(root, FUTURE_SUFFIX, [
       [/[sz]s$/, 's'],
       [/[šž]s$/, 'š'],
-    ])
+    ]) + PASSIVE_FUTURE_SUFFIX
     if (isRootStatic(root)) {
       masculine = AsPronominalDecliner.inflectStatic(stem)
       feminine = APronominalDecliner.inflectStatic(stem)
