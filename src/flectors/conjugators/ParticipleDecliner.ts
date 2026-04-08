@@ -17,7 +17,7 @@ const BE_PREFIX = 'be'
 export default abstract class ParticipleDecliner
   extends Inflector<ParticipleType> {
   /**
-   * declines pronominal particple
+   * declines pronominal participle
    * @param {[string, string, string]} principalParts - 3 principal forms in their full unprefixed&unreflexive form
    * @example
    * ```ts

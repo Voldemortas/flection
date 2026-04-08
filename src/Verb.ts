@@ -60,7 +60,7 @@ export default class Verb extends Verbal {
     new PusdalyvisDecliner()
   public static readonly passivePastParticiple: ParticipleDecliner =
     new PassivePastParticipleDecliner()
-  public static readonly passiveFutureParticple: ParticipleDecliner =
+  public static readonly passiveFutureParticiple: ParticipleDecliner =
     new PassiveFutureParticipleDecliner()
   public static readonly passivePresentParticiple: ParticipleDecliner =
     new PassivePresentParticipleDecliner()
@@ -232,7 +232,7 @@ export default class Verb extends Verbal {
     isPronominal: boolean = false,
   ): ParticipleType {
     return this.#inflectBasedOnOptions(
-      Verb.passiveFutureParticple,
+      Verb.passiveFutureParticiple,
       isPronominal,
     )
   }
