@@ -8,7 +8,8 @@ import {
   getLastStressedInflection,
   getPresentRoot,
   hasAnyAccent,
-  isRootMonosyllabic, isStemWithoutSuffix,
+  isRootMonosyllabic,
+  isStemWithoutSuffix,
   joinInflections,
   putAccentOnPrefix,
   stripAllAccents,
@@ -141,7 +142,9 @@ export default class ActivePresentParticipleDecliner
     const feminineImmobile = IsFemininePronominalDecliner.inflectStatic(
       stem,
     )
-    if (hasAnyAccent(stem) && isStemWithoutSuffix(stem.replace(/[aiu]nt$/, ''))) {
+    if (
+      hasAnyAccent(stem) && isStemWithoutSuffix(stem.replace(/[aiu]nt$/, ''))
+    ) {
       const masculineMobile = IsMasculinePronominalDecliner.inflectDynamic(
         stripAllAccents(stem),
         'b',

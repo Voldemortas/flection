@@ -530,14 +530,17 @@ const DAZANTYSIS = {
   sgDat: `da\u0303žančiajam|dažančia\u0301jam`,
   sgAcc: `da\u0303žantįjį`,
   sgInst: `da\u0303žančiuoju|dažančiu\u0301oju`,
-  sgLoc: `da\u0303žančiajame|dažančia\u0303jame da\u0303žančiajam|dažančia\u0303jam`,
+  sgLoc:
+    `da\u0303žančiajame|dažančia\u0303jame da\u0303žančiajam|dažančia\u0303jam`,
   sgVoc: `da\u0303žantysis|dažanty\u0303sis`,
   plNom: `da\u0303žantieji|dažanti\u0301eji`,
   plGen: `da\u0303žančiųjų|dažančių\u0303jų`,
-  plDat: `da\u0303žantiesiems|dažanti\u0301esiems da\u0303žantiesiem|dažanti\u0301esiem`,
+  plDat:
+    `da\u0303žantiesiems|dažanti\u0301esiems da\u0303žantiesiem|dažanti\u0301esiem`,
   plAcc: `da\u0303žančiuosius|dažančiu\u0301osius`,
   plInst: `da\u0303žančiaisiais|dažančiai\u0303siais`,
-  plLoc: `da\u0303žančiuosiuose|dažančiuo\u0303siuose da\u0303žančiuosiuos|dažančiuo\u0303siuos`,
+  plLoc:
+    `da\u0303žančiuosiuose|dažančiuo\u0303siuose da\u0303žančiuosiuos|dažančiuo\u0303siuos`,
   plVoc: `da\u0303žantieji|dažanti\u0301eji`,
 }
 const DAZANTI = {
@@ -562,13 +565,16 @@ const DAZANCIOJI = {
   sgDat: `da\u0303žančiajai`,
   sgAcc: `da\u0303žančiąją`,
   sgInst: `da\u0303žančiąja|dažančią\u0301ja`,
-  sgLoc: `da\u0303žančiojoje|dažančio\u0303joje da\u0303žančiojoj|dažančio\u0303joj`,
+  sgLoc:
+    `da\u0303žančiojoje|dažančio\u0303joje da\u0303žančiojoj|dažančio\u0303joj`,
   sgVoc: `da\u0303žančioji|dažančio\u0301ji`,
   plNom: `da\u0303žančiosios`,
   plGen: `da\u0303žančiųjų|dažančių\u0303jų`,
-  plDat: `da\u0303žančiosioms|dažančio\u0301sioms da\u0303žančiosiom|dažančio\u0301siom`,
+  plDat:
+    `da\u0303žančiosioms|dažančio\u0301sioms da\u0303žančiosiom|dažančio\u0301siom`,
   plAcc: `da\u0303žančiąsias|dažančią\u0301sias`,
-  plInst: `da\u0303žančiosiomis|dažančio\u0303siomis da\u0303žančiosiom|dažančio\u0303siom`,
+  plInst:
+    `da\u0303žančiosiomis|dažančio\u0303siomis da\u0303žančiosiom|dažančio\u0303siom`,
   plLoc: `da\u0303žančiosiose|dažančio\u0303siose`,
   plVoc: `da\u0303žančiosios`,
 }
@@ -594,14 +600,17 @@ const BESIDAZANTYSIS = {
   sgDat: `- (besida\u0303žančiajam|besidažančia\u0301jam)`,
   sgAcc: `- (besida\u0303žantįjį)`,
   sgInst: `- (besida\u0303žančiuoju|besidažančiu\u0301oju)`,
-  sgLoc: `- (besida\u0303žančiajame|besidažančia\u0303jame besida\u0303žančiajam|besidažančia\u0303jam)`,
+  sgLoc:
+    `- (besida\u0303žančiajame|besidažančia\u0303jame besida\u0303žančiajam|besidažančia\u0303jam)`,
   sgVoc: `- (besida\u0303žantysis|besidažanty\u0303sis)`,
   plNom: `- (besida\u0303žantieji|besidažanti\u0301eji)`,
   plGen: `- (besida\u0303žančiųjų|besidažančių\u0303jų)`,
-  plDat: `- (besida\u0303žantiesiems|besidažanti\u0301esiems besida\u0303žantiesiem|besidažanti\u0301esiem)`,
+  plDat:
+    `- (besida\u0303žantiesiems|besidažanti\u0301esiems besida\u0303žantiesiem|besidažanti\u0301esiem)`,
   plAcc: `- (besida\u0303žančiuosius|besidažančiu\u0301osius)`,
   plInst: `- (besida\u0303žančiaisiais|besidažančiai\u0303siais)`,
-  plLoc: `- (besida\u0303žančiuosiuose|besidažančiuo\u0303siuose besida\u0303žančiuosiuos|besidažančiuo\u0303siuos)`,
+  plLoc:
+    `- (besida\u0303žančiuosiuose|besidažančiuo\u0303siuose besida\u0303žančiuosiuos|besidažančiuo\u0303siuos)`,
   plVoc: `- (besida\u0303žantieji|besidažanti\u0301eji)`,
 }
 const BESIDAZANTI = {
@@ -626,13 +635,16 @@ const BESIDAZANCIOJI = {
   sgDat: `- (besida\u0303žančiajai)`,
   sgAcc: `- (besida\u0303žančiąją)`,
   sgInst: `- (besida\u0303žančiąja|besidažančią\u0301ja)`,
-  sgLoc: `- (besida\u0303žančiojoje|besidažančio\u0303joje besida\u0303žančiojoj|besidažančio\u0303joj)`,
+  sgLoc:
+    `- (besida\u0303žančiojoje|besidažančio\u0303joje besida\u0303žančiojoj|besidažančio\u0303joj)`,
   sgVoc: `- (besida\u0303žančioji|besidažančio\u0301ji)`,
   plNom: `- (besida\u0303žančiosios)`,
   plGen: `- (besida\u0303žančiųjų|besidažančių\u0303jų)`,
-  plDat: `- (besida\u0303žančiosioms|besidažančio\u0301sioms besida\u0303žančiosiom|besidažančio\u0301siom)`,
+  plDat:
+    `- (besida\u0303žančiosioms|besidažančio\u0301sioms besida\u0303žančiosiom|besidažančio\u0301siom)`,
   plAcc: `- (besida\u0303žančiąsias|besidažančią\u0301sias)`,
-  plInst: `- (besida\u0303žančiosiomis|besidažančio\u0303siomis besida\u0303žančiosiom|besidažančio\u0303siom)`,
+  plInst:
+    `- (besida\u0303žančiosiomis|besidažančio\u0303siomis besida\u0303žančiosiom|besidažančio\u0303siom)`,
   plLoc: `- (besida\u0303žančiosiose|besidažančio\u0303siose)`,
   plVoc: `- (besida\u0303žančiosios)`,
 }
