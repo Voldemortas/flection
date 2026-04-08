@@ -6,6 +6,11 @@ import PusdalyvisDecliner, {
 } from '~conjugators/PusdalyvisDecliner.ts'
 
 const BEGTI: PrincipalPartsType = [`bė\u0301gti`, `bė\u0301ga`, `bė\u0301go`]
+const GALASTI: PrincipalPartsType = [
+  `galą\u0303sti`,
+  `galan\u0303da`,
+  `galan\u0303da`,
+]
 const VAZIUOTI: PrincipalPartsType = [
   `važiu\u0301oti`,
   `važiu\u0301oja`,
@@ -18,6 +23,12 @@ const EXPECTED_BEGTI: PusdalyvisType = {
   sgFem: `bėgdama\u0300`,
   plMasc: `bėgdami\u0300`,
   plFem: `bė\u0301gdamos`,
+}
+const EXPECTED_GALASTI: PusdalyvisType = {
+  sgMasc: `galą\u0303sdamas`,
+  sgFem: `galąsdama\u0300`,
+  plMasc: `galąsdami\u0300`,
+  plFem: `galą\u0303sdamos`,
 }
 const EXPECTED_BEGTIS: PusdalyvisType = {
   sgMasc: `bė\u0301gdamasis`,
@@ -58,6 +69,9 @@ const EXPECTED_NEITI: PusdalyvisType = {
 
 describe('PusdalyvisDecliner', () => {
   const conjugator = new PusdalyvisDecliner()
+  it(`conjugates galąsti`, () => {
+    expect(conjugator.getDefault(GALASTI)).toMatchObject(EXPECTED_GALASTI)
+  })
   it('conjugates bėgti', () => {
     expect(conjugator.getDefault(BEGTI)).toMatchObject(EXPECTED_BEGTI)
   })

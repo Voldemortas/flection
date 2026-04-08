@@ -2,7 +2,7 @@ import type { PrincipalPartsType } from '~src/types.ts'
 import {
   getInfinitiveRoot,
   hasAnyAccent,
-  isRootMonosyllabic,
+  isStemWithoutSuffix,
   stripAllAccents,
 } from '~src/utils.ts'
 import Inflector from './Inflector.ts'
@@ -15,7 +15,10 @@ export type PusdalyvisType = Record<
 export default class PusdalyvisDecliner extends Inflector<PusdalyvisType> {
   getDefault(principalParts: PrincipalPartsType): PusdalyvisType {
     const { root } = getInfinitiveRoot(principalParts)
-    if (!isRootMonosyllabic(root) || !hasAnyAccent(root)) {
+    if (
+      !isStemWithoutSuffix(root) ||
+      !hasAnyAccent(root)
+    ) {
       return {
         sgMasc: `${root}damas`,
         sgFem: `${root}dama`,

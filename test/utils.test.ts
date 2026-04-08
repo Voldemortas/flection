@@ -15,7 +15,7 @@ import {
   hasCircumflexOrShortAccent,
   isEverythingEqual,
   isInflectedTheSame,
-  isRootMonosyllabic,
+  isRootMonosyllabic, isStemWithoutSuffix,
   joinInflections,
   putAccentOnPrefix,
   putAccentOnString,
@@ -586,6 +586,22 @@ describe('utils', () => {
       expect(getLastStressedInflection(inflectedJoined)).toMatchObject(
         inflectedB,
       )
+    })
+  })
+  describe('isStemWithoutSuffix', () => {
+    it('returns true when root is monosyllabic', () => {
+      expect(isStemWithoutSuffix(`gau\u0303t`)).toBeTruthy()
+      expect(isStemWithoutSuffix(`ga\u0301ut`)).toBeTruthy()
+    })
+    it('returns true when root is polysyllabic but the last syllabe is not acute', () => {
+      expect(isStemWithoutSuffix(`gau\u0303ti`)).toBeTruthy()
+      expect(isStemWithoutSuffix(`ga\u0301uti`)).toBeTruthy()
+      expect(isStemWithoutSuffix(`gauti\u0300`)).toBeTruthy()
+      expect(isStemWithoutSuffix(`gautė\u0303`)).toBeTruthy()
+    })
+    it('returns false when the last syllable is acute', () => {
+      expect(isStemWithoutSuffix(`gautė\u0301`)).toBeFalsy()
+      expect(isStemWithoutSuffix(`gaute\u0301i`)).toBeFalsy()
     })
   })
 })

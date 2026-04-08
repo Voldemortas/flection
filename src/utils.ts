@@ -283,3 +283,7 @@ export function getLastStressedInflection<T extends AnyKeyType>(
     }),
   ) as InflectionType<T>
 }
+
+export function isStemWithoutSuffix(stem: string): boolean {
+  return isRootMonosyllabic(stem) || !hasAcuteAccent(getLastSyllable(stem))
+}
