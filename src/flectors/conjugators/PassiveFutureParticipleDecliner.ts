@@ -1,5 +1,6 @@
 import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import {
+  appendSuffixWithAssimilation,
   getInfinitiveRoot,
   hasAcuteAccent,
   hasAnyAccent,
@@ -48,7 +49,10 @@ export default class PassiveFutureParticipleDecliner
     let masculine: DeclinedType
     let feminine: DeclinedType
     const { root } = getInfinitiveRoot(principalParts)
-    const stem = root + PASSIVE_FUTURE_SUFFIX
+    const stem = appendSuffixWithAssimilation(root, PASSIVE_FUTURE_SUFFIX, [
+      [/[sz]s$/, 's'],
+      [/[šž]s$/, 'š'],
+    ])
     if (isRootStatic(root)) {
       masculine = AsAdjectiveDecliner.inflectStatic(stem)
       feminine = AAdjectiveDecliner.inflectStatic(stem)
@@ -72,7 +76,10 @@ export default class PassiveFutureParticipleDecliner
     let masculine: DeclinedType
     let feminine: DeclinedType
     const { root } = getInfinitiveRoot(principalParts)
-    const stem = root + PASSIVE_FUTURE_SUFFIX
+    const stem = appendSuffixWithAssimilation(root, PASSIVE_FUTURE_SUFFIX, [
+      [/[sz]s$/, 's'],
+      [/[šž]s$/, 'š'],
+    ])
     if (isRootStatic(root)) {
       masculine = AsPronominalDecliner.inflectStatic(stem)
       feminine = APronominalDecliner.inflectStatic(stem)
