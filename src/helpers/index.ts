@@ -4,6 +4,7 @@
  */
 export function normaliseAccents(text: string): string {
   return text
+    .replaceAll(/(i)\u0307/gi, `$1`)
     .replaceAll(`á`, `a\u0301`)
     .replaceAll(`é`, `e\u0301`)
     .replaceAll(`ó`, `o\u0301`)
