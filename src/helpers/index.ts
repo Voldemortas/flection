@@ -1,0 +1,43 @@
+/**
+ * changes accented letters into simple letter + diacritic
+ * @param text - the text full of diacritics
+ */
+export function normaliseAccents(text: string): string {
+  return text
+    .replaceAll(`á`, `a\u0301`)
+    .replaceAll(`é`, `e\u0301`)
+    .replaceAll(`ó`, `o\u0301`)
+    .replaceAll(`í`, `i\u0301`)
+    .replaceAll(`ú`, `u\u0301`)
+    .replaceAll(`ý`, `y\u0301`)
+    .replaceAll(`Á`, `A\u0301`)
+    .replaceAll(`É`, `E\u0301`)
+    .replaceAll(`Ó`, `O\u0301`)
+    .replaceAll(`Í`, `I\u0301`)
+    .replaceAll(`Ú`, `U\u0301`)
+    .replaceAll(`Ý`, `Y\u0301`)
+    .replaceAll(`à`, `a\u0300`)
+    .replaceAll(`è`, `e\u0300`)
+    .replaceAll(`ò`, `o\u0300`)
+    .replaceAll(`ì`, `i\u0300`)
+    .replaceAll(`ù`, `u\u0300`)
+    .replaceAll(`À`, `A\u0300`)
+    .replaceAll(`È`, `E\u0300`)
+    .replaceAll(`Ò`, `O\u0300`)
+    .replaceAll(`Ì`, `I\u0300`)
+    .replaceAll(`Ù`, `U\u0300`)
+    .replaceAll(`ã`, `a\u0303`)
+    .replaceAll(`ẽ`, `e\u0303`)
+    .replaceAll(`õ`, `o\u0303`)
+    .replaceAll(`ĩ`, `i\u0303`)
+    .replaceAll(`ũ`, `u\u0303`)
+    .replaceAll(`ỹ`, `y\u0303`)
+    .replaceAll(`Ã`, `A\u0303`)
+    .replaceAll(`Ẽ`, `E\u0303`)
+    .replaceAll(`Õ`, `O\u0303`)
+    .replaceAll(`Ĩ`, `I\u0303`)
+    .replaceAll(`Ũ`, `U\u0303`)
+    .replaceAll(`Ỹ`, `Y\u0303`)
+    .replaceAll(`ñ`, `n\u0303`)
+    .replaceAll(`Ñ`, `N\u0303`)
+}

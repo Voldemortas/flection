@@ -12,7 +12,8 @@
     "~src/": "./src/",
     "~test/": "./test/",
     "~conjugators/": "./src/flectors/conjugators/",
-    "~decliners/": "./src/flectors/decliners/"
+    "~decliners/": "./src/flectors/decliners/",
+    "~helpers/": "./src/helpers/"
   },
   "fmt": {
     "useTabs": false,
