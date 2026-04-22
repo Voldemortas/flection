@@ -70,6 +70,16 @@ const VARGTI: PrincipalPartsType = [
   `var\u0303gsta`,
   `var\u0303go`,
 ]
+const VILTI: PrincipalPartsType = [
+  `vi\u0300lti`,
+  `vi\u0300lia`,
+  `vy\u0301lė`,
+]
+const LISTI: PrincipalPartsType = [
+  `lį\u0303sti`,
+  `len\u0303da`,
+  `lin\u0303do`,
+]
 const COPULA = makeConjugatedFromArray([
   [`esu\u0300`, `esi\u0300`, `yra\u0300`],
   [
@@ -214,6 +224,22 @@ const VARGSTA = makeConjugatedFromArray([
     `var\u0303gsta`,
   ],
 ])
+const VILIA = makeConjugatedFromArray([
+  [`viliu\u0300`, `vili\u0300`, `vi\u0300lia`],
+  [
+    `vi\u0300liame vi\u0300liam`,
+    `vi\u0300liate vi\u0300liat`,
+    `vi\u0300lia`,
+  ],
+])
+const LENDA = makeConjugatedFromArray([
+  [`lendu\u0300`, `lendi\u0300`, `len\u0303da`],
+  [
+    `len\u0303dame len\u0303dam`,
+    `len\u0303date len\u0303dat`,
+    `len\u0303da`,
+  ],
+])
 const NEG_COPULA = makeConjugatedFromArray([
   [`nesu\u0300`, `nesi\u0300`, `nėra\u0300`],
   [
@@ -355,6 +381,22 @@ const NEG_VARGSTA = makeConjugatedFromArray([
     `nevar\u0303gsta`,
   ],
 ])
+const NEG_VILIA = makeConjugatedFromArray([
+  [`ne\u0300viliu`, `ne\u0300vili`, `ne\u0300vilia`],
+  [
+    `ne\u0300viliame ne\u0300viliam`,
+    `ne\u0300viliate ne\u0300viliat`,
+    `ne\u0300vilia`,
+  ],
+])
+const NEG_LENDA = makeConjugatedFromArray([
+  [`ne\u0300lendu`, `ne\u0300lendi`, `ne\u0300lenda`],
+  [
+    `ne\u0300lendame ne\u0300lendam`,
+    `ne\u0300lendate ne\u0300lendat`,
+    `ne\u0300lenda`,
+  ],
+])
 
 const DATA: [PrincipalPartsType[], ConjugationType[], ConjugationType[]] = [
   [
@@ -376,6 +418,8 @@ const DATA: [PrincipalPartsType[], ConjugationType[], ConjugationType[]] = [
     VILKTI,
     KALBETI,
     VARGTI,
+    VILTI,
+    LISTI,
   ],
   [
     COPULA,
@@ -396,6 +440,8 @@ const DATA: [PrincipalPartsType[], ConjugationType[], ConjugationType[]] = [
     VELKA,
     KALBA,
     VARGSTA,
+    VILIA,
+    LENDA,
   ],
   [
     NEG_COPULA,
@@ -416,6 +462,8 @@ const DATA: [PrincipalPartsType[], ConjugationType[], ConjugationType[]] = [
     NEG_VELKA,
     NEG_KALBA,
     NEG_VARGSTA,
+    NEG_VILIA,
+    NEG_LENDA,
   ],
 ]
 

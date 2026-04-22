@@ -31,7 +31,9 @@ export function hasAnyAccent(word: string) {
 }
 
 export function hasAcuteAccent(word: string) {
-  return /\u0301/.test(word) || acuteIULMNR.test(word)
+  const accentedSyllable = getStressedSyllable(word)
+  return !!accentedSyllable &&
+    (/\u0301/.test(accentedSyllable!.text) || acuteIULMNR.test(accentedSyllable!.text))
 }
 
 export function hasCircumflexOrShortAccent(word: string) {
@@ -39,7 +41,7 @@ export function hasCircumflexOrShortAccent(word: string) {
 }
 
 export function getUnpalatalizedRoot(root: string) {
-  return root.replace(/či$/, 't').replace(/dži$/, 'd')
+  return root.replace(/či$/, 't').replace(/dži$/, 'd').replace(/i$/, '')
 }
 
 export function getPalatalizedRoot(root: string) {
@@ -111,6 +113,37 @@ export function isEverythingEqual<T>(array: T[]): boolean {
 
 export function getLastSyllable(text: string): string {
   return text.replace(SYLLABLE_REGEX, '$2')
+}
+
+/**
+ * @description Finds the stressed syllable (both text and its position counting from behind).
+ * @param string - the word to look for stress
+ * @return returns `null` if no stress exists, otherwise returns the syllable and its position starting from behind
+ * @example
+ * ```ts
+ * getStressedSyllable(`dėti`) // null
+ * getStressedSyllable(`padėti\u0300`) // {text: `ti\u0300`, position: 1}
+ * ```
+ */
+export function getStressedSyllable(
+  string: string,
+): { position: number; text: string } | null {
+  if (!hasAnyAccent(string)) {
+    return null
+  }
+  let wordToUse = string
+  let thisSyllable = ''
+  let currentSyllable = 0
+  do {
+    currentSyllable++
+    thisSyllable = getLastSyllable(wordToUse)
+    const nextWordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
+    if (nextWordToUse === wordToUse) {
+      throw cannotParseSyllableError
+    }
+    wordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
+  } while (/[aąeęėiįyouųū]/.test(wordToUse) && !hasAnyAccent(thisSyllable))
+  return { text: thisSyllable, position: currentSyllable }
 }
 
 export function putAccentOnString(

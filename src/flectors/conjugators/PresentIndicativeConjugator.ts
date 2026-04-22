@@ -129,23 +129,26 @@ function isAlternatingCircumflexIWithE(
   const presentRoot = getPresentRoot(principalParts).root
   const pastRoot = getPastRoot(principalParts).root
   const roots = [infinitiveRoot, presentRoot, pastRoot]
+  const IE_LMRN_Regex = /^.*([ie][lmnr]\u0303).*$/
 
   if (new RegExp(`[^${vowels}]ie\u0303`).test(principalParts[1])) {
     return false
   }
 
-  if (roots.filter((r) => /^.*([ie][lmnr]\u0303).*$/.test(r)).length === 3) {
-    const iRER = roots.map((r) => r.replace(/^.*([ie][lmnr]\u0303).*$/, '$1'))
+  if (roots.filter((r) => IE_LMRN_Regex.test(r)).length > 1) {
+    const iRER = roots.map((r) => r.replace(IE_LMRN_Regex, '$1')).filter((r) =>
+      IE_LMRN_Regex.test(r)
+    )
     if (
-      iRER.length === 3 && !isEverythingEqual(iRER) &&
+      iRER.length > 1 && !isEverythingEqual(iRER) &&
       isEverythingEqual(iRER.map((r) => r.replace(/[ie]/, '')))
     ) {
       return true
     }
   }
-  if (roots.filter((r) => /^.*(i\u0300|en\u0303).*$/.test(r)).length === 3) {
+  if (roots.filter((r) => /^.*(i\u0300|en\u0303).*$/.test(r)).length > 1) {
     const iEN = roots.map((r) => r.replace(/^.*(i\u0300|en\u0303).*$/, '$1'))
-    return iEN.length === 3 && !isEverythingEqual(iEN)
+    return iEN.length > 1 && !isEverythingEqual(iEN)
   }
   return false
 }
