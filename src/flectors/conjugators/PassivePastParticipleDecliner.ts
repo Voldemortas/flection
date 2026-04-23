@@ -80,6 +80,7 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
             syllable: syllable!,
             isAcute,
           },
+          hasCircumflexOrShortAccent(prefixedRoot),
         )
       }
     }
@@ -111,6 +112,7 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
           syllable: syllable!,
           isAcute,
         },
+        hasCircumflexOrShortAccent(prefixedRoot),
       )
     }
     return {
