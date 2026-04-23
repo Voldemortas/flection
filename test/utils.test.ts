@@ -8,7 +8,8 @@ import {
   getNthLast,
   getPalatalizedRoot,
   getPastRoot,
-  getPresentRoot, getStressedSyllable,
+  getPresentRoot,
+  getStressedSyllable,
   getUnpalatalizedRoot,
   hasAcuteAccent,
   hasAnyAccent,
@@ -506,6 +507,11 @@ describe('utils', () => {
         syllable: 3,
       })
     })
+    it("throws when loop get stuck'", () => {
+      expect(() => countAccentedSyllable(`bau\u0301simas`)).toThrow(
+        cannotParseSyllableError,
+      )
+    })
   })
   describe('isRootMonosyllabic', () => {
     const data: [string, boolean][] = [
@@ -610,9 +616,18 @@ describe('utils', () => {
       expect(getStressedSyllable(`dėti`)).toBeNull()
     })
     it(`returns correct stressed syllable and its position`, () => {
-      expect(getStressedSyllable(`padė\u0301ti`)).toMatchObject({text: `dė\u0301`, position: 2})
-      expect(getStressedSyllable(`padėti\u0300`)).toMatchObject({text: `ti\u0300`, position: 1})
-      expect(getStressedSyllable(`pe\u0301rdėti`)).toMatchObject({text: `pe\u0301r`, position: 3})
+      expect(getStressedSyllable(`padė\u0301ti`)).toMatchObject({
+        text: `dė\u0301`,
+        position: 2,
+      })
+      expect(getStressedSyllable(`padėti\u0300`)).toMatchObject({
+        text: `ti\u0300`,
+        position: 1,
+      })
+      expect(getStressedSyllable(`pe\u0301rdėti`)).toMatchObject({
+        text: `pe\u0301r`,
+        position: 3,
+      })
     })
     it('throws when loop get stuck', () => {
       expect(() => getStressedSyllable(`pažы\u0303ti`)).toThrow(

@@ -1,9 +1,11 @@
 import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import {
   appendSuffixWithAssimilation,
+  countAccentedSyllable,
   getInfinitiveRoot,
   hasAcuteAccent,
   hasAnyAccent,
+  hasCircumflexOrShortAccent,
   isRootMonosyllabic,
   stripAllAccents,
 } from '~src/utils.ts'
@@ -17,10 +19,18 @@ import {
   AsAdjectiveDecliner,
   AsPronominalDecliner,
 } from '~decliners/commons.ts'
-import { NOMINAL_EMPTY } from '~src/commons.ts'
+import { NOMINAL_EMPTY, PREFIX_SEPARATOR } from '~src/commons.ts'
 
 const FUTURE_SUFFIX = 's'
 const PASSIVE_FUTURE_SUFFIX = 'im'
+const ASSIMILATION_MAP: [RegExp, string][] = [
+  [/[sz]s$/, 's'],
+  [/[šž]s$/, 'š'],
+]
+const PREFIX_REGEX = new RegExp(
+  `^(([^${PREFIX_SEPARATOR}]+)${PREFIX_SEPARATOR}.+|.+)$`,
+)
+const ROOT_REGEX = new RegExp(`^(.+${PREFIX_SEPARATOR})`)
 
 export default class PassiveFutureParticipleDecliner
   extends ParticipleDecliner {
@@ -30,7 +40,8 @@ export default class PassiveFutureParticipleDecliner
     getBasicInflected: (principalParts: PrincipalPartsType) => ParticipleType,
   ): ParticipleType {
     const { root } = getInfinitiveRoot(principalParts)
-    const isStemImmobile = !hasAnyAccent(root) || !isRootMonosyllabic(root)
+    const isStemImmobile = !hasAnyAccent(root) || !isRootMonosyllabic(root) ||
+      hasAcuteAccent(root)
     if (isStemImmobile) {
       return this.getBasicImmobilePrefixed(
         prefix,
@@ -40,8 +51,8 @@ export default class PassiveFutureParticipleDecliner
     }
 
     return getBasicInflected(
-      principalParts.map((principalPart) =>
-        `${prefix}${principalPart}`
+      principalParts.map((part) =>
+        `${prefix}${PREFIX_SEPARATOR}${part}`
       ) as PrincipalPartsType,
     )
   }
@@ -49,20 +60,24 @@ export default class PassiveFutureParticipleDecliner
   getDefault(principalParts: PrincipalPartsType): ParticipleType {
     let masculine: DeclinedType
     let feminine: DeclinedType
-    const { root } = getInfinitiveRoot(principalParts)
-    const stem = appendSuffixWithAssimilation(root, FUTURE_SUFFIX, [
-      [/[sz]s$/, 's'],
-      [/[šž]s$/, 'š'],
-    ]) + PASSIVE_FUTURE_SUFFIX
-    if (isRootStatic(root)) {
-      masculine = AsAdjectiveDecliner.inflectStatic(stem)
-      feminine = AAdjectiveDecliner.inflectStatic(stem)
+    const { isStemImmobile, prefixedRoot, isAcute, syllable } =
+      getRootAndPrefix(principalParts)
+
+    if (isStemImmobile) {
+      masculine = AsAdjectiveDecliner.inflectStatic(
+        prefixedRoot,
+      )
+      feminine = AAdjectiveDecliner.inflectStatic(prefixedRoot)
     } else {
-      masculine = AsAdjectiveDecliner.inflectDynamic(stem)
-      feminine = AAdjectiveDecliner.inflectDynamic(stem, {
-        syllable: 3,
-        isAcute: hasAcuteAccent(root),
-      })
+      masculine = AsAdjectiveDecliner.inflectDynamic(prefixedRoot)
+      feminine = AAdjectiveDecliner.inflectDynamic(
+        stripAllAccents(prefixedRoot),
+        {
+          syllable: syllable!,
+          isAcute,
+        },
+        hasCircumflexOrShortAccent(prefixedRoot),
+      )
     }
     return {
       masculine,
@@ -76,20 +91,24 @@ export default class PassiveFutureParticipleDecliner
   ): ComplementingParticipleType {
     let masculine: DeclinedType
     let feminine: DeclinedType
-    const { root } = getInfinitiveRoot(principalParts)
-    const stem = appendSuffixWithAssimilation(root, FUTURE_SUFFIX, [
-      [/[sz]s$/, 's'],
-      [/[šž]s$/, 'š'],
-    ]) + PASSIVE_FUTURE_SUFFIX
-    if (isRootStatic(root)) {
-      masculine = AsPronominalDecliner.inflectStatic(stem)
-      feminine = APronominalDecliner.inflectStatic(stem)
+    const { isStemImmobile, prefixedRoot, isAcute, syllable } =
+      getRootAndPrefix(principalParts)
+
+    if (isStemImmobile) {
+      masculine = AsPronominalDecliner.inflectStatic(
+        prefixedRoot,
+      )
+      feminine = APronominalDecliner.inflectStatic(prefixedRoot)
     } else {
-      masculine = AsPronominalDecliner.inflectDynamic(stem)
-      feminine = APronominalDecliner.inflectDynamic(stripAllAccents(stem), {
-        syllable: 3,
-        isAcute: hasAcuteAccent(stem),
-      })
+      masculine = AsPronominalDecliner.inflectDynamic(prefixedRoot)
+      feminine = APronominalDecliner.inflectDynamic(
+        stripAllAccents(prefixedRoot),
+        {
+          syllable: syllable!,
+          isAcute,
+        },
+        hasCircumflexOrShortAccent(prefixedRoot),
+      )
     }
     return {
       masculine,
@@ -115,6 +134,24 @@ export default class PassiveFutureParticipleDecliner
   }
 }
 
-function isRootStatic(root: string) {
-  return !isRootMonosyllabic(root) || !hasAnyAccent(root)
+function getRootAndPrefix(principalParts: PrincipalPartsType) {
+  const parsedRoot = getInfinitiveRoot(principalParts).root
+  const prefix = parsedRoot.replace(PREFIX_REGEX, '$2')
+  const root = parsedRoot.replace(ROOT_REGEX, '')
+  const prefixedRoot = prefix + appendSuffixWithAssimilation(
+    root,
+    FUTURE_SUFFIX,
+    ASSIMILATION_MAP,
+  ) + PASSIVE_FUTURE_SUFFIX
+  const { hasAccentedSyllable, syllable, type } = countAccentedSyllable(
+    prefixedRoot + 'as',
+  )
+  const isStemImmobile = !isRootMonosyllabic(root) || !hasAccentedSyllable
+  return {
+    isStemImmobile,
+    prefixedRoot,
+    type,
+    isAcute: type === 'acute',
+    syllable,
+  }
 }
