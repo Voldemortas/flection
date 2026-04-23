@@ -26,6 +26,11 @@ const DAINUOTI: PrincipalPartsType = [
   `dainu\u0301oja`,
   `daina\u0303vo`,
 ]
+const KURTI: PrincipalPartsType = [
+  `ku\u0300rti`,
+  `ku\u0300ria`,
+  `kū\u0303vo`,
+]
 
 const RINKTAS = makeDeclinedFromArray(
   `riñktas  riñkto  rinktám  riñktą  rinktù  rinktamè rinktam\u0303  riñktas 
@@ -129,6 +134,27 @@ nedainúotos  nedainúotų  nedainúotoms nedainúotom  nedainúotas  nedai
 const NEDAINUOTOJI = makeDeclinedFromArray(
   `nedainúotoji  nedainúotosios  nedainúotajai  nedainúotąją  nedainúotąja  nedainúotojoje nedainúotojoj  nedainúotoji 
 nedainúotosios  nedainúotųjų  nedainúotosioms nedainúotosiom  nedainúotąsias  nedainúotosiomis nedainúotosiom  nedainúotosiose  nedainúotosios`
+    .split(/\s\s/),
+)
+
+const NEKURTAS = makeDeclinedFromArray(
+  `nekùrtas  nekùrto  nekurtám  nekùrtą  nekùrtu  nekurtamè nekurtam̃  nekùrtas 
+nekurtì  nekurtų̃  nekurtíems nekurtíem  nekùrtus  nekurtaĩs  nekurtuosè nekurtuõs  nekurtì`
+    .split(/\s\s/),
+)
+const NEKURTASIS = makeDeclinedFromArray(
+  `nekurtàsis  nekùrtojo  nekurta\u0301jam  nekùrtąjį  nekurtúoju  nekurtãjame nekurta\u0303jam  nekurtàsis 
+nekurtíeji  nekurtų̃jų  nekurtíesiems nekurtíesiem  nekurtúosius  nekurtaĩsiais  nekurtuõsiuose nekurtuõsiuos  nekurtíeji`
+    .split(/\s\s/),
+)
+const NEKURTA = makeDeclinedFromArray(
+  `nekurtà  nekurtõs  nekùrtai  nekùrtą  nekùrta  nekurtojè nekurtoj\u0303  nekurtà 
+nekùrtos  nekurtų̃  nekurtóms nekurtóm  nekùrtas  nekurtomìs nekurtõm  nekurtosè  nekùrtos`
+    .split(/\s\s/),
+)
+const NEKURTOJI = makeDeclinedFromArray(
+  `nekurtóji  nekurtõsios  nekùrtajai  nekùrtąją  nekurtą́ja  nekurtõjoje nekurtõjoj  nekurtóji 
+nekùrtosios  nekurtų̃jų  nekurtósioms nekurtósiom  nekurtą́sias  nekurtõsiomis nekurtõsiom  nekurtõsiose  nekùrtosios`
     .split(/\s\s/),
 )
 
@@ -263,6 +289,22 @@ describe('PassivePastParticipleDecliner', () => {
         .toMatchObject({
           masculine: NEDAINUOTASIS,
           feminine: NEDAINUOTOJI,
+        })
+    })
+  })
+  describe('nekurti', () => {
+    it('conjugates default', () => {
+      expect(decliner.getPrefixed(KURTI, 'ne')).toMatchObject({
+        masculine: NEKURTAS,
+        feminine: NEKURTA,
+        neuter: `neku\u0300rta`,
+      })
+    })
+    it('conjugates pronominal', () => {
+      expect(decliner.getPrefixedPronominal(KURTI, 'ne'))
+        .toMatchObject({
+          masculine: NEKURTASIS,
+          feminine: NEKURTOJI,
         })
     })
   })
