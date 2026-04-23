@@ -52,7 +52,7 @@ const BEGSIMA = {
   sgDat: 'bė\u0301gsimai',
   sgAcc: 'bė\u0301gsimą',
   sgInst: 'bė\u0301gsima',
-  sgLoc: 'bėgsimoje\u0300 bėgsimoj\u0303',
+  sgLoc: 'bėgsimoje\u0300 bėgsimo\u0303j',
   sgVoc: 'bėgsima\u0300',
   plNom: 'bė\u0301gsimos',
   plGen: 'bėgsimų\u0303',

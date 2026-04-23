@@ -163,7 +163,7 @@ const KLAIDA = makeDeclinedFromArray([
   [`klai\u0303dai`, `klaido\u0301ms klaido\u0301m`],
   [`klai\u0303dą`, `klaida\u0300s`],
   [`klaida\u0300`, `klaidomi\u0300s klaido\u0303m`],
-  [`klaidoje\u0300 klaidoj\u0303`, `klaidose\u0300`],
+  [`klaidoje\u0300 klaido\u0303j`, `klaidose\u0300`],
   [`klai\u0303da`, `klai\u0303dos`],
 ])
 const ATRAMA = makeDeclinedFromArray([
@@ -172,7 +172,7 @@ const ATRAMA = makeDeclinedFromArray([
   [`a\u0303tramai`, `atramo\u0301ms atramo\u0301m`],
   [`a\u0303tramą`, `a\u0303tramas`],
   [`a\u0303trama`, `atramomi\u0300s atramo\u0303m`],
-  [`atramoje\u0300 atramoj\u0303`, `atramose\u0300`],
+  [`atramoje\u0300 atramo\u0303j`, `atramose\u0300`],
   [`a\u0303trama`, `a\u0303tramos`],
 ])
 const VALIA = makeDeclinedFromArray([
@@ -190,7 +190,7 @@ const VALDZIA = makeDeclinedFromArray([
   [`val\u0303džiai`, `valdžio\u0301ms valdžio\u0301m`],
   [`val\u0303džią`, `valdžia\u0300s`],
   [`valdžia\u0300`, `valdžiomi\u0300s valdžio\u0303m`],
-  [`valdžioje\u0300 valdžioj\u0303`, `valdžiose\u0300`],
+  [`valdžioje\u0300 valdžio\u0303j`, `valdžiose\u0300`],
   [`val\u0303džia`, `val\u0303džios`],
 ])
 const JUODA = makeDeclinedFromArray([
@@ -199,7 +199,7 @@ const JUODA = makeDeclinedFromArray([
   [`ju\u0301odai`, `juodo\u0301ms juodo\u0301m`],
   [`ju\u0301odą`, `ju\u0301odas`],
   [`ju\u0301oda`, `juodomi\u0300s juodo\u0303m`],
-  [`juodoje\u0300 juodoj\u0303`, `juodose\u0300`],
+  [`juodoje\u0300 juodo\u0303j`, `juodose\u0300`],
   [`juoda\u0300`, `ju\u0301odos`],
 ])
 const TIKRA = makeDeclinedFromArray([
@@ -208,7 +208,7 @@ const TIKRA = makeDeclinedFromArray([
   [`ti\u0300krai`, `tikro\u0301ms tikro\u0301m`],
   [`ti\u0300krą`, `tikra\u0300s`],
   [`tikra\u0300`, `tikromi\u0300s tikro\u0303m`],
-  [`tikroje\u0300 tikroj\u0303`, `tikrose\u0300`],
+  [`tikroje\u0300 tikro\u0303j`, `tikrose\u0300`],
   [`tikra\u0300`, `ti\u0300kros`],
 ])
 const TIKROJI = makeDeclinedFromArray([
@@ -649,7 +649,7 @@ const AISKI = makeDeclinedFromArray([
   [`a\u0301iškiai`, `aiškio\u0301ms aiškio\u0301m`],
   [`a\u0301iškią`, `a\u0301iškias`],
   [`a\u0301iškia`, `aiškiomi\u0300s aiškio\u0303m`],
-  [`aiškioje\u0300 aiškioj\u0303`, `aiškiose\u0300`],
+  [`aiškioje\u0300 aiškio\u0303j`, `aiškiose\u0300`],
   [`a\u0301iški`, `a\u0301iškios`],
 ])
 const PRAVARTI = makeDeclinedFromArray([
@@ -658,7 +658,7 @@ const PRAVARTI = makeDeclinedFromArray([
   [`pravar\u0303čiai`, `pravarčio\u0301ms pravarčio\u0301m`],
   [`pravar\u0303čią`, `pravarčia\u0300s`],
   [`pravarčia\u0300`, `pravarčiomi\u0300s pravarčio\u0303m`],
-  [`pravarčioje\u0300 pravarčioj\u0303`, `pravarčiose\u0300`],
+  [`pravarčioje\u0300 pravarčio\u0303j`, `pravarčiose\u0300`],
   [`pravarti\u0300`, `pravar\u0303čios`],
 ])
 const SOTI = makeDeclinedFromArray([
