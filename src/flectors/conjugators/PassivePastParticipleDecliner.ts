@@ -2,6 +2,7 @@ import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import {
   countAccentedSyllable,
   getInfinitiveRoot,
+  hasAcuteAccent,
   hasAnyAccent,
   hasCircumflexOrShortAccent,
   isRootMonosyllabic,
@@ -33,7 +34,8 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
     getBasicInflected: (principalParts: PrincipalPartsType) => ParticipleType,
   ): ParticipleType {
     const { root } = getInfinitiveRoot(principalParts)
-    const isStemImmobile = !hasAnyAccent(root) || !isRootMonosyllabic(root)
+    const isStemImmobile = !hasAnyAccent(root) || !isRootMonosyllabic(root) ||
+      hasAcuteAccent(root)
     if (isStemImmobile) {
       return this.getBasicImmobilePrefixed(
         prefix,
@@ -78,6 +80,7 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
             syllable: syllable!,
             isAcute,
           },
+          hasCircumflexOrShortAccent(prefixedRoot),
         )
       }
     }
@@ -109,6 +112,7 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
           syllable: syllable!,
           isAcute,
         },
+        hasCircumflexOrShortAccent(prefixedRoot),
       )
     }
     return {

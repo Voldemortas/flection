@@ -37,6 +37,7 @@ export default class AccentedInflector<K extends AnyKeyType> {
    * declines the word for 1st and 2nd accentuation based on the stress found on the unpalatalisedRoot or the given type
    * @param {string} unpalatalisedRoot - unpalatalisedRoot without ending; can carry stress
    * @param {AccentuationType=undefined} type - **optional** accentuation type if the unpalatalisedRoot lacks stress; if the unpalatalisedRoot is stressed this part is left ignored
+   * @param {boolean=false} mandatoryShort - **optional** whether the non-acute stressed syllable should be short (used for prefixes)
    * @example
    * ```ts
    * //let's assume that the static inflector is the nominal -as inflector
@@ -55,6 +56,7 @@ export default class AccentedInflector<K extends AnyKeyType> {
   public inflectStatic(
     unpalatalisedRoot: string,
     type?: AccentuationType,
+    mandatoryShort = false,
   ): Record<K, string> {
     if (
       this.#staticPattern === undefined &&
@@ -67,12 +69,14 @@ export default class AccentedInflector<K extends AnyKeyType> {
         unpalatalisedRoot,
         type,
         stripAllAccentsFromParadigm(this.#dynamicPattern!),
+        mandatoryShort,
       )
     }
     return inflect(
       unpalatalisedRoot,
       type,
       this.#staticPattern,
+      mandatoryShort,
     )
   }
 
@@ -80,6 +84,7 @@ export default class AccentedInflector<K extends AnyKeyType> {
    * declines the word for 3rd and 4th accentuation based on the stress found on the root or the given type
    * @param {string} unpalatalisedRoot - root without ending; can carry stress
    * @param {AccentuationType=undefined} type - **mandatory** accentuation type if the root lacks stress; if the root is stressed this part is left ignored
+   * @param {boolean=false} mandatoryShort - **optional** whether the non-acute stressed syllable should be short (used for prefixes)
    * @example
    * ```ts
    * //let's assume that the static inflector is the nominal -as inflector
@@ -98,6 +103,7 @@ export default class AccentedInflector<K extends AnyKeyType> {
   public inflectDynamic(
     unpalatalisedRoot: string,
     type?: AccentuationType,
+    mandatoryShort = false,
   ): Record<K, string> {
     if (this.#dynamicPattern === undefined) {
       throw notAttestedInLanguageError
@@ -109,6 +115,7 @@ export default class AccentedInflector<K extends AnyKeyType> {
       unpalatalisedRoot,
       type,
       this.#dynamicPattern,
+      mandatoryShort,
     )
   }
 }
@@ -117,13 +124,15 @@ function inflect<K extends AnyKeyType>(
   root: string,
   type: AccentuationType | undefined,
   paradigm: Record<K, AccentedValueType>,
+  mandatoryShort = false,
 ): Record<K, string> {
   const accentedRoot = hasAnyAccent(root) || type === undefined
     ? root
-    : moveThirdAccentuation(root + TEMPORARY_VOWEL, type).replace(
-      /a\u0303?$/,
-      '',
-    )
+    : moveThirdAccentuation(root + TEMPORARY_VOWEL, type, mandatoryShort)
+      .replace(
+        /a\u0303?$/,
+        '',
+      )
   return Object.fromEntries(
     Object.entries(paradigm).map(
       ([key, value]) => [
