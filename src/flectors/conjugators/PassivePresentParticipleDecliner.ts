@@ -1,5 +1,6 @@
 import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import {
+  getPresentRoot,
   joinInflections,
   putAccentOnPrefix,
   stripAllAccents,
@@ -101,6 +102,7 @@ export default class PassivePresentParticipleDecliner
 }
 
 function getRootAndPrefix(principalParts: PrincipalPartsType) {
+  const { pattern } = getPresentRoot(principalParts)
   const parsedRoot = principalParts[1]
   const prefix = parsedRoot.replace(PREFIX_REGEX, '$2')
   const root = parsedRoot.replace(ROOT_REGEX, '')
@@ -113,7 +115,7 @@ function getRootAndPrefix(principalParts: PrincipalPartsType) {
     ? putAccentOnPrefix(prefix) + stripAllAccents(root)
     : parsedRoot.replace(PREFIX_SEPARATOR, '')
   return {
-    isStemImmobile,
+    isStemImmobile: pattern === 'o',
     prefixedRoot: prefixedRoot + PASSIVE_PRESENT_SUFFIX,
   }
 }
