@@ -33,7 +33,8 @@ export function hasAnyAccent(word: string) {
 export function hasAcuteAccent(word: string) {
   const accentedSyllable = getStressedSyllable(word)
   return !!accentedSyllable &&
-    (/\u0301/.test(accentedSyllable!.text) || acuteIULMNR.test(accentedSyllable!.text))
+    (/\u0301/.test(accentedSyllable!.text) ||
+      acuteIULMNR.test(accentedSyllable!.text))
 }
 
 export function hasCircumflexOrShortAccent(word: string) {
@@ -227,7 +228,11 @@ export function countAccentedSyllable(
   do {
     currentSyllable++
     const thisSyllable = wordToUse.replace(SYLLABLE_REGEX, '$2')
-    wordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
+    const nextWord = wordToUse.replace(SYLLABLE_REGEX, '$1')
+    if (nextWord === wordToUse) {
+      throw cannotParseSyllableError
+    }
+    wordToUse = nextWord
     if (thisSyllable.includes(`\u0303`)) {
       return {
         hasAccentedSyllable: true,
