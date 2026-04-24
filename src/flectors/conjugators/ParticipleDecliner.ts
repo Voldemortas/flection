@@ -5,6 +5,11 @@ import Inflector, {
 import type { DeclinedType, PrincipalPartsType } from '~src/types.ts'
 import { stripAllAccents } from '~src/utils.ts'
 
+/**
+ * type for adjectival participles, it has 3 genders: masculine, feminine, neuter
+ * the `neuter` gender only has itself: {neuter: string}
+ * `feminine` and `masculine` are {@link DeclinedType}  declined nominal type
+ */
 export type ParticipleType = {
   masculine: DeclinedType
   feminine: DeclinedType

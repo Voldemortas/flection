@@ -6,6 +6,12 @@ import {
 } from '~src/utils.ts'
 import AccentedInflector from '~decliners/AccentedInflector.ts'
 
+/**
+ * type for Padalyvis, it only has 1 type named `budinys`
+ * ```ts
+ * const eitiBudinys: BudinysType = {budinys: `eite`}
+ *  ```
+ */
 export type BudinysType = {
   budinys: string
 }
