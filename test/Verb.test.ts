@@ -155,6 +155,16 @@ describe('Verb', () => {
         )
       })
     })
+    assertTense(
+      Verb.necessityParticiple,
+      'declineNecessityParticiple',
+      'necessityParticiple',
+    )
+    assertPronominal(
+      Verb.necessityParticiple,
+      'declineNecessityParticiple',
+      'necessityParticiple',
+    )
 
     function assertTense<
       T extends Record<string, string | Record<string, string>>,
