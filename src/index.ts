@@ -1,4 +1,5 @@
 import Verb from './Verb.ts'
+import { normaliseAccents } from '~helpers/index.ts'
 import type {
   ConjugationType,
   DeclinedType,
@@ -8,7 +9,7 @@ import type { PadalyvisType } from '~conjugators/PadalyvisInflector.ts'
 import type { PusdalyvisType } from '~conjugators/PusdalyvisDecliner.ts'
 import type { BudinysType } from '~conjugators/BudinysInflector.ts'
 
-export { Verb }
+export { normaliseAccents, Verb }
 export type {
   BudinysType,
   ConjugationType,

@@ -21,6 +21,7 @@ export const SECOND_LAST_ACUTE = '2a'
  * moves accent to stem
  * @param {string} word - full word with a flectional ending
  * @param {AccentuationType} type='2a'
+ * @param {boolean=false} mandatoryShort - **optional** whether the non-acute stressed syllable should be short (used for prefixes)
  * * `'2'` - 2nd accentuation - 1st last is circumflex
  * * `'3'` - 3rd accentuation - 2nd last is acute
  * * `'4'` - 4th accentuation - 2nd last is circumflex/short
@@ -34,11 +35,12 @@ export const SECOND_LAST_ACUTE = '2a'
 export function moveThirdAccentuation(
   word: string,
   type: AccentuationType,
+  mandatoryShort = false,
 ): string {
   const { isAcute, syllable } = (typeof type === 'string')
     ? getThirdAccentuationType(type)
     : type
-  return putAccentOnString(word, syllable, isAcute)
+  return putAccentOnString(word, syllable, isAcute, mandatoryShort)
 }
 
 /**

@@ -6,7 +6,6 @@ import {
   hasAnyAccent,
   hasCircumflexOrShortAccent,
   isRootMonosyllabic,
-  putAccentOnPrefix,
   stripAllAccents,
 } from '~src/utils.ts'
 import ParticipleDecliner, {
@@ -21,13 +20,13 @@ import {
 } from '~decliners/commons.ts'
 import { NOMINAL_EMPTY, PREFIX_SEPARATOR } from '~src/commons.ts'
 
-const PASSIVE_PAST_SUFFIX = 't'
+const NECESSITY_SUFFIX = 'tin'
 const PREFIX_REGEX = new RegExp(
   `^(([^${PREFIX_SEPARATOR}]+)${PREFIX_SEPARATOR}.+|.+)$`,
 )
 const ROOT_REGEX = new RegExp(`^(.+${PREFIX_SEPARATOR})`)
 
-export default class PassivePastParticipleDecliner extends ParticipleDecliner {
+export default class NecessityParticipleDecliner extends ParticipleDecliner {
   protected getBasicPrefixed(
     principalParts: PrincipalPartsType,
     prefix: string,
@@ -54,13 +53,8 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
   getDefault(principalParts: PrincipalPartsType): ParticipleType {
     let masculine: DeclinedType
     let feminine: DeclinedType
-    const {
-      isStemImmobile,
-      prefixedRoot,
-      isAcute,
-      syllable,
-      isMandatoryShort,
-    } = getRootAndPrefix(principalParts)
+    const { isStemImmobile, prefixedRoot, isAcute, syllable } =
+      getRootAndPrefix(principalParts)
 
     if (isStemImmobile) {
       masculine = AsAdjectiveDecliner.inflectStatic(
@@ -68,36 +62,15 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
       )
       feminine = AAdjectiveDecliner.inflectStatic(prefixedRoot)
     } else {
-      const accentlessRoot = stripAllAccents(prefixedRoot)
-      if (
-        isRootMonosyllabic(prefixedRoot) &&
-        hasCircumflexOrShortAccent(prefixedRoot)
-      ) {
-        const type = '4'
-        masculine = AsAdjectiveDecliner.inflectDynamic(
-          accentlessRoot,
-          type,
-        )
-        feminine = AAdjectiveDecliner.inflectDynamic(
-          accentlessRoot,
-          type,
-        )
-      } else {
-        const type = {
+      masculine = AsAdjectiveDecliner.inflectDynamic(prefixedRoot)
+      feminine = AAdjectiveDecliner.inflectDynamic(
+        stripAllAccents(prefixedRoot),
+        {
           syllable: syllable!,
           isAcute,
-        }
-        masculine = AsAdjectiveDecliner.inflectDynamic(
-          accentlessRoot,
-          type,
-          isMandatoryShort,
-        )
-        feminine = AAdjectiveDecliner.inflectDynamic(
-          accentlessRoot,
-          type,
-          isMandatoryShort,
-        )
-      }
+        },
+        hasCircumflexOrShortAccent(prefixedRoot),
+      )
     }
     return {
       masculine,
@@ -111,13 +84,8 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
   ): ComplementingParticipleType {
     let masculine: DeclinedType
     let feminine: DeclinedType
-    const {
-      isStemImmobile,
-      prefixedRoot,
-      isAcute,
-      syllable,
-      isMandatoryShort,
-    } = getRootAndPrefix(principalParts)
+    const { isStemImmobile, prefixedRoot, isAcute, syllable } =
+      getRootAndPrefix(principalParts)
 
     if (isStemImmobile) {
       masculine = AsPronominalDecliner.inflectStatic(
@@ -125,20 +93,14 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
       )
       feminine = APronominalDecliner.inflectStatic(prefixedRoot)
     } else {
-      const accentlessRoot = stripAllAccents(prefixedRoot)
-      const type = {
-        syllable: syllable!,
-        isAcute,
-      }
-      masculine = AsPronominalDecliner.inflectDynamic(
-        accentlessRoot,
-        type,
-        isMandatoryShort,
-      )
+      masculine = AsPronominalDecliner.inflectDynamic(prefixedRoot)
       feminine = APronominalDecliner.inflectDynamic(
-        accentlessRoot,
-        type,
-        isMandatoryShort,
+        stripAllAccents(prefixedRoot),
+        {
+          syllable: syllable!,
+          isAcute,
+        },
+        hasCircumflexOrShortAccent(prefixedRoot),
       )
     }
     return {
@@ -166,13 +128,10 @@ export default class PassivePastParticipleDecliner extends ParticipleDecliner {
 }
 
 function getRootAndPrefix(principalParts: PrincipalPartsType) {
-  const parsedRoot = getInfinitiveRoot(principalParts).root +
-    PASSIVE_PAST_SUFFIX
+  const parsedRoot = getInfinitiveRoot(principalParts).root
   const prefix = parsedRoot.replace(PREFIX_REGEX, '$2')
   const root = parsedRoot.replace(ROOT_REGEX, '')
-  const prefixedRoot = prefix !== ''
-    ? putAccentOnPrefix(prefix) + stripAllAccents(root)
-    : root
+  const prefixedRoot = prefix + root + NECESSITY_SUFFIX
   const { hasAccentedSyllable, syllable, type } = countAccentedSyllable(
     prefixedRoot + 'as',
   )
@@ -183,6 +142,5 @@ function getRootAndPrefix(principalParts: PrincipalPartsType) {
     type,
     isAcute: type === 'acute',
     syllable,
-    isMandatoryShort: prefix !== '',
   }
 }

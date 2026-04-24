@@ -170,7 +170,7 @@ const aNounDynamic: AccentuatedDeclinedType = {
   ...aNounStatic,
   sgNom: [`a\u0300`],
   sgGen: [`o\u0303s`],
-  sgLoc: [[`oje\u0300`], [`oj\u0303`]],
+  sgLoc: [[`oje\u0300`], [`o\u0303j`]],
   plGen: [`ų\u0303`],
   plDat: [[`o\u0301ms`], [`o\u0301m`]],
   plInst: [[`omi\u0300s`], [`o\u0303m`]],

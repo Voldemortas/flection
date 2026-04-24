@@ -15,6 +15,11 @@ const DARYTI: PrincipalPartsType = [
   `da\u0303ro`,
   `da\u0303rė`,
 ]
+const NORETI: PrincipalPartsType = [
+  `norė\u0301ti`,
+  `no\u0301ri`,
+  `norė\u0301jo`,
+]
 
 const RENKAMAS: DeclinedType = {
   sgNom: `ren\u0303kamas`,
@@ -54,7 +59,7 @@ const RENKAMA: DeclinedType = {
   sgDat: `ren\u0303kamai`,
   sgAcc: `ren\u0303kamą`,
   sgInst: `ren\u0303kama`,
-  sgLoc: `renkamoje\u0300 renkamoj\u0303`,
+  sgLoc: `renkamoje\u0300 renkamo\u0303j`,
   sgVoc: `renkama\u0300`,
   plNom: `ren\u0303kamos`,
   plGen: `renkamų\u0303`,
@@ -118,7 +123,7 @@ const NERENKAMA: DeclinedType = {
   sgDat: `ne\u0300renkamai`,
   sgAcc: `ne\u0300renkamą`,
   sgInst: `ne\u0300renkama`,
-  sgLoc: `nerenkamoje\u0300 nerenkamoj\u0303`,
+  sgLoc: `nerenkamoje\u0300 nerenkamo\u0303j`,
   sgVoc: `nerenkama\u0300`,
   plNom: `ne\u0300renkamos`,
   plGen: `nerenkamų\u0303`,
@@ -144,6 +149,7 @@ const NERENKAMOJI: DeclinedType = {
   plLoc: `nerenkamo\u0303siose`,
   plVoc: `ne\u0300renkamosios`,
 }
+
 const DAROMAS: DeclinedType = {
   sgNom: `da\u0303romas`,
   sgGen: `da\u0303romo`,
@@ -283,6 +289,135 @@ const NEDAROMOJI: DeclinedType = {
   plVoc: `neda\u0303romosios`,
 }
 
+const NORIMAS: DeclinedType = {
+  sgNom: `no\u0301rimas`,
+  sgGen: `no\u0301rimo`,
+  sgDat: `norima\u0301m`,
+  sgAcc: `no\u0301rimą`,
+  sgInst: `no\u0301rimu`,
+  sgLoc: `norimame\u0300 norimam\u0303`,
+  sgVoc: `no\u0301rimas`,
+  plNom: `norimi\u0300`,
+  plGen: `norimų\u0303`,
+  plDat: `norimi\u0301ems norimi\u0301em`,
+  plAcc: `no\u0301rimus`,
+  plInst: `norimai\u0303s`,
+  plLoc: `norimuose\u0300 norimuo\u0303s`,
+  plVoc: `norimi\u0300`,
+}
+const NORIMASIS: DeclinedType = {
+  sgNom: `norima\u0300sis`,
+  sgGen: `no\u0301rimojo`,
+  sgDat: `norima\u0301jam`,
+  sgAcc: `no\u0301rimąjį`,
+  sgInst: `norimu\u0301oju`,
+  sgLoc: `norima\u0303jame norima\u0303jam`,
+  sgVoc: `norima\u0300sis`,
+  plNom: `norimi\u0301eji`,
+  plGen: `norimų\u0303jų`,
+  plDat: `norimi\u0301esiems norimi\u0301esiem`,
+  plAcc: `norimu\u0301osius`,
+  plInst: `norimai\u0303siais`,
+  plLoc: `norimuo\u0303siuose norimuo\u0303siuos`,
+  plVoc: `norimi\u0301eji`,
+}
+const NORIMA: DeclinedType = {
+  sgNom: `norima\u0300`,
+  sgGen: `norimo\u0303s`,
+  sgDat: `no\u0301rimai`,
+  sgAcc: `no\u0301rimą`,
+  sgInst: `no\u0301rima`,
+  sgLoc: `norimoje\u0300 norimo\u0303j`,
+  sgVoc: `norima\u0300`,
+  plNom: `no\u0301rimos`,
+  plGen: `norimų\u0303`,
+  plDat: `norimo\u0301ms norimo\u0301m`,
+  plAcc: `no\u0301rimas`,
+  plInst: `norimomi\u0300s norimo\u0303m`,
+  plLoc: `norimose\u0300`,
+  plVoc: `no\u0301rimos`,
+}
+const NORIMOJI: DeclinedType = {
+  sgNom: `norimo\u0301ji`,
+  sgGen: `norimo\u0303sios`,
+  sgDat: `no\u0301rimajai`,
+  sgAcc: `no\u0301rimąją`,
+  sgInst: `norimą\u0301ja`,
+  sgLoc: `norimo\u0303joje norimo\u0303joj`,
+  sgVoc: `norimo\u0301ji`,
+  plNom: `no\u0301rimosios`,
+  plGen: `norimų\u0303jų`,
+  plDat: `norimo\u0301sioms norimo\u0301siom`,
+  plAcc: `norimą\u0301sias`,
+  plInst: `norimo\u0303siomis norimo\u0303siom`,
+  plLoc: `norimo\u0303siose`,
+  plVoc: `no\u0301rimosios`,
+}
+const NENORIMAS = {
+  sgNom: `neno\u0301rimas`,
+  sgGen: `neno\u0301rimo`,
+  sgDat: `nenorima\u0301m`,
+  sgAcc: `neno\u0301rimą`,
+  sgInst: `neno\u0301rimu`,
+  sgLoc: `nenorimame\u0300 nenorimam\u0303`,
+  sgVoc: `neno\u0301rimas`,
+  plNom: `nenorimi\u0300`,
+  plGen: `nenorimų\u0303`,
+  plDat: `nenorimi\u0301ems nenorimi\u0301em`,
+  plAcc: `neno\u0301rimus`,
+  plInst: `nenorimai\u0303s`,
+  plLoc: `nenorimuose\u0300 nenorimuo\u0303s`,
+  plVoc: `nenorimi\u0300`,
+}
+const NENORIMASIS = {
+  sgNom: `nenorima\u0300sis`,
+  sgGen: `neno\u0301rimojo`,
+  sgDat: `nenorima\u0301jam`,
+  sgAcc: `neno\u0301rimąjį`,
+  sgInst: `nenorimu\u0301oju`,
+  sgLoc: `nenorima\u0303jame nenorima\u0303jam`,
+  sgVoc: `nenorima\u0300sis`,
+  plNom: `nenorimi\u0301eji`,
+  plGen: `nenorimų\u0303jų`,
+  plDat: `nenorimi\u0301esiems nenorimi\u0301esiem`,
+  plAcc: `nenorimu\u0301osius`,
+  plInst: `nenorimai\u0303siais`,
+  plLoc: `nenorimuo\u0303siuose nenorimuo\u0303siuos`,
+  plVoc: `nenorimi\u0301eji`,
+}
+const NENORIMA: DeclinedType = {
+  sgNom: `nenorima\u0300`,
+  sgGen: `nenorimo\u0303s`,
+  sgDat: `neno\u0301rimai`,
+  sgAcc: `neno\u0301rimą`,
+  sgInst: `neno\u0301rima`,
+  sgLoc: `nenorimoje\u0300 nenorimo\u0303j`,
+  sgVoc: `nenorima\u0300`,
+  plNom: `neno\u0301rimos`,
+  plGen: `nenorimų\u0303`,
+  plDat: `nenorimo\u0301ms nenorimo\u0301m`,
+  plAcc: `neno\u0301rimas`,
+  plInst: `nenorimomi\u0300s nenorimo\u0303m`,
+  plLoc: `nenorimose\u0300`,
+  plVoc: `neno\u0301rimos`,
+}
+const NENORIMOJI: DeclinedType = {
+  sgNom: `nenorimo\u0301ji`,
+  sgGen: `nenorimo\u0303sios`,
+  sgDat: `neno\u0301rimajai`,
+  sgAcc: `neno\u0301rimąją`,
+  sgInst: `nenorimą\u0301ja`,
+  sgLoc: `nenorimo\u0303joje nenorimo\u0303joj`,
+  sgVoc: `nenorimo\u0301ji`,
+  plNom: `neno\u0301rimosios`,
+  plGen: `nenorimų\u0303jų`,
+  plDat: `nenorimo\u0301sioms nenorimo\u0301siom`,
+  plAcc: `nenorimą\u0301sias`,
+  plInst: `nenorimo\u0303siomis nenorimo\u0303siom`,
+  plLoc: `nenorimo\u0303siose`,
+  plVoc: `neno\u0301rimosios`,
+}
+
 describe('PassivePresentParticipleDecliner', () => {
   const decliner = new PassivePresentParticipleDecliner()
   describe('rinkt', () => {
@@ -364,6 +499,47 @@ describe('PassivePresentParticipleDecliner', () => {
       expect(decliner.getPrefixedPronominal(DARYTI, PREFIX)).toMatchObject({
         masculine: NEDAROMASIS,
         feminine: NEDAROMOJI,
+      })
+    })
+  })
+  describe('norėti', () => {
+    it('conjugates default', () => {
+      expect(decliner.getDefault(NORETI)).toMatchObject({
+        masculine: NORIMAS,
+        feminine: NORIMA,
+        neuter: `no\u0301rima`,
+      })
+    })
+    it('conjugates reflexive', () => {
+      expect(decliner.getReflexive(NORETI)).toMatchObject({
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
+        neuter: `no\u0301rimasi`,
+      })
+    })
+    it('conjugates prefixed', () => {
+      expect(decliner.getPrefixed(NORETI, PREFIX)).toMatchObject({
+        masculine: NENORIMAS,
+        feminine: NENORIMA,
+        neuter: `neno\u0301rima`,
+      })
+    })
+    it('conjugates pronominal', () => {
+      expect(decliner.getPronominal(NORETI)).toMatchObject({
+        masculine: NORIMASIS,
+        feminine: NORIMOJI,
+      })
+    })
+    it('conjugates reflexive pronominal', () => {
+      expect(decliner.getReflexivePronominal(NORETI)).toMatchObject({
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
+      })
+    })
+    it('conjugates prefixed pronominal', () => {
+      expect(decliner.getPrefixedPronominal(NORETI, PREFIX)).toMatchObject({
+        masculine: NENORIMASIS,
+        feminine: NENORIMOJI,
       })
     })
   })

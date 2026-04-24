@@ -9,6 +9,11 @@ const BEGTI: PrincipalPartsType = [
   `bė\u0303ga`,
   `bė\u0303go`,
 ]
+const BAUSTI: PrincipalPartsType = [
+  `bau\u0303sti`,
+  `bau\u0303džia`,
+  `bau\u0303dė`,
+]
 const DAINUOTI: PrincipalPartsType = [
   `dainu\u0301oti`,
   `dainu\u0301oja`,
@@ -52,7 +57,7 @@ const BEGSIMA = {
   sgDat: 'bė\u0301gsimai',
   sgAcc: 'bė\u0301gsimą',
   sgInst: 'bė\u0301gsima',
-  sgLoc: 'bėgsimoje\u0300 bėgsimoj\u0303',
+  sgLoc: 'bėgsimoje\u0300 bėgsimo\u0303j',
   sgVoc: 'bėgsima\u0300',
   plNom: 'bė\u0301gsimos',
   plGen: 'bėgsimų\u0303',
@@ -81,66 +86,195 @@ const BEGSIMOJI = {
 const NESIBEGSIMAS = {
   sgNom: 'nesibė\u0301gsimas',
   sgGen: 'nesibė\u0301gsimo',
-  sgDat: 'nesibė\u0301gsimam',
+  sgDat: 'nesibėgsima\u0301m',
   sgAcc: 'nesibė\u0301gsimą',
   sgInst: 'nesibė\u0301gsimu',
-  sgLoc: 'nesibė\u0301gsimame nesibė\u0301gsimam',
+  sgLoc: 'nesibėgsimame\u0300 nesibėgsimam\u0303',
   sgVoc: 'nesibė\u0301gsimas',
-  plNom: 'nesibė\u0301gsimi',
-  plGen: 'nesibė\u0301gsimų',
-  plDat: 'nesibė\u0301gsimiems nesibė\u0301gsimiem',
+  plNom: 'nesibėgsimi\u0300',
+  plGen: 'nesibėgsimų\u0303',
+  plDat: 'nesibėgsimi\u0301ems nesibėgsimi\u0301em',
   plAcc: 'nesibė\u0301gsimus',
-  plInst: 'nesibė\u0301gsimais',
-  plLoc: 'nesibė\u0301gsimuose nesibė\u0301gsimuos',
-  plVoc: 'nesibė\u0301gsimi',
+  plInst: 'nesibėgsimai\u0303s',
+  plLoc: 'nesibėgsimuose\u0300 nesibėgsimuo\u0303s',
+  plVoc: 'nesibėgsimi\u0300',
 }
 const NESIBEGSIMASIS = {
-  sgNom: 'nesibė\u0301gsimasis',
+  sgNom: 'nesibėgsima\u0300sis',
   sgGen: 'nesibė\u0301gsimojo',
-  sgDat: 'nesibė\u0301gsimajam',
+  sgDat: 'nesibėgsima\u0301jam',
   sgAcc: 'nesibė\u0301gsimąjį',
-  sgInst: 'nesibė\u0301gsimuoju',
-  sgLoc: 'nesibė\u0301gsimajame nesibė\u0301gsimajam',
-  sgVoc: 'nesibė\u0301gsimasis',
-  plNom: 'nesibė\u0301gsimieji',
-  plGen: 'nesibė\u0301gsimųjų',
-  plDat: 'nesibė\u0301gsimiesiems nesibė\u0301gsimiesiem',
-  plAcc: 'nesibė\u0301gsimuosius',
-  plInst: 'nesibė\u0301gsimaisiais',
-  plLoc: 'nesibė\u0301gsimuosiuose nesibė\u0301gsimuosiuos',
-  plVoc: 'nesibė\u0301gsimieji',
+  sgInst: 'nesibėgsimu\u0301oju',
+  sgLoc: 'nesibėgsima\u0303jame nesibėgsima\u0303jam',
+  sgVoc: 'nesibėgsima\u0300sis',
+  plNom: 'nesibėgsimi\u0301eji',
+  plGen: 'nesibėgsimų\u0303jų',
+  plDat: 'nesibėgsimi\u0301esiems nesibėgsimi\u0301esiem',
+  plAcc: 'nesibėgsimu\u0301osius',
+  plInst: 'nesibėgsimai\u0303siais',
+  plLoc: 'nesibėgsimuo\u0303siuose nesibėgsimuo\u0303siuos',
+  plVoc: 'nesibėgsimi\u0301eji',
 }
 const NESIBEGSIMA = {
-  sgNom: 'nesibė\u0301gsima',
-  sgGen: 'nesibė\u0301gsimos',
+  sgNom: 'nesibėgsima\u0300',
+  sgGen: 'nesibėgsimo\u0303s',
   sgDat: 'nesibė\u0301gsimai',
   sgAcc: 'nesibė\u0301gsimą',
   sgInst: 'nesibė\u0301gsima',
-  sgLoc: 'nesibė\u0301gsimoje nesibė\u0301gsimoj',
-  sgVoc: 'nesibė\u0301gsima',
+  sgLoc: 'nesibėgsimoje\u0300 nesibėgsimo\u0303j',
+  sgVoc: 'nesibėgsima\u0300',
   plNom: 'nesibė\u0301gsimos',
-  plGen: 'nesibė\u0301gsimų',
-  plDat: 'nesibė\u0301gsimoms nesibė\u0301gsimom',
+  plGen: 'nesibėgsimų\u0303',
+  plDat: 'nesibėgsimo\u0301ms nesibėgsimo\u0301m',
   plAcc: 'nesibė\u0301gsimas',
-  plInst: 'nesibė\u0301gsimomis nesibė\u0301gsimom',
-  plLoc: 'nesibė\u0301gsimose',
+  plInst: 'nesibėgsimomi\u0300s nesibėgsimo\u0303m',
+  plLoc: 'nesibėgsimose\u0300',
   plVoc: 'nesibė\u0301gsimos',
 }
 const NESIBEGSIMOJI = {
-  sgNom: 'nesibė\u0301gsimoji',
-  sgGen: 'nesibė\u0301gsimosios',
+  sgNom: 'nesibėgsimo\u0301ji',
+  sgGen: 'nesibėgsimo\u0303sios',
   sgDat: 'nesibė\u0301gsimajai',
   sgAcc: 'nesibė\u0301gsimąją',
-  sgInst: 'nesibė\u0301gsimąja',
-  sgLoc: 'nesibė\u0301gsimojoje nesibė\u0301gsimojoj',
-  sgVoc: 'nesibė\u0301gsimoji',
+  sgInst: 'nesibėgsimą\u0301ja',
+  sgLoc: 'nesibėgsimo\u0303joje nesibėgsimo\u0303joj',
+  sgVoc: 'nesibėgsimo\u0301ji',
   plNom: 'nesibė\u0301gsimosios',
-  plGen: 'nesibė\u0301gsimųjų',
-  plDat: 'nesibė\u0301gsimosioms nesibė\u0301gsimosiom',
-  plAcc: 'nesibė\u0301gsimąsias',
-  plInst: 'nesibė\u0301gsimosiomis nesibė\u0301gsimosiom',
-  plLoc: 'nesibė\u0301gsimosiose',
+  plGen: 'nesibėgsimų\u0303jų',
+  plDat: 'nesibėgsimo\u0301sioms nesibėgsimo\u0301siom',
+  plAcc: 'nesibėgsimą\u0301sias',
+  plInst: 'nesibėgsimo\u0303siomis nesibėgsimo\u0303siom',
+  plLoc: 'nesibėgsimo\u0303siose',
   plVoc: 'nesibė\u0301gsimosios',
+}
+
+const BAUSIMAS = {
+  sgNom: 'bau\u0303simas',
+  sgGen: 'bau\u0303simo',
+  sgDat: 'bausima\u0301m',
+  sgAcc: 'bau\u0303simą',
+  sgInst: 'bau\u0303simu',
+  sgLoc: 'bausimame\u0300 bausimam\u0303',
+  sgVoc: 'bau\u0303simas',
+  plNom: 'bausimi\u0300',
+  plGen: 'bausimų\u0303',
+  plDat: 'bausimi\u0301ems bausimi\u0301em',
+  plAcc: 'bau\u0303simus',
+  plInst: 'bausimai\u0303s',
+  plLoc: 'bausimuose\u0300 bausimuo\u0303s',
+  plVoc: 'bausimi\u0300',
+}
+const BAUSIMASIS = {
+  sgNom: 'bausima\u0300sis',
+  sgGen: 'bau\u0303simojo',
+  sgDat: 'bausima\u0301jam',
+  sgAcc: 'bau\u0303simąjį',
+  sgInst: 'bausimu\u0301oju',
+  sgLoc: 'bausima\u0303jame bausima\u0303jam',
+  sgVoc: 'bausima\u0300sis',
+  plNom: 'bausimi\u0301eji',
+  plGen: 'bausimų\u0303jų',
+  plDat: 'bausimi\u0301esiems bausimi\u0301esiem',
+  plAcc: 'bausimu\u0301osius',
+  plInst: 'bausimai\u0303siais',
+  plLoc: 'bausimuo\u0303siuose bausimuo\u0303siuos',
+  plVoc: 'bausimi\u0301eji',
+}
+const BAUSIMA = {
+  sgNom: 'bausima\u0300',
+  sgGen: 'bausimo\u0303s',
+  sgDat: 'bau\u0303simai',
+  sgAcc: 'bau\u0303simą',
+  sgInst: 'bau\u0303sima',
+  sgLoc: 'bausimoje\u0300 bausimo\u0303j',
+  sgVoc: 'bausima\u0300',
+  plNom: 'bau\u0303simos',
+  plGen: 'bausimų\u0303',
+  plDat: 'bausimo\u0301ms bausimo\u0301m',
+  plAcc: 'bau\u0303simas',
+  plInst: 'bausimomi\u0300s bausimo\u0303m',
+  plLoc: 'bausimose\u0300',
+  plVoc: 'bau\u0303simos',
+}
+const BAUSIMOJI = {
+  sgNom: 'bausimo\u0301ji',
+  sgGen: 'bausimo\u0303sios',
+  sgDat: 'bau\u0303simajai',
+  sgAcc: 'bau\u0303simąją',
+  sgInst: 'bausimą\u0301ja',
+  sgLoc: 'bausimo\u0303joje bausimo\u0303joj',
+  sgVoc: 'bausimo\u0301ji',
+  plNom: 'bau\u0303simosios',
+  plGen: 'bausimų\u0303jų',
+  plDat: 'bausimo\u0301sioms bausimo\u0301siom',
+  plAcc: 'bausimą\u0301sias',
+  plInst: 'bausimo\u0303siomis bausimo\u0303siom',
+  plLoc: 'bausimo\u0303siose',
+  plVoc: 'bau\u0303simosios',
+}
+const NESIBAUSIMAS = {
+  sgNom: 'nesibau\u0303simas',
+  sgGen: 'nesibau\u0303simo',
+  sgDat: 'nesibausima\u0301m',
+  sgAcc: 'nesibau\u0303simą',
+  sgInst: 'nesibau\u0303simu',
+  sgLoc: 'nesibausimame\u0300 nesibausimam\u0303',
+  sgVoc: 'nesibau\u0303simas',
+  plNom: 'nesibausimi\u0300',
+  plGen: 'nesibausimų\u0303',
+  plDat: 'nesibausimi\u0301ems nesibausimi\u0301em',
+  plAcc: 'nesibau\u0303simus',
+  plInst: 'nesibausimai\u0303s',
+  plLoc: 'nesibausimuose\u0300 nesibausimuo\u0303s',
+  plVoc: 'nesibausimi\u0300',
+}
+const NESIBAUSIMASIS = {
+  sgNom: 'nesibausima\u0300sis',
+  sgGen: 'nesibau\u0303simojo',
+  sgDat: 'nesibausima\u0301jam',
+  sgAcc: 'nesibau\u0303simąjį',
+  sgInst: 'nesibausimu\u0301oju',
+  sgLoc: 'nesibausima\u0303jame nesibausima\u0303jam',
+  sgVoc: 'nesibausima\u0300sis',
+  plNom: 'nesibausimi\u0301eji',
+  plGen: 'nesibausimų\u0303jų',
+  plDat: 'nesibausimi\u0301esiems nesibausimi\u0301esiem',
+  plAcc: 'nesibausimu\u0301osius',
+  plInst: 'nesibausimai\u0303siais',
+  plLoc: 'nesibausimuo\u0303siuose nesibausimuo\u0303siuos',
+  plVoc: 'nesibausimi\u0301eji',
+}
+const NESIBAUSIMA = {
+  sgNom: 'nesibausima\u0300',
+  sgGen: 'nesibausimo\u0303s',
+  sgDat: 'nesibau\u0303simai',
+  sgAcc: 'nesibau\u0303simą',
+  sgInst: 'nesibau\u0303sima',
+  sgLoc: 'nesibausimoje\u0300 nesibausimo\u0303j',
+  sgVoc: 'nesibausima\u0300',
+  plNom: 'nesibau\u0303simos',
+  plGen: 'nesibausimų\u0303',
+  plDat: 'nesibausimo\u0301ms nesibausimo\u0301m',
+  plAcc: 'nesibau\u0303simas',
+  plInst: 'nesibausimomi\u0300s nesibausimo\u0303m',
+  plLoc: 'nesibausimose\u0300',
+  plVoc: 'nesibau\u0303simos',
+}
+const NESIBAUSIMOJI = {
+  sgNom: 'nesibausimo\u0301ji',
+  sgGen: 'nesibausimo\u0303sios',
+  sgDat: 'nesibau\u0303simajai',
+  sgAcc: 'nesibau\u0303simąją',
+  sgInst: 'nesibausimą\u0301ja',
+  sgLoc: 'nesibausimo\u0303joje nesibausimo\u0303joj',
+  sgVoc: 'nesibausimo\u0301ji',
+  plNom: 'nesibau\u0303simosios',
+  plGen: 'nesibausimų\u0303jų',
+  plDat: 'nesibausimo\u0301sioms nesibausimo\u0301siom',
+  plAcc: 'nesibausimą\u0301sias',
+  plInst: 'nesibausimo\u0303siomis nesibausimo\u0303siom',
+  plLoc: 'nesibausimo\u0303siose',
+  plVoc: 'nesibau\u0303simosios',
 }
 
 const DAINUOSIMAS = {
@@ -309,6 +443,11 @@ describe('PassiveFutureParticipleDecliner', () => {
         feminine: NESIBEGSIMA,
         neuter: `nesibė\u0301gsima`,
       })
+      expect(decliner.getPrefixed(BEGTI, 'nesi')).toMatchObject({
+        masculine: NESIBEGSIMAS,
+        feminine: NESIBEGSIMA,
+        neuter: `nesibė\u0301gsima`,
+      })
     })
     it('conjugates reflexive pronominal', () => {
       expect(decliner.getPrefixedReflexivePronominal(BEGTI, 'ne'))
@@ -353,12 +492,66 @@ describe('PassiveFutureParticipleDecliner', () => {
         feminine: NESIDAINUOSIMA,
         neuter: `nesidainu\u0301osima`,
       })
+      expect(decliner.getPrefixed(DAINUOTI, 'nesi')).toMatchObject({
+        masculine: NESIDAINUOSIMAS,
+        feminine: NESIDAINUOSIMA,
+        neuter: `nesidainu\u0301osima`,
+      })
     })
     it('conjugates reflexive pronominal', () => {
       expect(decliner.getPrefixedReflexivePronominal(DAINUOTI, 'ne'))
         .toMatchObject({
           masculine: NESIDAINUOSIMASIS,
           feminine: NESIDAINUOSIMOJI,
+        })
+    })
+  })
+  describe('bausti', () => {
+    it('conjugates default', () => {
+      expect(decliner.getDefault(BAUSTI)).toMatchObject({
+        masculine: BAUSIMAS,
+        feminine: BAUSIMA,
+        neuter: `bau\u0303sima`,
+      })
+    })
+    it('conjugates pronominal', () => {
+      expect(decliner.getPronominal(BAUSTI)).toMatchObject({
+        masculine: BAUSIMASIS,
+        feminine: BAUSIMOJI,
+      })
+    })
+    it('conjugates reflexive', () => {
+      expect(decliner.getReflexive(BAUSTI)).toMatchObject({
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
+        neuter: `bau\u0303simasi`,
+      })
+    })
+    it('conjugates reflexive pronominal', () => {
+      expect(decliner.getReflexivePronominal(BAUSTI)).toMatchObject({
+        masculine: NOMINAL_EMPTY,
+        feminine: NOMINAL_EMPTY,
+      })
+    })
+  })
+  describe('nesibausti', () => {
+    it('conjugates reflexive', () => {
+      expect(decliner.getPrefixedReflexive(BAUSTI, 'ne')).toMatchObject({
+        masculine: NESIBAUSIMAS,
+        feminine: NESIBAUSIMA,
+        neuter: `nesibau\u0303sima`,
+      })
+      expect(decliner.getPrefixed(BAUSTI, 'nesi')).toMatchObject({
+        masculine: NESIBAUSIMAS,
+        feminine: NESIBAUSIMA,
+        neuter: `nesibau\u0303sima`,
+      })
+    })
+    it('conjugates reflexive pronominal', () => {
+      expect(decliner.getPrefixedReflexivePronominal(BAUSTI, 'ne'))
+        .toMatchObject({
+          masculine: NESIBAUSIMASIS,
+          feminine: NESIBAUSIMOJI,
         })
     })
   })

@@ -1,6 +1,6 @@
 {
   "name": "@voldemortas/flection",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "exports": "./src/index.ts",
   "tasks": {
     "dev": "deno test --watch"
@@ -12,7 +12,8 @@
     "~src/": "./src/",
     "~test/": "./test/",
     "~conjugators/": "./src/flectors/conjugators/",
-    "~decliners/": "./src/flectors/decliners/"
+    "~decliners/": "./src/flectors/decliners/",
+    "~helpers/": "./src/helpers/"
   },
   "fmt": {
     "useTabs": false,
