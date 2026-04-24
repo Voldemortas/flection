@@ -18,7 +18,7 @@ endpoint shall be made public in the near future as well.
 
 ## Release notes
 
-There is version 0.0.5 release which features Verb conjugation that includes
+There is version 0.0.6 release which features Verb conjugation that includes
 inflection of the following:
 
 - infinitive
@@ -36,7 +36,7 @@ all of them can be inflected for reflexivness, carry prefixes; the adjectival
 participles can also be pronominal.
 
 > [!NOTE]\
-> As this is version 0.0.5 nothing is yet set in stone and things may change!
+> As this is version 0.0.6 nothing is yet set in stone and things may change!
 
 ---
 
