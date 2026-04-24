@@ -122,11 +122,12 @@ The library exposes some helpers that are useful when using the library.
 
 #### normaliseAccents()`
 
-The library operates using the [combining unicode characters](https://en.wikipedia.org/wiki/Combining_character)
-for stress marks, however, one may be tempted to use letters with diacritics from 
-different languages, such as a singel character `ñ` found in Spanish instead of 
-2 characters: `n`+`u+0303` (`ñ`). Thus, if you aren't controlling the user input, 
-make sure to `normaliseAccents`
+The library operates using the
+[combining unicode characters](https://en.wikipedia.org/wiki/Combining_character)
+for stress marks, however, one may be tempted to use letters with diacritics
+from different languages, such as a singel character `ñ` found in Spanish
+instead of 2 characters: `n`+`u+0303` (`ñ`). Thus, if you aren't controlling the
+user input, make sure to `normaliseAccents`
 
 ```ts
 import { normaliseAccents } from '@voldemortas/flection'
