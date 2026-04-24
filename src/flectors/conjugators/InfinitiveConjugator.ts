@@ -3,6 +3,12 @@ import { getInfinitiveRoot } from '~src/utils.ts'
 import type { PrincipalPartsType } from '~src/types.ts'
 import { SECONDARY_FORM_SEPARATOR } from '~src/commons.ts'
 
+/**
+ * type for Infinitive, it only has 1 type named `infinitive`
+ * ```ts
+ * const eitiInfinitive: InfinitiveType = {infinitive: `eite`}
+ *  ```
+ */
 export type InfinitiveType = { infinitive: string }
 
 export default class InfinitiveConjugator extends Inflector<InfinitiveType> {

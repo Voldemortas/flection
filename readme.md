@@ -18,7 +18,7 @@ endpoint shall be made public in the near future as well.
 
 ## Release notes
 
-There is version 0.0.5 release which features Verb conjugation that includes
+There is version 0.0.6 release which features Verb conjugation that includes
 inflection of the following:
 
 - infinitive
@@ -36,7 +36,7 @@ all of them can be inflected for reflexivness, carry prefixes; the adjectival
 participles can also be pronominal.
 
 > [!NOTE]\
-> As this is version 0.0.5 nothing is yet set in stone and things may change!
+> As this is version 0.0.6 nothing is yet set in stone and things may change!
 
 ---
 
@@ -114,4 +114,26 @@ const soktiConjugated1 = new Verb('ne=sokti-ne=soka-ne=soko')
 const soktiConjugated2 = Verb.pastFrequentativeIndicative
   .conjugateBasicPrefixed(['sokti', 'soka', 'soko'], 'ne')
 //both results are the same :)
+```
+
+### Helpers
+
+The library exposes some helpers that are useful when using the library.
+
+#### normaliseAccents()`
+
+The library operates using the
+[combining unicode characters](https://en.wikipedia.org/wiki/Combining_character)
+for stress marks, however, one may be tempted to use letters with diacritics
+from different languages, such as a singel character `ñ` found in Spanish
+instead of 2 characters: `n`+`u+0303` (`ñ`). Thus, if you aren't controlling the
+user input, make sure to `normaliseAccents`
+
+```ts
+import { normaliseAccents } from '@voldemortas/flection'
+
+const principalParts = `gésti-geñda-gẽdo`
+
+// single letters becomes simple letter + combining character
+const normalisedPrincipalParts = normaliseAccents(principalParts)
 ```

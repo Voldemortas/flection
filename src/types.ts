@@ -8,6 +8,9 @@
  */
 export type PrincipalPartsType = [string, string, string]
 
+/**
+ * type for all finite verbs: 3 persons for 2 numbers
+ */
 export type ConjugationType = {
   sg1: string
   sg2: string
@@ -17,6 +20,9 @@ export type ConjugationType = {
   pl3: string
 }
 
+/**
+ * Type for all declined nominals: 7 cases for 2 numbers
+ */
 export type DeclinedType = {
   sgNom: string
   sgGen: string
