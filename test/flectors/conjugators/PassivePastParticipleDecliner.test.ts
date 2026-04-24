@@ -36,6 +36,11 @@ const BRISTI: PrincipalPartsType = [
   `bren\u0303da`,
   `bri\u0300do`,
 ]
+const KASTI: PrincipalPartsType = [
+  `ka\u0300sti`,
+  `ka\u0303sa`,
+  `ka\u0300sė`,
+]
 
 const RINKTAS = makeDeclinedFromArray(
   `riñktas  riñkto  rinktám  riñktą  rinktù  rinktamè rinktam\u0303  riñktas 
@@ -181,6 +186,47 @@ nèbristos  nebristų̃  nebristóms nebristóm  nèbristas  nebristomìs n
 const NEBRISTOJI = makeDeclinedFromArray(
   `nebristóji  nebristõsios  nèbristajai  nèbristąją  nebristą́ja  nebristõjoje nebristõjoj  nebristóji 
 nèbristosios  nebristų̃jų  nebristósioms nebristósiom  nebristą́sias  nebristõsiomis nebristõsiom  nebristõsiose  nèbristosios`
+    .split(/\s\s/),
+)
+
+const KASTAS = makeDeclinedFromArray(
+  `kãstas  kãsto  kastám  kãstą  kastù  kastamè kastam̃  kãstas 
+kastì  kastų̃  kastíems kastíem  kastùs  kastaĩs  kastuosè kastuõs  kastì`
+    .split(/\s\s/),
+)
+const KASTASIS = makeDeclinedFromArray(
+  `kastàsis  kãstojo  kastájam  kãstąjį  kastúoju  kastãjame kastãjam  kastàsis 
+kastíeji  kastų̃jų  kastíesiems kastíesiem  kastúosius  kastaĩsiais  kastuõsiuose kastuõsiuos  kastíeji`
+    .split(/\s\s/),
+)
+const KASTA = makeDeclinedFromArray(
+  `kastà  kastõs  kãstai  kãstą  kastà  kastojè kastõj  kastà 
+kãstos  kastų̃  kastóms kastóm  kastàs  kastomìs kastõm  kastosè  kãstos`
+    .split(/\s\s/),
+)
+const KASTOJI = makeDeclinedFromArray(
+  `kastóji  kastõsios  kãstajai  kãstąją  kastą́ja  kastõjoje kastõjoj  kastóji 
+kãstosios  kastų̃jų  kastósioms kastósiom  kastą́sias  kastõsiomis kastõsiom  kastõsiose  kãstosios`
+    .split(/\s\s/),
+)
+const NEKASTAS = makeDeclinedFromArray(
+  `nèkastas  nèkasto  nekastám  nèkastą  nèkastu  nekastamè nekastam̃  nèkastas 
+nekastì  nekastų̃  nekastíems nekastíem  nèkastus  nekastaĩs  nekastuosè nekastuõs  nekastì`
+    .split(/\s\s/),
+)
+const NEKASTASIS = makeDeclinedFromArray(
+  `nekastàsis  nèkastojo  nekastájam  nèkastąjį  nekastúoju  nekastãjame nekastãjam  nekastàsis 
+nekastíeji  nekastų̃jų  nekastíesiems nekastíesiem  nekastúosius  nekastaĩsiais  nekastuõsiuose nekastuõsiuos  nekastíeji`
+    .split(/\s\s/),
+)
+const NEKASTA = makeDeclinedFromArray(
+  `nekastà  nekastõs  nèkastai  nèkastą  nèkasta  nekastojè nekastõj  nekastà 
+nèkastos  nekastų̃  nekastóms nekastóm  nèkastas  nekastomìs nekastõm  nekastosè  nèkastos`
+    .split(/\s\s/),
+)
+const NEKASTOJI = makeDeclinedFromArray(
+  `nekastóji  nekastõsios  nèkastajai  nèkastąją  nekastą́ja  nekastõjoje nekastõjoj  nekastóji 
+nèkastosios  nekastų̃jų  nekastósioms nekastósiom  nekastą́sias  nekastõsiomis nekastõsiom  nekastõsiose  nèkastosios`
     .split(/\s\s/),
 )
 
@@ -334,7 +380,7 @@ describe('PassivePastParticipleDecliner', () => {
         })
     })
   })
-  describe('bristi', () => {
+  describe('nebristi', () => {
     it('conjugates default', () => {
       expect(decliner.getPrefixed(BRISTI, 'ne')).toMatchObject({
         masculine: NEBRISTAS,
@@ -359,6 +405,38 @@ describe('PassivePastParticipleDecliner', () => {
     it('conjugates pronominal', () => {
       expect(decliner.getPrefixedPronominal(EITI, 'ne').masculine.sgNom)
         .toStrictEqual('neitasis')
+    })
+  })
+  describe('kasti', () => {
+    it('conjugates default', () => {
+      expect(decliner.getDefault(KASTI)).toMatchObject({
+        masculine: KASTAS,
+        feminine: KASTA,
+        neuter: `ka\u0303sta`,
+      })
+    })
+    it('conjugates pronominal', () => {
+      expect(decliner.getPronominal(KASTI))
+        .toMatchObject({
+          masculine: KASTASIS,
+          feminine: KASTOJI,
+        })
+    })
+  })
+  describe('nekasti', () => {
+    it('conjugates default', () => {
+      expect(decliner.getPrefixed(KASTI, 'ne')).toMatchObject({
+        masculine: NEKASTAS,
+        feminine: NEKASTA,
+        neuter: `ne\u0300kasta`,
+      })
+    })
+    it('conjugates pronominal', () => {
+      expect(decliner.getPrefixedPronominal(KASTI, 'ne'))
+        .toMatchObject({
+          masculine: NEKASTASIS,
+          feminine: NEKASTOJI,
+        })
     })
   })
 })
