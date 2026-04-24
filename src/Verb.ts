@@ -32,6 +32,7 @@ import PadalyvisInflector from '~conjugators/PadalyvisInflector.ts'
 import type { PadalyvisType } from '~conjugators/PadalyvisInflector.ts'
 import BudinysInflector from '~conjugators/BudinysInflector.ts'
 import type { BudinysType } from '~conjugators/BudinysInflector.ts'
+import NecessityParticipleDecliner from './flectors/conjugators/NecessityParticipleDecliner.ts'
 
 /**
  * Class which lets you derive various forms such as various moods, -imas action deverbal and various
@@ -83,6 +84,8 @@ export default class Verb extends Verbal {
   public static readonly presentPadalyvis: InflectorInterface<PadalyvisType> =
     new PadalyvisInflector(Verb.activePresentParticiple)
   public static readonly budinys: BudinysInflector = new BudinysInflector()
+  public static readonly necessityParticiple: ParticipleDecliner =
+    new NecessityParticipleDecliner()
 
   /**
    * Wrapper to call all the static methods with the same options
@@ -373,6 +376,22 @@ export default class Verb extends Verbal {
    */
   public conjugateBudinys(): BudinysType {
     return Verb.budinys.getDefault(this.principalParts)
+  }
+  /**
+   * declines necessity participle based on the data passed to the verb's constructor
+   * @param {boolean=false} isPronominal - whether the declined participle should be pronominal, defaults `false`
+   * @example
+   * ```
+   * const prefixedPronominalParticiple = new Verb('eiti-eina-ėjo', {prefix: 'per'}).declineNecessityParticiple(true)
+   * ```
+   */
+  public declineNecessityParticiple(
+    isPronominal: boolean = false,
+  ): ParticipleType {
+    return this.#inflectBasedOnOptions(
+      Verb.necessityParticiple,
+      isPronominal,
+    )
   }
 
   #inflectBasedOnOptions<
