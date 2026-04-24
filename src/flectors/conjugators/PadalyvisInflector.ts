@@ -1,6 +1,13 @@
 import type { InflectorInterface } from '~conjugators/Inflector.ts'
 import type { PrincipalPartsType } from '~src/types.ts'
 
+/**
+ * type for Padalyvis, it only has 1 type named `padalyvis`
+ * ```ts
+ * const einaPresentPadalyvis: PadalyvisType = {padalyvis: `einant`}
+ * const einaPastSimplePadalyvis: PadalyvisType = {padalyvis: `ėjus`}
+ *  ```
+ */
 export type PadalyvisType = {
   padalyvis: string
 }

@@ -18,6 +18,7 @@ jobs:
       - run: deno fmt --check
       - run: deno lint
       - run: deno test --coverage=cov/
+      - run: deno doc --lint src/index.ts
       - run: deno coverage --lcov cov/ > cov.lcov
 
       - uses: coverallsapp/github-action@v2.3.6

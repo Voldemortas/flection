@@ -7,6 +7,17 @@ import {
 } from '~src/utils.ts'
 import Inflector from './Inflector.ts'
 
+/**
+ * type for Pusdalyvis (-dam-), it has 4 members only: 2 gender for 2 numbers
+ * ```ts
+ * const eitiPusdalyvis: PusdalyvisType = {
+ *    sgMasc: 'eidamas',
+ *    sgFem: 'eidama',
+ *    plMasc: 'eidami',
+ *    plFem: 'eidamos',
+ *  }
+ *  ```
+ */
 export type PusdalyvisType = Record<
   'sgMasc' | 'sgFem' | 'plMasc' | 'plFem',
   string

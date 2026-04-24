@@ -1,4 +1,3 @@
-import Verbal from './Verbal.ts'
 import type {
   ConjugationType,
   DeclinedType,
@@ -33,6 +32,14 @@ import type { PadalyvisType } from '~conjugators/PadalyvisInflector.ts'
 import BudinysInflector from '~conjugators/BudinysInflector.ts'
 import type { BudinysType } from '~conjugators/BudinysInflector.ts'
 import NecessityParticipleDecliner from './flectors/conjugators/NecessityParticipleDecliner.ts'
+import {
+  badFormatError,
+  parsingInputError,
+  threeRootsError,
+  unmatchingPrefixesError,
+  unmatchingReflexivesError,
+} from './errors.ts'
+import { isEverythingEqual } from './utils.ts'
 
 /**
  * Class which lets you derive various forms such as various moods, -imas action deverbal and various
@@ -40,64 +47,134 @@ import NecessityParticipleDecliner from './flectors/conjugators/NecessityPartici
  * all the inflected forms to contain them. The derivation methods are also exposed *statically*.
  * **Respects accentuation and metatony.**
  */
-export default class Verb extends Verbal {
+export default class Verb {
+  static readonly #PRINCIPAL_PARTS_COUNT = 3
+  static readonly #WORD_DiLIMIER = '-'
+
+  /**
+   * the 3 principal parts consisting of infinitive, 3rd person present indicative and 3rd person past simple indicative
+   */
+  public readonly principalParts: PrincipalPartsType
+  /**
+   * the provided prefix(es) - optional
+   */
+  public readonly prefix: string | undefined
+  /**
+   * whether the verb should be reflexive
+   */
+  public readonly isReflexive: boolean
+
+  /**
+   * static member for the past frequentative indicative
+   */
   public static readonly pastFrequentativeIndicative: Inflector<
     ConjugationType
   > = new PastFrequentativeIndicativeConjugator()
+  /**
+   * static member for the future indicative
+   */
   public static readonly futureIndicative: Inflector<ConjugationType> =
     new FutureIndicativeConjugator()
+  /**
+   * static member for the past simple indicative
+   */
   public static readonly pastSimpleIndicative: Inflector<ConjugationType> =
     new PastSimpleIndicativeConjugator()
+  /**
+   * static member for the present indicative
+   */
   public static readonly presentIndicative: Inflector<ConjugationType> =
     new PresentIndicativeConjugator()
+  /**
+   * static member for the conditional
+   */
   public static readonly conditional: Inflector<ConjugationType> =
     new ConditionalConjugator()
+  /**
+   * static member for the imperative
+   */
   public static readonly imperative: Inflector<ConjugationType> =
     new ImperativeConjugator()
+  /**
+   * static member for the infinitive
+   */
   public static readonly infinitive: Inflector<InfinitiveType> =
     new InfinitiveConjugator()
+  /**
+   * static member for the -imas noun
+   */
   public static readonly imasNoun: Inflector<DeclinedType> = new ImasDecliner()
+  /**
+   * static member for the pusdalyvis
+   */
   public static readonly pusdalyvis: Inflector<PusdalyvisType> =
     new PusdalyvisDecliner()
+  /**
+   * static member for the passive past participle
+   */
   public static readonly passivePastParticiple: ParticipleDecliner =
     new PassivePastParticipleDecliner()
+  /**
+   * static member for the passive future participle
+   */
   public static readonly passiveFutureParticiple: ParticipleDecliner =
     new PassiveFutureParticipleDecliner()
+  /**
+   * static member for the passive present participle
+   */
   public static readonly passivePresentParticiple: ParticipleDecliner =
     new PassivePresentParticipleDecliner()
+  /**
+   * static member for the active past simple participle
+   */
   public static readonly activePastSimpleParticiple: ParticipleDecliner =
     new ActivePastSimpleParticipleDecliner()
+  /**
+   * static member for the active past frequentative participle
+   */
   public static readonly activePastFrequentativeParticiple: ParticipleDecliner =
     new ActivePastFrequentativeParticipleDecliner()
+  /**
+   * static member for the active future participle
+   */
   public static readonly activeFutureParticiple: ParticipleDecliner =
     new ActiveFutureParticipleDecliner()
+  /**
+   * static member for the active present participle
+   */
   public static readonly activePresentParticiple: ParticipleDecliner =
     new ActivePresentParticipleDecliner()
+  /**
+   * static member for the past simple padalyvis
+   */
   public static readonly pastSimplePadalyvis: InflectorInterface<
     PadalyvisType
   > = new PadalyvisInflector(Verb.activePastSimpleParticiple)
+  /**
+   * static member for the past frequentative padalyvis
+   */
   public static readonly pastFrequentativePadalyvis: InflectorInterface<
     PadalyvisType
   > = new PadalyvisInflector(Verb.activePastFrequentativeParticiple)
+  /**
+   * static member for the future padalyvis
+   */
   public static readonly futurePadalyvis: InflectorInterface<PadalyvisType> =
     new PadalyvisInflector(Verb.activeFutureParticiple)
+  /**
+   * static member for the present padalyvis
+   */
   public static readonly presentPadalyvis: InflectorInterface<PadalyvisType> =
     new PadalyvisInflector(Verb.activePresentParticiple)
+  /**
+   * static member for the budinys
+   */
   public static readonly budinys: BudinysInflector = new BudinysInflector()
+  /**
+   * static member for the necessity articiple
+   */
   public static readonly necessityParticiple: ParticipleDecliner =
     new NecessityParticipleDecliner()
-
-  /**
-   * Wrapper to call all the static methods with the same options
-   * @param {[string, string, string] | string} roots - single string with principal parts separated with a dash or array of 3 principal part strings
-   * @param {{reflexive?: boolean; prefix?: string}={}} options - options with optional prefix and optional reflexiveness
-   */
-  public constructor(
-    roots: string | PrincipalPartsType,
-    options: { reflexive?: boolean; prefix?: string | undefined } = {},
-  ) {
-    super(roots, options)
-  }
 
   /**
    * conjugates past frequentative tense based on the data passed to the verb's constructor
@@ -394,6 +471,68 @@ export default class Verb extends Verbal {
     )
   }
 
+  /**
+   * Wrapper to call all the static methods with the same options
+   * @param {[string, string, string] | string} roots - single string with principal parts separated with a dash or array of 3 principal part strings
+   * @param {{reflexive?: boolean; prefix?: string}={}} options - options with optional prefix and optional reflexiveness
+   * @example
+   * ```ts
+   * const firstVerb = new Verb([`dėti`, `deda`, `dėjo`])//same as secondVerb
+   * const secondVerb = new Verb(`dėti-deda-dėjo`)//same as firstVerb
+   * const thirdVerb = new Verb([`dėti`, `deda`, `dėjo`], {prefix: `pa`})//same as fourthVerb
+   * const fourthVerb = new Verb(`pa=dėti-pa=deda-pa=dėjo`)//same as thirdVerb
+   * const sixthVerb = new Verb([`dėti`, `deda`, `dėjo`], {prefix: `pa`, reflexive: true})//same as seventhVerb
+   * const seventhVerb = new Verb(`pasi=dėti-pasi=deda-pasi=dėjo`)//same as sixthVerb
+   * const eightVerb = new Verb([`dėti`, `deda`, `dėjo`], {reflexive: true})//same as ninthVerb
+   * const ninthVerb = new Verb(`dėtis-dedasi-dėjosi`)//same as eightVerb
+   * ```
+   */
+  public constructor(
+    roots: string | PrincipalPartsType,
+    options: { reflexive?: boolean; prefix?: string | undefined } = {},
+  ) {
+    const rootArray = Array.isArray(roots)
+      ? roots
+      : roots.split(Verb.#WORD_DiLIMIER)
+    if (rootArray.length !== Verb.#PRINCIPAL_PARTS_COUNT) {
+      throw threeRootsError
+    }
+    const regexMagicGroup = rootArray.map((root) => {
+      const regexMatches =
+        /(^(?<prefix>[^=]+?)=(?<root>.+?)(?<reflexive>si?)?$|(^(?<root>.+?)(?<reflexive>si?)?$))/
+          .exec(root)
+      // deno-coverage-ignore-start
+      if (!regexMatches) {
+        throw badFormatError(root)
+      }
+      if (!regexMatches.groups) {
+        throw parsingInputError
+      }
+      // deno-coverage-ignore-stop
+      const groups = regexMatches.groups
+      return [
+        trimReflexiveFromPrefix(groups['prefix'] ?? options.prefix),
+        groups['root']!,
+        !!options.reflexive || !!groups['reflexive'] ||
+        /si$/.test(groups['prefix'] ?? options.prefix ?? ''),
+      ] as [string, string, boolean]
+    })
+
+    this.principalParts = regexMagicGroup.map((g) => g[1]) as [
+      string,
+      string,
+      string,
+    ]
+    if (!isEverythingEqual(regexMagicGroup.map((g) => g[0]))) {
+      throw unmatchingPrefixesError
+    }
+    this.prefix = regexMagicGroup[0][0]
+    if (!isEverythingEqual(regexMagicGroup.map((g) => g[2]))) {
+      throw unmatchingReflexivesError
+    }
+    this.isReflexive = regexMagicGroup[0][2]
+  }
+
   #inflectBasedOnOptions<
     T extends Record<string, string | Record<string, string>>,
   >(
@@ -444,4 +583,11 @@ export default class Verb extends Verbal {
         this.prefix!,
       ) as unknown as T
   }
+}
+
+function trimReflexiveFromPrefix(prefix: string | undefined) {
+  if (!prefix) {
+    return prefix
+  }
+  return prefix.replace(/si$/, '')
 }
