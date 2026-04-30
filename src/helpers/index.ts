@@ -1,5 +1,5 @@
 /**
- * changes accented letters into simple letter + diacritic
+ * normalises letters~diacritics from various Latin scripts into Lithuanian letters
  * @param text - the text full of diacritics
  */
 export function normaliseAccents(text: string): string {
@@ -41,4 +41,22 @@ export function normaliseAccents(text: string): string {
     .replaceAll(`Ỹ`, `Y\u0303`)
     .replaceAll(`ñ`, `n\u0303`)
     .replaceAll(`Ñ`, `N\u0303`)
+    .replaceAll(`a\u0328`, `ą`)
+    .replaceAll(`A\u0328`, `Ą`)
+    .replaceAll(`e\u0328`, `ę`)
+    .replaceAll(`E\u0328`, `Ę`)
+    .replaceAll(`u\u0328`, `ų`)
+    .replaceAll(`U\u0328`, `Ų`)
+    .replaceAll(`i\u0328`, `į`)
+    .replaceAll(`I\u0328`, `Į`)
+    .replaceAll(`e\u0307`, `ė`)
+    .replaceAll(`E\u0307`, `Ė`)
+    .replaceAll(`c\u030C`, `č`)
+    .replaceAll(`C\u030C`, `Č`)
+    .replaceAll(`s\u030C`, `š`)
+    .replaceAll(`S\u030C`, `Š`)
+    .replaceAll(`z\u030C`, `ž`)
+    .replaceAll(`Z\u030C`, `Ž`)
+    .replaceAll(`u\u0304`, `ū`)
+    .replaceAll(`U\u0304`, `Ū`)
 }
