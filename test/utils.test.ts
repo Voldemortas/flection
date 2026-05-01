@@ -3,6 +3,7 @@ import { describe, it } from '@std/testing/bdd'
 import {
   appendSuffixWithAssimilation,
   countAccentedSyllable,
+  getAllSyllables,
   getInfinitiveRoot,
   getLastStressedInflection,
   getNthLast,
@@ -14,6 +15,7 @@ import {
   hasAcuteAccent,
   hasAnyAccent,
   hasCircumflexOrShortAccent,
+  hasShortAccent,
   isEverythingEqual,
   isInflectedTheSame,
   isRootMonosyllabic,
@@ -66,6 +68,15 @@ describe('utils', () => {
     SOKTI.forEach((word, i) => {
       it(`checks if ${word} has a circumflex or a short accent`, () => {
         expect(hasCircumflexOrShortAccent(word)).toStrictEqual(expected[i])
+      })
+    })
+  })
+  describe('hasShortAccent', () => {
+    const WORD = [...SOKTI, `i\u0300mti`, `i\u0300mi`]
+    const expected = [true, false, false, false, false, true]
+    WORD.forEach((word, i) => {
+      it(`checks if ${word} has a short accent`, () => {
+        expect(hasShortAccent(word)).toStrictEqual(expected[i])
       })
     })
   })
@@ -315,6 +326,33 @@ describe('utils', () => {
     })
     it('[4, 5, 4] are not all equal', () => {
       expect(isEverythingEqual([4, 5, 4])).toStrictEqual(false)
+    })
+  })
+  describe('getAllSyllables', () => {
+    it(`gets all syllables for kanda`, () => {
+      expect(getAllSyllables(`ka\u0301nda`)).toStrictEqual(
+        [`ka\u0301n`, `da`].toReversed(),
+      )
+      expect(getAllSyllables(`kanda\u0300`)).toStrictEqual(
+        [`kan`, `da\u0300`].toReversed(),
+      )
+      expect(getAllSyllables(`kanda`)).toStrictEqual([`kan`, `da`].toReversed())
+    })
+    it(`gets all syllables for bėgti`, () => {
+      expect(getAllSyllables(`bė\u0301gti`)).toStrictEqual(
+        [`bė\u0301`, `gti`].toReversed(),
+      )
+      expect(getAllSyllables(`bėgti\u0300`)).toStrictEqual(
+        [`bė`, `gti\u0300`].toReversed(),
+      )
+      expect(getAllSyllables(`bėgti`)).toStrictEqual([`bė`, `gti`].toReversed())
+    })
+    it(`gets all syllables for neperperoivilkiuoliegėpiams`, () => {
+      expect(getAllSyllables(`neperperoivilkiuoliegėpiams`))
+        .toStrictEqual(
+          [`ne`, `per`, `pe`, `roi`, `vil`, `kiuo`, `lie`, `gė`, `piams`]
+            .toReversed(),
+        )
     })
   })
   describe('putAccentOnString', () => {
