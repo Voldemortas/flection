@@ -120,7 +120,7 @@ const soktiConjugated2 = Verb.pastFrequentativeIndicative
 
 The library exposes some helpers that are useful when using the library.
 
-#### normaliseAccents()`
+#### `normaliseAccents()`
 
 The library operates using the
 [combining unicode characters](https://en.wikipedia.org/wiki/Combining_character)
