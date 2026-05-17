@@ -1,7 +1,32 @@
-import { thirdAccentuationTypeError } from '~src/errors.ts'
+import {
+  accentuationStringError,
+  thirdAccentuationTypeError,
+} from '~src/errors.ts'
 import { putAccentOnString } from '~src/utils.ts'
 
 /**
+ * * `'1'` - 1st accentuation – the stress is immobile
+ * * `'2'` - 2nd accentuation - 1st last is circumflex
+ * * `'3'` - 3rd accentuation - 2nd last is acute
+ * * `'4'` - 4th accentuation - 2nd last is circumflex/short
+ * * `'a'` - 3rd last is acute
+ * * `'b'` - 3rd last is circumflex/short
+ * * `'2a'` - 2nd last is acute
+ * * `'2b'` - 2nd last is circumflex/short
+ * * `'#a'` - #th last is acute, # - number starting with 4
+ * * `'#b'` - #th last is circumflex/short, # - number starting with 4
+ * @typedef {string} AccentuationStringType
+ */
+export type AccentuationStringType = string
+
+export function validateAccentuationStringType(type: AccentuationStringType) {
+  if (!(/^[1234ab]$/.test(type) || /^(?:[2-9]|[1-9]\d+)[ab]$/.test(type))) {
+    throw accentuationStringError
+  }
+}
+
+/**
+ * * `'1'` - 1st accentuation – the stress is immobile
  * * `'2'` - 2nd accentuation - 1st last is circumflex
  * * `'3'` - 3rd accentuation - 2nd last is acute
  * * `'4'` - 4th accentuation - 2nd last is circumflex/short
@@ -13,7 +38,10 @@ import { putAccentOnString } from '~src/utils.ts'
  * * `'#b'` - #th last is circumflex/short, # - number starting with 4
  * @typedef {(string|{isAcutre: string, syllable: number})} AccentuationType
  */
-export type AccentuationType = string | { isAcute: boolean; syllable: number }
+export type AccentuationType = AccentuationStringType | {
+  isAcute: boolean
+  syllable: number
+}
 
 export const SECOND_LAST_ACUTE = '2a'
 

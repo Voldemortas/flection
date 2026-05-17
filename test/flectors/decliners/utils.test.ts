@@ -1,6 +1,9 @@
 import { expect } from '@std/expect'
 import { describe, it } from '@std/testing/bdd'
-import { getThirdAccentuationType } from '~decliners/utils.ts'
+import {
+  getThirdAccentuationType,
+  validateAccentuationStringType,
+} from '~decliners/utils.ts'
 import { thirdAccentuationTypeError } from '~src/errors.ts'
 
 describe('decliners/utils', () => {
@@ -74,6 +77,22 @@ describe('decliners/utils', () => {
       expect(() => getThirdAccentuationType({ syllable: 4 })).toThrow(
         thirdAccentuationTypeError,
       )
+    })
+  })
+  describe('validateAccentuationStringType', () => {
+    it('validates basic 1234ab', () => {
+      expect(() => validateAccentuationStringType('1')).not.toThrow()
+      expect(() => validateAccentuationStringType('2')).not.toThrow()
+      expect(() => validateAccentuationStringType('3')).not.toThrow()
+      expect(() => validateAccentuationStringType('4')).not.toThrow()
+      expect(() => validateAccentuationStringType('a')).not.toThrow()
+      expect(() => validateAccentuationStringType('b')).not.toThrow()
+      expect(() => validateAccentuationStringType('3a')).not.toThrow()
+      expect(() => validateAccentuationStringType('3b')).not.toThrow()
+      expect(() => validateAccentuationStringType('15a')).not.toThrow()
+      expect(() => validateAccentuationStringType('15b')).not.toThrow()
+      expect(() => validateAccentuationStringType('0')).toThrow()
+      expect(() => validateAccentuationStringType('15')).toThrow()
     })
   })
 })

@@ -41,6 +41,13 @@ export function hasCircumflexOrShortAccent(word: string) {
   return /[\u0303\u0300]/.test(word) && !acuteIULMNR.test(word)
 }
 
+export function hasShortAccent(word: string) {
+  const accentedSyllable = getStressedSyllable(word)
+  return !!accentedSyllable &&
+    (/\u0300/.test(accentedSyllable!.text) &&
+      !acuteIULMNR.test(accentedSyllable!.text))
+}
+
 export function getUnpalatalizedRoot(root: string) {
   return root.replace(/či$/, 't').replace(/dži$/, 'd').replace(/i$/, '')
 }
@@ -117,8 +124,34 @@ export function getLastSyllable(text: string): string {
 }
 
 /**
+ * @description breaks a word into syllable. *Note: the syllables will be present in the reversed order*
+ * @param lemma - the word to find syllables of
+ * @example
+ * ```ts
+ * getAllSyllables(`laba\u0300s`) // [`ba\u0300s`, `la`]
+ * getAllSyllables(`bėgti`) // ['gti', 'bė']
+ * getAllSyllables(`kanda`) // ['da', 'kan']
+ * ```
+ */
+
+export function getAllSyllables(lemma: string): string[] {
+  const answer: string[] = []
+  let wordToUse = lemma
+  do {
+    answer.push(getLastSyllable(wordToUse))
+    const nextWordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
+    if (nextWordToUse === wordToUse) {
+      throw cannotParseSyllableError
+    }
+    wordToUse = nextWordToUse
+  } while (/[aąeęėiįyouųū]/.test(wordToUse))
+
+  return answer
+}
+
+/**
  * @description Finds the stressed syllable (both text and its position counting from behind).
- * @param string - the word to look for stress
+ * @param lemma - the word to look for stress
  * @return returns `null` if no stress exists, otherwise returns the syllable and its position starting from behind
  * @example
  * ```ts
@@ -127,89 +160,83 @@ export function getLastSyllable(text: string): string {
  * ```
  */
 export function getStressedSyllable(
-  string: string,
+  lemma: string,
 ): { position: number; text: string } | null {
-  if (!hasAnyAccent(string)) {
+  if (!hasAnyAccent(lemma)) {
     return null
   }
-  let wordToUse = string
-  let thisSyllable = ''
-  let currentSyllable = 0
-  do {
-    currentSyllable++
-    thisSyllable = getLastSyllable(wordToUse)
-    const nextWordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
-    if (nextWordToUse === wordToUse) {
-      throw cannotParseSyllableError
+  const allSyllables = getAllSyllables(lemma)
+  let answer: { text: string; position: number } | null = null
+  for (let i = 0; i < allSyllables.length; i++) {
+    const currentSyllable = allSyllables[i]
+    if (hasAnyAccent(currentSyllable)) {
+      answer = { text: currentSyllable, position: i + 1 }
+      break
     }
-    wordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
-  } while (/[aąeęėiįyouųū]/.test(wordToUse) && !hasAnyAccent(thisSyllable))
-  return { text: thisSyllable, position: currentSyllable }
+  }
+  return answer
 }
 
 export function putAccentOnString(
-  string: string,
+  lemma: string,
   syllableFromEnd: number,
   isAcute: boolean,
   mandatoryShort = false,
 ): string {
-  if (syllableFromEnd <= 0) {
+  const allSyllables = getAllSyllables(lemma)
+  if (syllableFromEnd <= 0 || allSyllables.length < syllableFromEnd) {
     throw tooFewSyllablesError
   }
-  let wordToUse = string
-  let answer = ''
-  let currentSyllable = 0
-  do {
-    currentSyllable++
-    let thisSyllable = getLastSyllable(wordToUse)
-    const nextWordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
-    if (nextWordToUse === wordToUse) {
-      throw cannotParseSyllableError
+  let newStressedSyllable = allSyllables[syllableFromEnd - 1]
+  if (isAcute) {
+    if (/[iu][lmnri]/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(/([iu])/, `$1\u0300`)
+    } else if (/(ie|uo)/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(/(iu|i|u)/, `$1\u0301`)
+    } else if (/o[iulmnr]/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace('o', `o\u0300`)
+    } else if (/[ae][iulmnr]/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(/([ae])/, `$1\u0301`)
+    } else if (/[ąęįųyūėo]/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(
+        /([ąęįųyūėo])/,
+        `$1\u0301`,
+      )
+    } else {
+      throw syllableCannotCarryAcuteError
     }
-    wordToUse = wordToUse.replace(SYLLABLE_REGEX, '$1')
-    if (currentSyllable === syllableFromEnd) {
-      if (isAcute) {
-        if (/[iu][lmnri]/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(/([iu])/, `$1\u0300`)
-        } else if (/(ie|uo)/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(/(iu|i|u)/, `$1\u0301`)
-        } else if (/o[iulmnr]/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace('o', `o\u0300`)
-        } else if (/[ae][iulmnr]/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(/([ae])/, `$1\u0301`)
-        } else if (/[ąęįųyūėo]/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(/([ąęįųyūėo])/, `$1\u0301`)
-        } else {
-          throw syllableCannotCarryAcuteError
-        }
-      } else {
-        if (/[iu][lmnri]/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(/([ui][lmnri])/, `$1\u0303`)
-        } else if (/(ie|uo)/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(/([eo])/, `$1\u0303`)
-        } else if (/[aeo][iulmnr]/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(
-            /(i?[aeo])([iulmnr])/,
-            `$1$2\u0303`,
-          )
-        } else if (/[ąęįųyūė]/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(/([ąęįųyūė])/, `$1\u0303`)
-        } else if (/[aeo]/.test(thisSyllable)) {
-          thisSyllable = thisSyllable.replace(
-            /([aeo])/,
-            mandatoryShort ? `$1\u0300` : `$1\u0303`,
-          )
-        } else {
-          thisSyllable = thisSyllable.replace(/(iu|u|i)/, `$1\u0300`)
-        }
-      }
+  } else {
+    if (/[iu][lmnri]/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(
+        /([ui][lmnri])/,
+        `$1\u0303`,
+      )
+    } else if (/(ie|uo)/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(/([eo])/, `$1\u0303`)
+    } else if (/[aeo][iulmnr]/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(
+        /(i?[aeo])([iulmnr])/,
+        `$1$2\u0303`,
+      )
+    } else if (/[ąęįųyūė]/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(
+        /([ąęįųyūė])/,
+        `$1\u0303`,
+      )
+    } else if (/[aeo]/.test(newStressedSyllable)) {
+      newStressedSyllable = newStressedSyllable.replace(
+        /([aeo])/,
+        mandatoryShort ? `$1\u0300` : `$1\u0303`,
+      )
+    } else {
+      newStressedSyllable = newStressedSyllable.replace(/(iu|u|i)/, `$1\u0300`)
     }
-    answer = thisSyllable + answer
-  } while (/[aąeęėiįyouųū]/.test(wordToUse))
-  if (currentSyllable < syllableFromEnd) {
-    throw tooFewSyllablesError
   }
-  return wordToUse + answer
+  return allSyllables.map((syllable, id) =>
+    id + 1 === syllableFromEnd ? newStressedSyllable : syllable
+  )
+    .toReversed()
+    .join('')
 }
 
 export function countAccentedSyllable(

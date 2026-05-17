@@ -58,3 +58,49 @@ export const inflectorCannotBeUndefined = new Error(
 )
 
 export const codeNotReachableError = new Error('Code should not be reachable')
+
+export const badNounError = new Error(
+  `Such noun doesn't match known flectional ending`,
+)
+
+export const imasReflexiveError = new Error(
+  'only -ymas/-imas/-ymasis/-imasis nouns can be reflexive',
+)
+
+export const isYsExplicitGenitiveUError = new Error(
+  'only -is and -ys nouns can have explicit -ų plural genitive',
+)
+
+export const masculineUoError = new Error(
+  `masculine -uo nouns can only have -uns/-ens in genitive singular`,
+)
+
+export const feminineUoError = new Error(
+  `feminine -uo nouns can only have -ers in genitive singular`,
+)
+
+export const masculineIsError = new Error(
+  `-is/-ys nouns can only have -ies/-io in genitive singular`,
+)
+
+export const feminineIsError = new Error(
+  `feminine -is nouns can only have -ies in genitive singular`,
+)
+
+export const accentuationStringError = new Error(
+  'provided type fails to validate the AccentuationStringType',
+)
+
+export const lemmaNoStressError = new Error('lemma must bear a stress marker')
+
+export const finalAcuteError = new Error('final syllable cannot carry acute')
+
+export const explicitNonAcuteError = new Error(
+  'accentuation type explicitly states non-acute, ' +
+    'however, the lemma carries acute',
+)
+
+export const explicitShortError = new Error(
+  `Mandatory short is explicitly stated, however, 
+the lemma doesn't carry a short stress`,
+)
